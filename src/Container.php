@@ -22,6 +22,31 @@ class Container implements iContainer
     protected $objects = [];
 
     /**
+     * @var array
+     */
+    protected $post;
+
+    /**
+     * @var array
+     */
+    protected $get;
+
+    /**
+     * @var array
+     */
+    protected $server;
+
+    /**
+     * Container constructor.
+     */
+    public function __construct()
+    {
+        $this->get    = $_GET;
+        $this->post   = $_POST;
+        $this->server = $_SERVER;
+    }
+
+    /**
      * @param $key
      * @return mixed
      */
@@ -46,7 +71,7 @@ class Container implements iContainer
      */
     public function setParam($key, $param, $value)
     {
-        if (isset($this->objects[$key])){
+        if (isset($this->objects[$key])) {
             $this->get($key)->$param = $value;
         }
     }
@@ -67,10 +92,93 @@ class Container implements iContainer
      */
     public function getParam($key, $param)
     {
-        if ($this->is($key)){
-            if (isset($this->get($key)->$param)){
+        if ($this->is($key)) {
+            if (isset($this->get($key)->$param)) {
                 return $this->get($key)->$param;
             }
         }
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getServer(string $key): string
+    {
+        return $this->server[$key];
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasPost(string $key): bool
+    {
+        return isset($this->post[$key]);
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getPost(string $key): string
+    {
+        return $this->post[$key];
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setSession(string $key, string $value)
+    {
+        session_start();
+        $_SESSION[$key] = $value;
+    }
+
+    /**
+     * @param string $key
+     * @return string
+     */
+    public function getGet(string $key): string
+    {
+        return $this->get[$key];
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasGet(string $key): bool
+    {
+        return isset($this->get[$key]);
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function getSession(string $key): string
+    {
+        return $_SESSION[$key];
+    }
+
+    /**
+     * @param $key
+     * @return bool
+     */
+    public function hasSession(string $key): bool
+    {
+        return isset($_SESSION[$key]);
+    }
+
+    public function startSession()
+    {
+        session_start();
+    }
+
+    public function stopSession()
+    {
+        session_destroy();
     }
 }
