@@ -181,4 +181,9 @@ class Container implements iContainer
     {
         session_destroy();
     }
+
+    public function clearSession()
+    {
+        $_SESSION = [];
+    }
 }
