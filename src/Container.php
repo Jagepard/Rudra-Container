@@ -132,7 +132,6 @@ class Container implements iContainer
      */
     public function setSession(string $key, string $value)
     {
-        session_start();
         $_SESSION[$key] = $value;
     }
 
