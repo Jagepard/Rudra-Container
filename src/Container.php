@@ -137,6 +137,14 @@ class Container implements iContainer
 
     /**
      * @param string $key
+     */
+    public function unsetSession(string $key)
+    {
+        unset($_SESSION[$key]);
+    }
+
+    /**
+     * @param string $key
      * @return string
      */
     public function getGet(string $key): string
