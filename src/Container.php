@@ -140,7 +140,7 @@ class Container implements iContainer
      * @param string $subKey
      * @param string $value
      */
-    public function subSetSession(string $key, string $subKey, string $value)
+    public function setSubSession(string $key, string $subKey, string $value)
     {
         $_SESSION[$key][$subKey] = $value;
     }
