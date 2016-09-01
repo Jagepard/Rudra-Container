@@ -41,8 +41,8 @@ class Container implements iContainer
      */
     public function __construct()
     {
-        $this->get    = $_GET;
-        $this->post   = $_POST;
+        $this->get = $_GET;
+        $this->post = $_POST;
         $this->server = $_SERVER;
     }
 
@@ -137,6 +137,16 @@ class Container implements iContainer
 
     /**
      * @param string $key
+     * @param string $subKey
+     * @param string $value
+     */
+    public function subSetSession(string $key, string $subKey, string $value)
+    {
+        $_SESSION[$key][$subKey] = $value;
+    }
+
+    /**
+     * @param string $key
      */
     public function unsetSession(string $key)
     {
@@ -171,12 +181,32 @@ class Container implements iContainer
     }
 
     /**
+     * @param string $key
+     * @param string $subKey
+     * @return string
+     */
+    public function getSubSession(string $key, string $subKey): string
+    {
+        return $_SESSION[$key][$subKey];
+    }
+
+    /**
      * @param $key
      * @return bool
      */
     public function hasSession(string $key): bool
     {
         return isset($_SESSION[$key]);
+    }
+
+    /**
+     * @param string $key
+     * @param string $subKey
+     * @return bool
+     */
+    public function hasSubSession(string $key, string $subKey): bool
+    {
+        return isset($_SESSION[$key][$subKey]);
     }
 
     public function startSession()
