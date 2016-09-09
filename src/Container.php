@@ -41,8 +41,8 @@ class Container implements iContainer
      */
     public function __construct()
     {
-        $this->get = $_GET;
-        $this->post = $_POST;
+        $this->get    = $_GET;
+        $this->post   = $_POST;
         $this->server = $_SERVER;
     }
 
