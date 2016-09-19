@@ -1,21 +1,23 @@
 <?php
 
-namespace Rudra;
+/**
+ * Date: 25.08.2016
+ * Time: 14:50
+ * 
+ * @author    : Korotkov Danila <dankorot@gmail.com>
+ * @copyright Copyright (c) 2016, Korotkov Danila
+ * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
+ */
 
-    /**
-     * Date: 25.08.2016
-     * Time: 14:50
-     * @author    : Korotkov Danila <dankorot@gmail.com>
-     * @copyright Copyright (c) 2016, Korotkov Danila
-     * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
-     */
+namespace Rudra;
 
 /**
  * Class Application
  * @package Core
  */
-class Container implements iContainer
+class Container implements IContainer
 {
+
     /**
      * @var array
      */
@@ -223,4 +225,5 @@ class Container implements iContainer
     {
         $_SESSION = [];
     }
+
 }
