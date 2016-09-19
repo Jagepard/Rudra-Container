@@ -12,8 +12,8 @@
 namespace Rudra;
 
 /**
- * Class Application
- * @package Core
+ * Class IContainer
+ * @package Rudra
  */
 class Container implements IContainer
 {

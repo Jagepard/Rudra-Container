@@ -12,7 +12,7 @@
 namespace Rudra;
 
 /**
- * Interface iContainer
+ * Interface IContainer
  * @package Rudra
  */
 interface IContainer
