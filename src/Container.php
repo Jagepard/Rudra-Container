@@ -3,7 +3,7 @@
 /**
  * Date: 25.08.2016
  * Time: 14:50
- * 
+ *
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2016, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
@@ -39,6 +39,11 @@ class Container implements IContainer
     protected $server;
 
     /**
+     * @var array
+     */
+    protected $files;
+
+    /**
      * Container constructor.
      */
     public function __construct()
@@ -46,6 +51,7 @@ class Container implements IContainer
         $this->get    = $_GET;
         $this->post   = $_POST;
         $this->server = $_SERVER;
+        $this->files  = $_FILES;
     }
 
     /**
@@ -129,6 +135,14 @@ class Container implements IContainer
     }
 
     /**
+     * @return array
+     */
+    public function getAllPost()
+    {
+        return $this->post;
+    }
+
+    /**
      * @param $key
      * @param $value
      */
@@ -171,6 +185,37 @@ class Container implements IContainer
     public function hasGet(string $key): bool
     {
         return isset($this->get[$key]);
+    }
+
+
+    /**
+     * @param string $key
+     * @param string $fieldName
+     * @param string $formName
+     *
+     * @return string
+     */
+    public function getUpload(string $key, string $fieldName, $formName = 'upload') : string
+    {
+        return $this->files[$formName][$fieldName][$key];
+    }
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    public function isUploaded(string $value, $formName = 'upload') : bool
+    {
+        return ($this->files['upload']['name'][$value] !== '');
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function isFileType(string $key) : bool
+    {
+        return ($this->files['type'] == $key) ? true : false;
     }
 
     /**
@@ -224,6 +269,42 @@ class Container implements IContainer
     public function clearSession()
     {
         $_SESSION = [];
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function getCoockie(string $key): string
+    {
+        return $_COOKIE[$key];
+    }
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function hasCoockie(string $key): string
+    {
+        return isset($_COOKIE[$key]);
+    }
+
+    /**
+     * @param string $key
+     */
+    public function unsetCoockie(string $key)
+    {
+        unset($_COOKIE[$key]);
+        setcookie($key, null, -1, '/');
+    }
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setCoockie(string $key, string $value)
+    {
+        $_COOKIE[$key]= $value;
     }
 
 }

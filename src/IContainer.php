@@ -3,7 +3,7 @@
 /**
  * Date: 15.03.16
  * Time: 20:35
- * 
+ *
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2016, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
@@ -69,6 +69,11 @@ interface IContainer
     public function getPost(string $key): string;
 
     /**
+     * @return mixed
+     */
+    public function getAllPost();
+
+    /**
      * @param $key
      * @param $value
      */
@@ -119,6 +124,28 @@ interface IContainer
 
     /**
      * @param string $key
+     * @param string $fieldName
+     *
+     * @return string
+     */
+    public function getUpload(string $key, string $fieldName) : string;
+
+    /**
+     * @param string $value
+     * @param        $formName
+     *
+     * @return bool
+     */
+    public function isUploaded(string $value, $formName) : bool;
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function isFileType(string $key) : bool;
+
+    /**
+     * @param string $key
      * @param string $subKey
      * @return bool
      */
@@ -129,4 +156,28 @@ interface IContainer
     public function stopSession();
 
     public function clearSession();
+
+    /**
+     * @param $key
+     * @return mixed
+     */
+    public function getCoockie(string $key): string;
+
+    /**
+     * @param string $key
+     */
+    public function unsetCoockie(string $key);
+
+    /**
+     * @param string $key
+     * @param string $value
+     */
+    public function setCoockie(string $key, string $value);
+
+    /**
+     * @param string $key
+     * @return mixed
+     */
+    public function hasCoockie(string $key);
+
 }
