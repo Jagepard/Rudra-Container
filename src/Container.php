@@ -43,6 +43,8 @@ class Container implements IContainer
      */
     protected $files;
 
+    public static $app;
+
     /**
      * Container constructor.
      */
@@ -55,12 +57,24 @@ class Container implements IContainer
     }
 
     /**
+     * @return static
+     */
+    public static function app()
+    {
+        if (!static::$app instanceof static){
+            static::$app = new static();
+        }
+
+        return static::$app;
+    }
+
+    /**
      * @param $key
      * @return mixed
      */
-    public function get($key)
+    public function get($key = null)
     {
-        return $this->objects[$key];
+        return empty($key) ? $this->objects : $this->objects[$key];
     }
 
     /**
@@ -70,6 +84,18 @@ class Container implements IContainer
     public function set($key, $object)
     {
         $this->objects[$key] = $object;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setAll(array $data)
+    {
+        foreach ($data as $key => $object) {
+            $this->objects[$key] = $object;
+        }
+
+        App::set($this);
     }
 
     /**
@@ -88,7 +114,7 @@ class Container implements IContainer
      * @param $key
      * @return bool
      */
-    public function is($key)
+    public function has($key)
     {
         return isset($this->objects[$key]) ? true : false;
     }

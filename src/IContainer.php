@@ -41,7 +41,7 @@ interface IContainer
      * @param $key
      * @return bool
      */
-    public function is($key);
+    public function has($key);
 
     /**
      * @param $key
