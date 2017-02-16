@@ -45,6 +45,12 @@ trait InversionOfControl
         }
     }
 
+    /**
+     * @param $constructor
+     * @param $params
+     *
+     * @return array
+     */
     protected function getParamsIoC($constructor, $params)
     {
         $paramsIoC = [];
