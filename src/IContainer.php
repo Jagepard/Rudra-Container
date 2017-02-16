@@ -13,6 +13,7 @@ namespace Rudra;
 
 /**
  * Interface IContainer
+ *
  * @package Rudra
  */
 interface IContainer
@@ -20,6 +21,7 @@ interface IContainer
 
     /**
      * @param $key
+     *
      * @return mixed
      */
     public function get($key);
@@ -32,13 +34,7 @@ interface IContainer
 
     /**
      * @param $key
-     * @param $param
-     * @param $value
-     */
-    public function setParam($key, $param, $value);
-
-    /**
-     * @param $key
+     *
      * @return bool
      */
     public function has($key);
@@ -46,81 +42,95 @@ interface IContainer
     /**
      * @param $key
      * @param $param
+     *
      * @return mixed
      */
     public function getParam($key, $param);
 
     /**
-     * @param string $key
-     * @return string
+     * @param $key
+     * @param $param
+     * @param $value
      */
-    public function getServer(string $key): string;
-
-    /**
-     * @param string $key
-     * @return bool
-     */
-    public function hasPost(string $key): bool;
-
-    /**
-     * @param string $key
-     * @return string
-     */
-    public function getPost(string $key): string;
-
-    /**
-     * @return mixed
-     */
-    public function getAllPost();
+    public function setParam($key, $param, $value);
 
     /**
      * @param $key
-     * @param $value
+     * @param $param
+     *
+     * @return mixed
      */
-    public function setSession(string $key, string $value);
+    public function hasParam($key, $param);
 
     /**
      * @param string $key
-     * @param string $subKey
-     * @param string $value
-     */
-    public function setSubSession(string $key, string $subKey, string $value);
-
-    /**
-     * @param string $key
-     */
-    public function unsetSession(string $key);
-
-    /**
-     * @param string $key
+     *
      * @return string
      */
-    public function getGet(string $key): string;
+    public function getGet($key);
 
     /**
      * @param string $key
+     *
      * @return bool
      */
     public function hasGet(string $key): bool;
 
     /**
      * @param $key
+     *
      * @return mixed
      */
-    public function getSession(string $key): string;
+    public function getPost($key);
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasPost(string $key): bool;
+
+    /**
+     * @param string $key
+     *
+     * @return string
+     */
+    public function getServer(string $key): string;
 
     /**
      * @param string $key
      * @param string $subKey
+     *
      * @return string
      */
-    public function getSubSession(string $key, string $subKey): string;
+    public function getSession(string $key, string $subKey): string;
 
     /**
-     * @param $key
+     * @param string $key
+     * @param string $value
+     * @param string $subKey
+     */
+    public function setSession(string $key, string $value, string $subKey);
+
+    /**
+     * @param string $key
+     * @param string $subKey
+     *
      * @return bool
      */
-    public function hasSession(string $key): bool;
+    public function hasSession(string $key, string $subKey): bool;
+
+    /**
+     * @param string $key
+     * @param string $subKey
+     */
+    public function unsetSession(string $key, string $subKey);
+
+    public function startSession();
+
+    public function stopSession();
+
+    public function clearSession();
 
     /**
      * @param string $key
@@ -140,44 +150,34 @@ interface IContainer
 
     /**
      * @param string $key
+     *
      * @return bool
      */
     public function isFileType(string $key) : bool;
 
     /**
-     * @param string $key
-     * @param string $subKey
-     * @return bool
-     */
-    public function hasSubSession(string $key, string $subKey): bool;
-
-    public function startSession();
-
-    public function stopSession();
-
-    public function clearSession();
-
-    /**
      * @param $key
+     *
      * @return mixed
      */
-    public function getCoockie(string $key): string;
-
-    /**
-     * @param string $key
-     */
-    public function unsetCoockie(string $key);
+    public function getCookie(string $key): string;
 
     /**
      * @param string $key
      * @param string $value
      */
-    public function setCoockie(string $key, string $value);
+    public function setCookie(string $key, string $value);
 
     /**
      * @param string $key
+     *
      * @return mixed
      */
-    public function hasCoockie(string $key);
+    public function hasCookie(string $key);
+
+    /**
+     * @param string $key
+     */
+    public function unsetCookie(string $key);
 
 }
