@@ -180,4 +180,16 @@ interface IContainer
      */
     public function unsetCookie(string $key);
 
+    /**
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function getBinding($key);
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setBinding($key, $value);
 }

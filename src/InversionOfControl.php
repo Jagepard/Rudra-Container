@@ -11,8 +11,6 @@
 
 namespace Rudra;
 
-use App\Config\Config;
-
 /**
  * Class InversionOfControl
  *
@@ -56,7 +54,7 @@ trait InversionOfControl
         $paramsIoC = [];
         foreach ($constructor->getParameters() as $key => $value) {
             if (isset($value->getClass()->name)) {
-                $className = $this->getBinding($value->getClass()->name);
+                $className       = $this->getBinding($value->getClass()->name);
                 $paramsIoC[$key] = (is_object($className)) ? $className : new $className;
             } else {
                 $paramsIoC[$key] = ($value->isDefaultValueAvailable())
@@ -65,25 +63,6 @@ trait InversionOfControl
         }
 
         return $paramsIoC;
-    }
-
-    /**
-     * @param $key
-     *
-     * @return mixed
-     */
-    protected function getBinding($key)
-    {
-        return (isset(Config::$bind[$key])) ? Config::$bind[$key] : $key;
-    }
-
-    /**
-     * @param $key
-     * @param $value
-     */
-    protected function setBinding($key, $value)
-    {
-        Config::$bind[$key] = $value;
     }
 
 }

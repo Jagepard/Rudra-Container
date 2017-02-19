@@ -11,10 +11,6 @@
 
 namespace Rudra;
 
-use App\Config\Config;
-use Rudra\IContainer;
-
-
 /**
  * Class IContainer
  *
@@ -54,6 +50,11 @@ class Container implements IContainer
      * @var array
      */
     protected $objects = [];
+
+    /**
+     * @var
+     */
+    protected $bind = [];
 
     /**
      * Container constructor.
@@ -122,8 +123,6 @@ class Container implements IContainer
      */
     protected function IoC($key, $object, $params = null)
     {
-        $this->setBinding(IContainer::class, $this);
-
         $reflection  = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
@@ -289,11 +288,17 @@ class Container implements IContainer
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function startSession()
     {
         session_start();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function stopSession()
     {
         session_destroy();
@@ -359,6 +364,7 @@ class Container implements IContainer
 
     /**
      * @param string $key
+     * @codeCoverageIgnore
      */
     public function unsetCookie(string $key)
     {
@@ -373,6 +379,25 @@ class Container implements IContainer
     public function setCookie(string $key, string $value)
     {
         $_COOKIE[$key] = $value;
+    }
+
+    /**
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function getBinding($key)
+    {
+        return (isset($this->bind[$key])) ? $this->bind[$key] : $key;
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function setBinding($key, $value)
+    {
+        $this->bind[$key] = $value;
     }
 
 }
