@@ -4,4 +4,4 @@ language: php
 php:
     - 7.0
 script:
-    - php vendor/bin/phpunit
+    - phpunit
