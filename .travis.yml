@@ -4,4 +4,4 @@ language: php
 php:
     - 7.0
 script:
-  - phpunit src/tests/ContainerTest
+    - php vendor/bin/phpunit
