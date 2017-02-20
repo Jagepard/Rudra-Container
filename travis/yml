@@ -1,7 +1,0 @@
-language: php
-
-# Define the php versions against we want to test our code
-php:
-    - 7.0
-script:
-  - phpunit src/tests/ContainerTest
