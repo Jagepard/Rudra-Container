@@ -3,5 +3,9 @@ language: php
 # Define the php versions against we want to test our code
 php:
     - 7.0
+    
+before_script:
+    - mkdir -p build/logs
+ 
 script:
-    - phpunit
+    - phpunit --coverage-clover build/logs/clover.xml
