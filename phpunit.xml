@@ -24,6 +24,7 @@
             <directory suffix=".php">./src</directory>
             <exclude>
                 <file>./src/IContainer.php</file>
+                <file>./src/tests/bootstrap.php</file>
             </exclude>
         </whitelist>
     </filter>

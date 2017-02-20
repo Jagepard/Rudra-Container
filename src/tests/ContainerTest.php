@@ -16,13 +16,27 @@ use Rudra\IContainer;
  */
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
+
     protected $container;
     protected $bind;
+    protected $app;
 
     protected function setUp()
     {
         $this->container = Container::app();
         Container::$app->setBinding(IContainer::class, Container::$app);
+
+        $this->app = [
+            'contracts' => [
+                IContainer::class => Container::$app
+            ],
+
+            'services' => [
+                'CWC'  => ['ClassWithoutConstructor'],
+                'CWP'  => ['ClassWithoutParameters'],
+                'CWDP' => ['ClassWithDefaultParameters', ['param' => '123']],
+            ]
+        ];
     }
 
     /**
@@ -31,6 +45,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     protected function container()
     {
         return $this->container;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getApp()
+    {
+        return $this->app;
     }
 
     /**
@@ -45,6 +67,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testGet()
     {
         $this->assertTrue(empty($this->container()->get()));
+    }
+
+    public function testSetServices()
+    {
+        $this->container()->setServices($this->getApp());
+        $this->assertInstanceOf('ClassWithoutConstructor', $this->container()->get('CWC'));
+        $this->assertInstanceOf('ClassWithoutParameters', $this->container()->get('CWP'));
+        $this->assertInstanceOf('ClassWithDefaultParameters', $this->container()->get('CWDP'));
     }
 
     public function testSetRaw()
@@ -113,7 +143,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testHasParam()
     {
-        $this->assertTrue($this->container()->has('ClassWithDependency', 'param'));
+        $this->assertTrue($this->container()->hasParam('ClassWithDependency', 'param'));
+        $this->assertNull($this->container()->hasParam('SomeClass', 'param'));
+    }
+
+    public function testFailureGetParam()
+    {
+        $this->assertNull($this->container()->getParam('SomeClass', 'param'));
     }
 
 }

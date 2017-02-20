@@ -9,7 +9,6 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-require_once dirname(__DIR__) . '/InversionOfControl.php';
 require_once dirname(__DIR__) . '/IContainer.php';
 require_once dirname(__DIR__) . '/Container.php';
 

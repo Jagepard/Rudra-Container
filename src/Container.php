@@ -11,6 +11,7 @@
 
 namespace Rudra;
 
+
 /**
  * Class IContainer
  *
@@ -18,8 +19,6 @@ namespace Rudra;
  */
 class Container implements IContainer
 {
-
-    use InversionOfControl;
 
     /**
      * @var array
@@ -52,9 +51,10 @@ class Container implements IContainer
     protected $objects = [];
 
     /**
-     * @var
+     * @var array
      */
     protected $bind = [];
+
 
     /**
      * Container constructor.
@@ -77,6 +77,24 @@ class Container implements IContainer
         }
 
         return static::$app;
+    }
+
+    /**
+     * @param $app
+     */
+    public function setServices($app)
+    {
+        foreach ($app['services'] as $name => $service) {
+            foreach ($app['contracts'] as $interface => $contract) {
+                $this->setBinding($interface, $contract);
+            }
+
+            if (array_key_exists(1, $service)) {
+                $this->set($name, $service[0], $service[1]);
+            } else {
+                $this->set($name, $service[0]);
+            }
+        }
     }
 
     /**
@@ -137,6 +155,52 @@ class Container implements IContainer
         } else {
             return $this->objects[$key] = new $object;
         }
+    }
+
+    /**
+     * @param      $object
+     * @param null $params
+     *
+     * @return object
+     */
+    public function new($object, $params = null)
+    {
+        $reflection  = new \ReflectionClass($object);
+        $constructor = $reflection->getConstructor();
+
+        if ($constructor) {
+            if ($constructor->getNumberOfParameters()) {
+                $paramsIoC = $this->getParamsIoC($constructor, $params);
+
+                return $reflection->newInstanceArgs($paramsIoC);
+            } else {
+                return new $object;
+            }
+        } else {
+            return new $object;
+        }
+    }
+
+    /**
+     * @param $constructor
+     * @param $params
+     *
+     * @return array
+     */
+    protected function getParamsIoC($constructor, $params)
+    {
+        $paramsIoC = [];
+        foreach ($constructor->getParameters() as $key => $value) {
+            if (isset($value->getClass()->name)) {
+                $className       = $this->getBinding($value->getClass()->name);
+                $paramsIoC[$key] = (is_object($className)) ? $className : new $className;
+            } else {
+                $paramsIoC[$key] = ($value->isDefaultValueAvailable())
+                    ? $value->getDefaultValue() : $params[$value->getName()];
+            }
+        }
+
+        return $paramsIoC;
     }
 
     /**
@@ -270,7 +334,7 @@ class Container implements IContainer
      *
      * @return bool
      */
-    public function hasSession(string $key, string $subKey): bool
+    public function hasSession(string $key, string $subKey = null): bool
     {
         return empty($subKey) ? isset($_SESSION[$key]) : isset($_SESSION[$key][$subKey]);
     }
@@ -279,7 +343,7 @@ class Container implements IContainer
      * @param string $key
      * @param string $subKey
      */
-    public function unsetSession(string $key, string $subKey)
+    public function unsetSession(string $key, string $subKey = null)
     {
         if (empty($subKey)) {
             unset($_SESSION[$key]);
@@ -288,17 +352,11 @@ class Container implements IContainer
         }
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function startSession()
     {
         session_start();
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function stopSession()
     {
         session_destroy();
@@ -364,7 +422,6 @@ class Container implements IContainer
 
     /**
      * @param string $key
-     * @codeCoverageIgnore
      */
     public function unsetCookie(string $key)
     {

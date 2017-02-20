@@ -33,6 +33,14 @@ interface IContainer
     public function set($key, $object);
 
     /**
+     * @param      $object
+     * @param null $params
+     *
+     * @return mixed
+     */
+    public function new($object, $params = null);
+
+    /**
      * @param $key
      *
      * @return bool
@@ -192,4 +200,5 @@ interface IContainer
      * @param $value
      */
     public function setBinding($key, $value);
+
 }
