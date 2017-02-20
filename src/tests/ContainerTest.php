@@ -152,4 +152,43 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->container()->getParam('SomeClass', 'param'));
     }
 
+    public function testGetData()
+    {
+        Container::$app->setGet(['key' => 'value']);
+        $this->assertEquals('value', $this->container()->getGet('key'));
+        $this->assertContains('value', $this->container()->getGet());
+        $this->assertTrue($this->container()->hasGet('key'));
+        $this->assertFalse($this->container()->hasGet('false'));
+    }
+
+    public function testPostData()
+    {
+        Container::$app->setPost(['key' => 'value']);
+        $this->assertEquals('value', $this->container()->getPost('key'));
+        $this->assertContains('value', $this->container()->getPost());
+        $this->assertTrue($this->container()->hasPost('key'));
+        $this->assertFalse($this->container()->hasPost('false'));
+    }
+
+    public function testServerData()
+    {
+        Container::$app->setServer(['key' => 'value']);
+        $this->assertEquals('value', $this->container()->getServer('key'));
+    }
+
+    public function testSessionData()
+    {
+        Container::$app->setSession('key', 'value');
+        Container::$app->setSession('subKey', 'value', 'subSet');
+        $this->assertEquals('value', $this->container()->getSession('key'));
+        $this->assertEquals('value', $this->container()->getSession('subKey', 'subSet'));
+        $this->assertTrue($this->container()->hasSession('key'));
+        $this->assertTrue($this->container()->hasSession('subKey', 'subSet'));
+        $this->assertNull($this->container()->unsetSession('key'));
+        $this->assertNull($this->container()->unsetSession('subKey', 'subSet'));
+        $this->assertFalse($this->container()->hasSession('key'));
+        $this->assertFalse($this->container()->hasSession('subKey', 'subSet'));
+        $this->assertNull($this->container()->clearSession());
+    }
+
 }

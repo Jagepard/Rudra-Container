@@ -264,6 +264,15 @@ class Container implements IContainer
     }
 
     /**
+     * @param array $get
+     */
+    public function setGet(array $get)
+    {
+        $this->get = $get;
+    }
+
+
+    /**
      * @param string $key
      *
      * @return bool
@@ -284,6 +293,14 @@ class Container implements IContainer
     }
 
     /**
+     * @param array $post
+     */
+    public function setPost(array $post)
+    {
+        $this->post = $post;
+    }
+
+    /**
      * @param string $key
      *
      * @return bool
@@ -301,6 +318,14 @@ class Container implements IContainer
     public function getServer(string $key): string
     {
         return $this->server[$key];
+    }
+
+    /**
+     * @param array $server
+     */
+    public function setServer(array $server)
+    {
+        $this->server = $server;
     }
 
     /**
@@ -352,11 +377,17 @@ class Container implements IContainer
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function startSession()
     {
         session_start();
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function stopSession()
     {
         session_destroy();
@@ -365,6 +396,14 @@ class Container implements IContainer
     public function clearSession()
     {
         $_SESSION = [];
+    }
+
+    /**
+     * @param array $files
+     */
+    public function setFiles(array $files)
+    {
+        $this->files = $files;
     }
 
     /**
