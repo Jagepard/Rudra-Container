@@ -158,10 +158,11 @@ interface IContainer
 
     /**
      * @param string $key
+     * @param string $value
      *
      * @return bool
      */
-    public function isFileType(string $key) : bool;
+    public function isFileType(string $key, string $value) : bool;
 
     /**
      * @param $key

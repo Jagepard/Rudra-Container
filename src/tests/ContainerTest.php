@@ -191,4 +191,26 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->container()->clearSession());
     }
 
+    public function testCookieData()
+    {
+        Container::$app->setCookie('key', 'value');
+        $this->assertEquals('value', $this->container()->getCookie('key'));
+        $this->assertTrue($this->container()->hasCookie('key'));
+        $this->assertFalse($this->container()->hasCookie('false'));
+    }
+
+    public function testFilesData()
+    {
+        Container::$app->setFiles(
+            [
+                'upload' => ['name' => ['img' => '41146.png']],
+                'type'   => ['img' => 'image/png'],
+            ]
+        );
+
+        $this->assertTrue($this->container()->isUploaded('img'));
+        $this->assertTrue($this->container()->isFileType('img', 'image/png'));
+        $this->assertEquals('41146.png', $this->container()->getUpload('img', 'name'));
+    }
+
 }

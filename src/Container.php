@@ -431,12 +431,13 @@ class Container implements IContainer
 
     /**
      * @param string $key
+     * @param string $value
      *
      * @return bool
      */
-    public function isFileType(string $key) : bool
+    public function isFileType(string $key, string $value) : bool
     {
-        return ($this->files['type'] == $key) ? true : false;
+        return ($this->files['type'][$key] == $value) ? true : false;
     }
 
     /**
@@ -454,12 +455,13 @@ class Container implements IContainer
      *
      * @return mixed
      */
-    public function hasCookie(string $key): string
+    public function hasCookie(string $key): bool
     {
         return isset($_COOKIE[$key]);
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $key
      */
     public function unsetCookie(string $key)
