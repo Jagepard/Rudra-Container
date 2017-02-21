@@ -86,3 +86,4 @@ Rudra::$app->set('auth', 'Auth', ['name' => 'value']);
 ```php
 Rudra::$app->set('auth', 'Auth', ['name' => 'value', 'config' => 'concrete']);
 ```
+
