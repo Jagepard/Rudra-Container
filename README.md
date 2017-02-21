@@ -36,7 +36,7 @@ class Auth
 {
     public function __construct(Container $di)
     {
-        $this->$di = Container;
+        $this->$di = $di;
     }
 }
 ```
