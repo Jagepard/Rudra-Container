@@ -332,11 +332,11 @@ class Container implements IContainer
      * @param string      $key
      * @param string|null $subKey
      *
-     * @return string
+     * @return mixed
      */
-    public function getSession(string $key, string $subKey = null): string
+    public function getSession(string $key, string $subKey = null)
     {
-        return empty($subKey) ? $_SESSION[$key] : $_SESSION[$key][$subKey];
+        return ($subKey === null) ? $_SESSION[$key] : $_SESSION[$key][$subKey];
     }
 
     /**
@@ -349,7 +349,11 @@ class Container implements IContainer
         if (empty($subKey)) {
             $_SESSION[$key] = $value;
         } else {
-            $_SESSION[$key][$subKey] = $value;
+            if ($subKey == 'increment') {
+                $_SESSION[$key][] = $value;
+            } else {
+                $_SESSION[$key][$subKey] = $value;
+            }
         }
     }
 

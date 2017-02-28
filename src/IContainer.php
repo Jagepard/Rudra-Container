@@ -109,9 +109,9 @@ interface IContainer
      * @param string $key
      * @param string $subKey
      *
-     * @return string
+     * @return mixed
      */
-    public function getSession(string $key, string $subKey): string;
+    public function getSession(string $key, string $subKey);
 
     /**
      * @param string $key

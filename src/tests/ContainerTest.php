@@ -180,8 +180,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         Container::$app->setSession('key', 'value');
         Container::$app->setSession('subKey', 'value', 'subSet');
+        Container::$app->setSession('increment', 'value', 'increment');
         $this->assertEquals('value', $this->container()->getSession('key'));
         $this->assertEquals('value', $this->container()->getSession('subKey', 'subSet'));
+        $this->assertEquals('value', $this->container()->getSession('increment', 0));
         $this->assertTrue($this->container()->hasSession('key'));
         $this->assertTrue($this->container()->hasSession('subKey', 'subSet'));
         $this->assertNull($this->container()->unsetSession('key'));
