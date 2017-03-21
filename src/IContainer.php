@@ -111,14 +111,14 @@ interface IContainer
      *
      * @return mixed
      */
-    public function getSession(string $key, string $subKey);
+    public function getSession(string $key, string $subKey = null);
 
     /**
      * @param string $key
      * @param string $value
      * @param string $subKey
      */
-    public function setSession(string $key, string $value, string $subKey);
+    public function setSession(string $key, string $value, string $subKey = null);
 
     /**
      * @param string $key
@@ -126,13 +126,13 @@ interface IContainer
      *
      * @return bool
      */
-    public function hasSession(string $key, string $subKey): bool;
+    public function hasSession(string $key, string $subKey = null): bool;
 
     /**
      * @param string $key
      * @param string $subKey
      */
-    public function unsetSession(string $key, string $subKey);
+    public function unsetSession(string $key, string $subKey = null);
 
     public function startSession();
 
