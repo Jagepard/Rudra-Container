@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types = 1);
+
 /**
  * Created by PhpStorm.
  * User: d
@@ -10,6 +13,10 @@
 use Rudra\ContainerTrait;
 use Rudra\IContainer;
 
+
+/**
+ * Class ClassWithContainerTrait
+ */
 class ClassWithContainerTrait
 {
 

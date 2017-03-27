@@ -1,15 +1,25 @@
 <?php
 
+declare(strict_types = 1);
+
+
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 use Rudra\IContainer;
 use Rudra\Container;
 
+
+/**
+ * Class ContainerTraitTest
+ */
 class ContainerTraitTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var ClassWithContainerTrait
+     */
     protected $stub;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         Container::app()->setBinding(IContainer::class, Container::$app);
 
@@ -30,48 +40,48 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $this->stub = new ClassWithContainerTrait(Container::$app);
     }
 
-    public function testValidation()
+    public function testValidation(): void
     {
         $this->assertInstanceOf(ClassWithoutConstructor::class, $this->getStub()->validation());
     }
 
-    public function testRedirect()
+    public function testRedirect(): void
     {
         $this->assertInstanceOf(ClassWithoutParameters::class, $this->getStub()->redirect());
     }
 
-    public function testDb()
+    public function testDb(): void
     {
         $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->getStub()->db());
     }
 
-    public function testNew()
+    public function testNew(): void
     {
         $newClassWithoutConstructor = $this->getStub()->new('ClassWithoutConstructor');
         $this->assertInstanceOf('ClassWithoutConstructor', $newClassWithoutConstructor);
     }
 
-    public function testSetPagination()
+    public function testSetPagination(): void
     {
         $this->getMockBuilder('Rudra\Pagination')->getMock();
         $this->getStub()->setPagination(['id' => 1]);
         $this->assertInstanceOf('Rudra\Pagination', $this->getStub()->pagination());
     }
 
-    public function testPost()
+    public function testPost(): void
     {
         Container::$app->setPost(['key' => 'value']);
         $this->assertEquals('value', $this->getStub()->post('key'));
     }
 
-    public function testSessionData()
+    public function testSessionData(): void
     {
         $this->getStub()->setSession('key', 'value');
         $this->getStub()->setSession('subKey', 'value', 'subSet');
         $this->getStub()->setSession('increment', 'value', 'increment');
         $this->assertEquals('value', Container::$app->getSession('key'));
         $this->assertEquals('value', Container::$app->getSession('subKey', 'subSet'));
-        $this->assertEquals('value', Container::$app->getSession('increment', 0));
+        $this->assertEquals('value', Container::$app->getSession('increment', '0'));
         $this->assertNull($this->getStub()->unsetSession('key'));
         $this->assertNull($this->getStub()->unsetSession('subKey', 'subSet'));
         $this->assertFalse(Container::$app->hasSession('key'));
@@ -79,9 +89,9 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return mixed
+     * @return ClassWithContainerTrait
      */
-    public function getStub()
+    public function getStub(): ClassWithContainerTrait
     {
         return $this->stub;
     }

@@ -1,8 +1,6 @@
 <?php
 
-use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
-use Rudra\Container;
-use Rudra\IContainer;
+declare(strict_types = 1);
 
 /**
  * Date: 17.02.17
@@ -14,14 +12,30 @@ use Rudra\IContainer;
  *
  *  phpunit src/tests/ContainerTest --coverage-html src/tests/coverage-html
  */
+
+
+use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
+use Rudra\Container;
+use Rudra\IContainer;
+
+
+/**
+ * Class ContainerTest
+ */
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
 
+    /**
+     * @var IContainer
+     */
     protected $container;
-    protected $bind;
+
+    /**
+     * @var array
+     */
     protected $app;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->container = Container::app();
         Container::$app->setBinding(IContainer::class, Container::$app);
@@ -42,15 +56,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @return mixed
      */
-    protected function container()
+    protected function container(): IContainer
     {
         return $this->container;
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getApp()
+    public function getApp(): array
     {
         return $this->app;
     }
@@ -58,18 +72,18 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * Проверяем синглтон
      */
-    public function testCallSingleton()
+    public function testCallSingleton(): void
     {
-        $this->assertInstanceOf(Container::class, Container::app($this->bind));
+        $this->assertInstanceOf(Container::class, Container::app());
         $this->assertInstanceOf(Container::class, Container::$app);
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $this->assertTrue(empty($this->container()->get()));
     }
 
-    public function testSetServices()
+    public function testSetServices(): void
     {
         $this->container()->setServices($this->getApp());
         $this->assertInstanceOf('ClassWithoutConstructor', $this->container()->get('CWC'));
@@ -77,18 +91,18 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ClassWithDefaultParameters', $this->container()->get('CWDP'));
     }
 
-    public function testSetRaw()
+    public function testSetRaw(): void
     {
         $this->container()->set(ContainerTest::class, $this, 'raw');
         $this->assertInstanceOf(ContainerTest::class, $this->container()->get(ContainerTest::class));
     }
 
-    public function testGetArrayHasKey()
+    public function testGetArrayHasKey(): void
     {
         $this->assertArrayHasKey(ContainerTest::class, $this->container()->get());
     }
 
-    public function testIoCClassWithoutConstructor()
+    public function testIoCClassWithoutConstructor(): void
     {
         $newClassWithoutConstructor = $this->container()->new('ClassWithoutConstructor');
         $this->assertInstanceOf('ClassWithoutConstructor', $newClassWithoutConstructor);
@@ -97,7 +111,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ClassWithoutConstructor', $this->container()->get('ClassWithoutConstructor'));
     }
 
-    public function testIoCwithoutParameters()
+    public function testIoCwithoutParameters(): void
     {
         $newClassWithoutParameters = $this->container()->new('ClassWithoutParameters');
         $this->assertInstanceOf('ClassWithoutParameters', $newClassWithoutParameters);
@@ -106,7 +120,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ClassWithoutParameters', $this->container()->get('ClassWithoutParameters'));
     }
 
-    public function testIoCwithDefaultParameters()
+    public function testIoCwithDefaultParameters(): void
     {
         $newClassWithDefaultParameters = $this->container()->new('ClassWithDefaultParameters');
         $this->assertInstanceOf('ClassWithDefaultParameters', $newClassWithDefaultParameters);
@@ -115,7 +129,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ClassWithDefaultParameters', $this->container()->get('ClassWithDefaultParameters'));
     }
 
-    public function testIoCwithDependency()
+    public function testIoCwithDependency(): void
     {
         $newClassWithDependency = $this->container()->new('ClassWithDependency');
         $this->assertInstanceOf('ClassWithDependency', $newClassWithDependency);
@@ -124,7 +138,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('ClassWithDependency', $this->container()->get('ClassWithDependency'));
     }
 
-    public function testHas()
+    public function testHas(): void
     {
         $this->assertTrue($this->container()->has(ContainerTest::class));
         $this->assertTrue($this->container()->has('ClassWithoutConstructor'));
@@ -134,25 +148,25 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->container()->has('SomeClass'));
     }
 
-    public function testSetParam()
+    public function testSetParam(): void
     {
         $param = 'value';
         $this->container()->setParam('ClassWithDependency', 'param', $param);
         $this->assertEquals($param, $this->container()->getParam('ClassWithDependency', 'param'));
     }
 
-    public function testHasParam()
+    public function testHasParam(): void
     {
         $this->assertTrue($this->container()->hasParam('ClassWithDependency', 'param'));
         $this->assertNull($this->container()->hasParam('SomeClass', 'param'));
     }
 
-    public function testFailureGetParam()
+    public function testFailureGetParam(): void
     {
         $this->assertNull($this->container()->getParam('SomeClass', 'param'));
     }
 
-    public function testGetData()
+    public function testGetData(): void
     {
         Container::$app->setGet(['key' => 'value']);
         $this->assertEquals('value', $this->container()->getGet('key'));
@@ -161,7 +175,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->container()->hasGet('false'));
     }
 
-    public function testPostData()
+    public function testPostData(): void
     {
         Container::$app->setPost(['key' => 'value']);
         $this->assertEquals('value', $this->container()->getPost('key'));
@@ -170,20 +184,20 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->container()->hasPost('false'));
     }
 
-    public function testServerData()
+    public function testServerData(): void
     {
         Container::$app->setServer(['key' => 'value']);
         $this->assertEquals('value', $this->container()->getServer('key'));
     }
 
-    public function testSessionData()
+    public function testSessionData(): void
     {
         Container::$app->setSession('key', 'value');
         Container::$app->setSession('subKey', 'value', 'subSet');
         Container::$app->setSession('increment', 'value', 'increment');
         $this->assertEquals('value', $this->container()->getSession('key'));
         $this->assertEquals('value', $this->container()->getSession('subKey', 'subSet'));
-        $this->assertEquals('value', $this->container()->getSession('increment', 0));
+        $this->assertEquals('value', $this->container()->getSession('increment', '0'));
         $this->assertTrue($this->container()->hasSession('key'));
         $this->assertTrue($this->container()->hasSession('subKey', 'subSet'));
         $this->assertNull($this->container()->unsetSession('key'));
@@ -193,7 +207,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertNull($this->container()->clearSession());
     }
 
-    public function testCookieData()
+    public function testCookieData(): void
     {
         Container::$app->setCookie('key', 'value');
         $this->assertEquals('value', $this->container()->getCookie('key'));
@@ -201,7 +215,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($this->container()->hasCookie('false'));
     }
 
-    public function testFilesData()
+    public function testFilesData(): void
     {
         Container::$app->setFiles(
             [
