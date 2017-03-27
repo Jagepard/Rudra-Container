@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Date: 15.03.16
  * Time: 20:35
@@ -20,17 +22,19 @@ interface IContainer
 {
 
     /**
-     * @param $key
+     * @param string $key
      *
      * @return mixed
      */
-    public function get($key);
+    public function get(string $key);
 
     /**
-     * @param $key
-     * @param $object
+     * @param string $key
+     * @param        $object
+     *
+     * @return mixed
      */
-    public function set($key, $object);
+    public function set(string $key, $object);
 
     /**
      * @param      $object
@@ -41,41 +45,41 @@ interface IContainer
     public function new($object, $params = null);
 
     /**
-     * @param $key
+     * @param string $key
      *
      * @return bool
      */
-    public function has($key);
-
-    /**
-     * @param $key
-     * @param $param
-     *
-     * @return mixed
-     */
-    public function getParam($key, $param);
-
-    /**
-     * @param $key
-     * @param $param
-     * @param $value
-     */
-    public function setParam($key, $param, $value);
-
-    /**
-     * @param $key
-     * @param $param
-     *
-     * @return mixed
-     */
-    public function hasParam($key, $param);
+    public function has(string $key): bool;
 
     /**
      * @param string $key
+     * @param string $param
      *
-     * @return string
+     * @return mixed
      */
-    public function getGet($key);
+    public function getParam(string $key, string $param);
+
+    /**
+     * @param string $key
+     * @param string $param
+     * @param        $value
+     */
+    public function setParam(string $key, string $param, $value): void;
+
+    /**
+     * @param string $key
+     * @param string $param
+     *
+     * @return bool
+     */
+    public function hasParam(string $key, string $param);
+
+    /**
+     * @param string|null $key
+     *
+     * @return mixed
+     */
+    public function getGet(string $key = null);
 
     /**
      * @param string $key
@@ -85,11 +89,11 @@ interface IContainer
     public function hasGet(string $key): bool;
 
     /**
-     * @param $key
+     * @param string|null $key
      *
      * @return mixed
      */
-    public function getPost($key);
+    public function getPost(string $key = null);
 
     /**
      * @param string $key
@@ -114,11 +118,11 @@ interface IContainer
     public function getSession(string $key, string $subKey = null);
 
     /**
-     * @param string $key
-     * @param string $value
-     * @param string $subKey
+     * @param string      $key
+     * @param string      $value
+     * @param string|null $subKey
      */
-    public function setSession(string $key, string $value, string $subKey = null);
+    public function setSession(string $key, string $value, string $subKey = null): void;
 
     /**
      * @param string $key
@@ -129,32 +133,33 @@ interface IContainer
     public function hasSession(string $key, string $subKey = null): bool;
 
     /**
-     * @param string $key
-     * @param string $subKey
+     * @param string      $key
+     * @param string|null $subKey
      */
-    public function unsetSession(string $key, string $subKey = null);
+    public function unsetSession(string $key, string $subKey = null): void;
 
-    public function startSession();
+    public function startSession(): void;
 
-    public function stopSession();
+    public function stopSession(): void;
 
-    public function clearSession();
+    public function clearSession(): void;
 
     /**
      * @param string $key
      * @param string $fieldName
+     * @param string $formName
      *
      * @return string
      */
-    public function getUpload(string $key, string $fieldName) : string;
+    public function getUpload(string $key, string $fieldName, string $formName) : string;
 
     /**
      * @param string $value
-     * @param        $formName
+     * @param string $formName
      *
      * @return bool
      */
-    public function isUploaded(string $value, $formName) : bool;
+    public function isUploaded(string $value, string $formName) : bool;
 
     /**
      * @param string $key
@@ -165,9 +170,9 @@ interface IContainer
     public function isFileType(string $key, string $value) : bool;
 
     /**
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return string
      */
     public function getCookie(string $key): string;
 
@@ -175,7 +180,7 @@ interface IContainer
      * @param string $key
      * @param string $value
      */
-    public function setCookie(string $key, string $value);
+    public function setCookie(string $key, string $value): void;
 
     /**
      * @param string $key
@@ -187,19 +192,18 @@ interface IContainer
     /**
      * @param string $key
      */
-    public function unsetCookie(string $key);
+    public function unsetCookie(string $key): void;
 
     /**
      * @param $key
      *
      * @return mixed
      */
-    public function getBinding($key);
+    public function getBinding(string $key);
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param        $value
      */
-    public function setBinding($key, $value);
-
+    public function setBinding(string $key, $value): void;
 }

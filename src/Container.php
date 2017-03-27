@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Date: 25.08.2016
  * Time: 14:50
@@ -10,6 +12,9 @@
  */
 
 namespace Rudra;
+
+
+use \ReflectionClass;
 
 
 /**
@@ -41,7 +46,7 @@ class Container implements IContainer
     protected $files;
 
     /**
-     * @var
+     * @var IContainer
      */
     public static $app;
 
@@ -68,9 +73,9 @@ class Container implements IContainer
     }
 
     /**
-     * @return static
+     * @return IContainer
      */
-    public static function app()
+    public static function app(): IContainer
     {
         if (!static::$app instanceof static) {
             static::$app = new static();
@@ -82,7 +87,7 @@ class Container implements IContainer
     /**
      * @param $app
      */
-    public function setServices($app)
+    public function setServices(array $app): void
     {
         foreach ($app['services'] as $name => $service) {
             foreach ($app['contracts'] as $interface => $contract) {
@@ -102,19 +107,19 @@ class Container implements IContainer
      *
      * @return mixed
      */
-    public function get($key = null)
+    public function get(string $key = null)
     {
-        return empty($key) ? $this->objects : $this->objects[$key];
+        return ($key === null) ? $this->objects : $this->objects[$key];
     }
 
     /**
-     * @param      $key
-     * @param      $object
-     * @param null $params
+     * @param string $key
+     * @param        $object
+     * @param array  $params
      *
      * @return object|void
      */
-    public function set($key, $object, $params = null)
+    public function set(string $key, $object, $params = null)
     {
         if ('raw' == $params) {
             return $this->rawSet($key, $object);
@@ -124,10 +129,10 @@ class Container implements IContainer
     }
 
     /**
-     * @param $key
-     * @param $object
+     * @param string $key
+     * @param        $object
      */
-    protected function rawSet($key, $object)
+    protected function rawSet(string $key, $object)
     {
         $this->objects[$key] = $object;
     }
@@ -139,9 +144,9 @@ class Container implements IContainer
      *
      * @return object
      */
-    protected function IoC($key, $object, $params = null)
+    protected function IoC(string $key, $object, $params = null)
     {
-        $reflection  = new \ReflectionClass($object);
+        $reflection  = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor) {
@@ -165,7 +170,7 @@ class Container implements IContainer
      */
     public function new($object, $params = null)
     {
-        $reflection  = new \ReflectionClass($object);
+        $reflection  = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor) {
@@ -208,18 +213,18 @@ class Container implements IContainer
      *
      * @return bool
      */
-    public function has($key)
+    public function has(string $key): bool
     {
         return isset($this->objects[$key]) ? true : false;
     }
 
     /**
-     * @param $key
-     * @param $param
+     * @param string $key
+     * @param string $param
      *
      * @return mixed
      */
-    public function getParam($key, $param)
+    public function getParam(string $key, string $param)
     {
         if ($this->has($key)) {
             if (isset($this->get($key)->$param)) {
@@ -229,11 +234,11 @@ class Container implements IContainer
     }
 
     /**
-     * @param $key
-     * @param $param
-     * @param $value
+     * @param string $key
+     * @param string $param
+     * @param        $value
      */
-    public function setParam($key, $param, $value)
+    public function setParam(string $key, string $param, $value): void
     {
         if (isset($this->objects[$key])) {
             $this->get($key)->$param = $value;
@@ -241,12 +246,12 @@ class Container implements IContainer
     }
 
     /**
-     * @param $key
-     * @param $param
+     * @param string $key
+     * @param string $param
      *
-     * @return mixed
+     * @return bool
      */
-    public function hasParam($key, $param)
+    public function hasParam(string $key, string $param)
     {
         if ($this->has($key)) {
             return isset($this->get($key)->$param) ? true : false;
@@ -254,11 +259,11 @@ class Container implements IContainer
     }
 
     /**
-     * @param string $key
+     * @param string|null $key
      *
-     * @return string
+     * @return array|mixed
      */
-    public function getGet($key = null)
+    public function getGet(string $key = null)
     {
         return empty($key) ? $this->get : $this->get[$key];
     }
@@ -266,7 +271,7 @@ class Container implements IContainer
     /**
      * @param array $get
      */
-    public function setGet(array $get)
+    public function setGet(array $get): void
     {
         $this->get = $get;
     }
@@ -283,11 +288,11 @@ class Container implements IContainer
     }
 
     /**
-     * @param string $key
+     * @param string|null $key
      *
-     * @return string
+     * @return array|mixed
      */
-    public function getPost($key = null)
+    public function getPost(string $key = null)
     {
         return empty($key) ? $this->post : $this->post[$key];
     }
@@ -295,7 +300,7 @@ class Container implements IContainer
     /**
      * @param array $post
      */
-    public function setPost(array $post)
+    public function setPost(array $post): void
     {
         $this->post = $post;
     }
@@ -344,7 +349,7 @@ class Container implements IContainer
      * @param string      $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, string $value, string $subKey = null)
+    public function setSession(string $key, string $value, string $subKey = null): void
     {
         if (empty($subKey)) {
             $_SESSION[$key] = $value;
@@ -369,10 +374,10 @@ class Container implements IContainer
     }
 
     /**
-     * @param string $key
-     * @param string $subKey
+     * @param string      $key
+     * @param string|null $subKey
      */
-    public function unsetSession(string $key, string $subKey = null)
+    public function unsetSession(string $key, string $subKey = null): void
     {
         if (empty($subKey)) {
             unset($_SESSION[$key]);
@@ -384,7 +389,7 @@ class Container implements IContainer
     /**
      * @codeCoverageIgnore
      */
-    public function startSession()
+    public function startSession(): void
     {
         session_start();
     }
@@ -392,12 +397,12 @@ class Container implements IContainer
     /**
      * @codeCoverageIgnore
      */
-    public function stopSession()
+    public function stopSession(): void
     {
         session_destroy();
     }
 
-    public function clearSession()
+    public function clearSession(): void
     {
         $_SESSION = [];
     }
@@ -417,7 +422,7 @@ class Container implements IContainer
      *
      * @return string
      */
-    public function getUpload(string $key, string $fieldName, $formName = 'upload') : string
+    public function getUpload(string $key, string $fieldName, string $formName = 'upload') : string
     {
         return $this->files[$formName][$fieldName][$key];
     }
@@ -428,7 +433,7 @@ class Container implements IContainer
      *
      * @return bool
      */
-    public function isUploaded(string $value, $formName = 'upload') : bool
+    public function isUploaded(string $value, string $formName = 'upload') : bool
     {
         return ($this->files[$formName]['name'][$value] !== '');
     }
@@ -445,9 +450,9 @@ class Container implements IContainer
     }
 
     /**
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return string
      */
     public function getCookie(string $key): string
     {
@@ -455,9 +460,9 @@ class Container implements IContainer
     }
 
     /**
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return bool
      */
     public function hasCookie(string $key): bool
     {
@@ -468,7 +473,7 @@ class Container implements IContainer
      * @codeCoverageIgnore
      * @param string $key
      */
-    public function unsetCookie(string $key)
+    public function unsetCookie(string $key): void
     {
         unset($_COOKIE[$key]);
         setcookie($key, null, -1, '/');
@@ -478,28 +483,27 @@ class Container implements IContainer
      * @param string $key
      * @param string $value
      */
-    public function setCookie(string $key, string $value)
+    public function setCookie(string $key, string $value): void
     {
         $_COOKIE[$key] = $value;
     }
 
     /**
-     * @param $key
+     * @param string $key
      *
-     * @return mixed
+     * @return mixed|string
      */
-    public function getBinding($key)
+    public function getBinding(string $key)
     {
-        return (isset($this->bind[$key])) ? $this->bind[$key] : $key;
+        return $this->bind[$key] ?? $key;
     }
 
     /**
-     * @param $key
-     * @param $value
+     * @param string $key
+     * @param        $value
      */
-    public function setBinding($key, $value)
+    public function setBinding(string $key, $value): void
     {
         $this->bind[$key] = $value;
     }
-
 }
