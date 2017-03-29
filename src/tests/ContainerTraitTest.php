@@ -2,6 +2,17 @@
 
 declare(strict_types = 1);
 
+/**
+ * Date: 17.02.17
+ * Time: 13:23
+ *
+ * @author    : Korotkov Danila <dankorot@gmail.com>
+ * @copyright Copyright (c) 2016, Korotkov Danila
+ * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
+ *
+ *  phpunit src/tests/ContainerTraitTest --coverage-html src/tests/coverage-html
+ */
+
 
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 use Rudra\IContainer;
