@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * Date: 21.03.2017
  * Time: 18:26
@@ -11,7 +13,11 @@
 
 namespace Rudra;
 
-
+/**
+ * Class ContainerTrait
+ *
+ * @package Rudra
+ */
 trait ContainerTrait
 {
 
@@ -72,7 +78,7 @@ trait ContainerTrait
     /**
      * @param $value
      */
-    public function setPagination($value)
+    public function setPagination($value): void
     {
         $this->container()->set('pagination', new Pagination($value['id']), 'raw');
     }
@@ -83,7 +89,7 @@ trait ContainerTrait
      * @param string      $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, string $value, string $subKey = null)
+    public function setSession(string $key, string $value, string $subKey = null): void
     {
         $this->container()->setSession($key, $value, $subKey);
     }
