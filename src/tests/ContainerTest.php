@@ -228,5 +228,4 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($this->container()->isFileType('img', 'image/png'));
         $this->assertEquals('41146.png', $this->container()->getUpload('img', 'name'));
     }
-
 }
