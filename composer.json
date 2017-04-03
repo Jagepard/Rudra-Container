@@ -1,35 +1,37 @@
 {
-    "name"        : "rudra/container",
-    "description" : "The Rudra framework",
-    "version"     : "dev-master",
-    "type"        : "library",
-    "keywords"    : [
+    "name"              : "rudra/container",
+    "description"       : "The Rudra framework",
+    "type"              : "library",
+    "keywords"          : [
         "rudra",
         "container"
     ],
-    "license"     : "MIT",
-    "authors"     : [
+    "license"           : "MIT",
+    "authors"           : [
         {
-            "name"    : "Danila Korotkov (Jagepard)",
-            "email"   : "jagepard@yandex.ru",
-            "homepage": "https://jagepard.ru",
-            "role"    : "Developer"
+            "name"     : "Danila Korotkov (Jagepard)",
+            "email"    : "jagepard@yandex.ru",
+            "homepage" : "https://jagepard.ru",
+            "role"     : "Developer"
         }
     ],
-    "support"     : {
-        "email": "jagepard@yandex.ru",
-        "skype": "jagepard.ru"
+    "support"           : {
+        "email" : "jagepard@yandex.ru",
+        "skype" : "jagepard.ru"
     },
-    "require"     : {
-        "php": ">=7.1"
+    "require"           : {
+        "php" : ">=7.1"
     },
-    "require-dev" : {
-        "satooshi/php-coveralls": "dev-master"
+    "require-dev"       : {
+        "satooshi/php-coveralls" : "dev-master"
     },
-    "autoload"    : {
-        "psr-4": {
-            "Rudra\\": "src/"
+    "autoload"          : {
+        "psr-4" : {
+            "Rudra\\" : "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability" : "dev",
+    "config"            : {
+        "optimize-autoloader" : true
+    }
 }
