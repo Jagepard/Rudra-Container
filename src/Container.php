@@ -346,10 +346,10 @@ class Container implements IContainer
 
     /**
      * @param string      $key
-     * @param string      $value
+     * @param             $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, string $value, string $subKey = null): void
+    public function setSession(string $key, $value, string $subKey = null): void
     {
         if (empty($subKey)) {
             $_SESSION[$key] = $value;
@@ -471,6 +471,7 @@ class Container implements IContainer
 
     /**
      * @codeCoverageIgnore
+     *
      * @param string $key
      */
     public function unsetCookie(string $key): void
