@@ -119,10 +119,10 @@ interface IContainer
 
     /**
      * @param string      $key
-     * @param string      $value
+     * @param             $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, string $value, string $subKey = null): void;
+    public function setSession(string $key, $value, string $subKey = null): void;
 
     /**
      * @param string $key
