@@ -107,7 +107,7 @@ interface IContainer
      *
      * @return string
      */
-    public function getServer(string $key): string;
+    public function getServer(string $key);
 
     /**
      * @param string $key
