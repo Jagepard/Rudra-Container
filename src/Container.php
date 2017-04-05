@@ -318,11 +318,11 @@ class Container implements IContainer
     /**
      * @param string $key
      *
-     * @return string
+     * @return array|mixed|null
      */
-    public function getServer(string $key): string
+    public function getServer(string $key)
     {
-        return $this->server[$key];
+        return $this->server[$key] ?? null;
     }
 
     /**
