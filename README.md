@@ -2,11 +2,15 @@
 [![Coverage Status](https://coveralls.io/repos/github/Jagepard/Rudra-Container/badge.svg?branch=master)](https://coveralls.io/github/Jagepard/Rudra-Container?branch=master)
 [![Code Climate](https://codeclimate.com/github/Jagepard/Rudra-Container/badges/gpa.svg)](https://codeclimate.com/github/Jagepard/Rudra-Container)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1e7d5fe3a4946459fc14e9a455dd878)](https://www.codacy.com/app/Jagepard/Rudra-Container?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Jagepard/Rudra-Container&amp;utm_campaign=Badge_Grade)
+[![Latest Stable Version](https://poser.pugx.org/rudra/container/v/stable)](https://packagist.org/packages/rudra/container)
+[![Total Downloads](https://poser.pugx.org/rudra/container/downloads)](https://packagist.org/packages/rudra/container)
+[![License](https://poser.pugx.org/rudra/container/license)](https://packagist.org/packages/rudra/container)
+
 # Rudra-Container
->####IoC Контейнер
+#### IoC Контейнер
 
 ***
-######Иницианализируем контейнер:
+###### Иницианализируем контейнер:
 
 ```php
 use \Rudra\Container as Rudra;
@@ -19,7 +23,7 @@ Rudra::app();
 Rudra::$app;
 ``` 
 ***    
-######Добавляем объекты:
+###### Добавляем объекты:
 Без аргументов - добавит в контейнер класс *Annotations* с ключом вызова *annotation*
 ```php
 Rudra::$app->set('annotation', 'Annotations');
@@ -34,9 +38,9 @@ Rudra::$app->set('annotation', 'Annotations');
 ```php
 class Auth
 {
-    public function __construct(Container $di)
+    public function __construct(Container $container)
     {
-        $this->$di = Container;
+        $this->container = Container;
     }
 }
 ```
@@ -50,9 +54,9 @@ Rudra::$app->set('auth', 'Auth');
 ```php
 class Auth
 {
-    public function __construct(IContainer $di)
+    public function __construct(IContainer $container)
     {
-        $this->$di = Container;
+        $this->container = $container;
     }
 }
 ```
@@ -71,9 +75,9 @@ Rudra::$app->set('auth', 'Auth');
 ```php
 class Auth
 {
-    public function __construct(IContainer $di, $name, $config = 'something')
+    public function __construct(IContainer $container, $name, $config = 'something')
     {
-        $this->$di = Container;
+        $this->$container = $container;
     }
 }
 ```
