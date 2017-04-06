@@ -25,6 +25,10 @@ use \ReflectionClass;
 class Container implements IContainer
 {
 
+    use ContainerCookieTrait;
+    use ContainerFilesTrait;
+    use ContainerSessionTrait;
+
     /**
      * @var array
      */
@@ -39,11 +43,6 @@ class Container implements IContainer
      * @var array
      */
     protected $server;
-
-    /**
-     * @var array
-     */
-    protected $files;
 
     /**
      * @var IContainer
@@ -333,161 +332,6 @@ class Container implements IContainer
         $this->server = $server;
     }
 
-    /**
-     * @param string      $key
-     * @param string|null $subKey
-     *
-     * @return mixed
-     */
-    public function getSession(string $key, string $subKey = null)
-    {
-        return ($subKey === null) ? $_SESSION[$key] : $_SESSION[$key][$subKey];
-    }
-
-    /**
-     * @param string      $key
-     * @param             $value
-     * @param string|null $subKey
-     */
-    public function setSession(string $key, $value, string $subKey = null): void
-    {
-        if (empty($subKey)) {
-            $_SESSION[$key] = $value;
-        } else {
-            if ($subKey == 'increment') {
-                $_SESSION[$key][] = $value;
-            } else {
-                $_SESSION[$key][$subKey] = $value;
-            }
-        }
-    }
-
-    /**
-     * @param string $key
-     * @param string $subKey
-     *
-     * @return bool
-     */
-    public function hasSession(string $key, string $subKey = null): bool
-    {
-        return empty($subKey) ? isset($_SESSION[$key]) : isset($_SESSION[$key][$subKey]);
-    }
-
-    /**
-     * @param string      $key
-     * @param string|null $subKey
-     */
-    public function unsetSession(string $key, string $subKey = null): void
-    {
-        if (empty($subKey)) {
-            unset($_SESSION[$key]);
-        } else {
-            unset($_SESSION[$key][$subKey]);
-        }
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function startSession(): void
-    {
-        session_start();
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function stopSession(): void
-    {
-        session_destroy();
-    }
-
-    public function clearSession(): void
-    {
-        $_SESSION = [];
-    }
-
-    /**
-     * @param array $files
-     */
-    public function setFiles(array $files)
-    {
-        $this->files = $files;
-    }
-
-    /**
-     * @param string $key
-     * @param string $fieldName
-     * @param string $formName
-     *
-     * @return string
-     */
-    public function getUpload(string $key, string $fieldName, string $formName = 'upload') : string
-    {
-        return $this->files[$formName][$fieldName][$key];
-    }
-
-    /**
-     * @param string $value
-     * @param string $formName
-     *
-     * @return bool
-     */
-    public function isUploaded(string $value, string $formName = 'upload') : bool
-    {
-        return ($this->files[$formName]['name'][$value] !== '');
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     *
-     * @return bool
-     */
-    public function isFileType(string $key, string $value) : bool
-    {
-        return ($this->files['type'][$key] == $value) ? true : false;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return string
-     */
-    public function getCookie(string $key): string
-    {
-        return $_COOKIE[$key];
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasCookie(string $key): bool
-    {
-        return isset($_COOKIE[$key]);
-    }
-
-    /**
-     * @codeCoverageIgnore
-     *
-     * @param string $key
-     */
-    public function unsetCookie(string $key): void
-    {
-        unset($_COOKIE[$key]);
-        setcookie($key, null, -1, '/');
-    }
-
-    /**
-     * @param string $key
-     * @param string $value
-     */
-    public function setCookie(string $key, string $value): void
-    {
-        $_COOKIE[$key] = $value;
-    }
 
     /**
      * @param string $key
