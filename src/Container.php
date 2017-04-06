@@ -26,23 +26,8 @@ class Container implements IContainer
 {
 
     use ContainerCookieTrait;
-    use ContainerFilesTrait;
+    use ContainerGlobalsTrait;
     use ContainerSessionTrait;
-
-    /**
-     * @var array
-     */
-    protected $get;
-
-    /**
-     * @var array
-     */
-    protected $post;
-
-    /**
-     * @var array
-     */
-    protected $server;
 
     /**
      * @var IContainer
@@ -58,18 +43,6 @@ class Container implements IContainer
      * @var array
      */
     protected $bind = [];
-
-
-    /**
-     * Container constructor.
-     */
-    protected function __construct()
-    {
-        $this->get    = $_GET;
-        $this->post   = $_POST;
-        $this->server = $_SERVER;
-        $this->files  = $_FILES;
-    }
 
     /**
      * @return IContainer
@@ -257,83 +230,7 @@ class Container implements IContainer
         }
     }
 
-    /**
-     * @param string|null $key
-     *
-     * @return array|mixed
-     */
-    public function getGet(string $key = null)
-    {
-        return empty($key) ? $this->get : $this->get[$key];
-    }
-
-    /**
-     * @param array $get
-     */
-    public function setGet(array $get): void
-    {
-        $this->get = $get;
-    }
-
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasGet(string $key): bool
-    {
-        return isset($this->get[$key]);
-    }
-
-    /**
-     * @param string|null $key
-     *
-     * @return array|mixed
-     */
-    public function getPost(string $key = null)
-    {
-        return empty($key) ? $this->post : $this->post[$key];
-    }
-
-    /**
-     * @param array $post
-     */
-    public function setPost(array $post): void
-    {
-        $this->post = $post;
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function hasPost(string $key): bool
-    {
-        return isset($this->post[$key]);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return array|mixed|null
-     */
-    public function getServer(string $key)
-    {
-        return $this->server[$key] ?? null;
-    }
-
-    /**
-     * @param array $server
-     */
-    public function setServer(array $server)
-    {
-        $this->server = $server;
-    }
-
-
-    /**
+     /**
      * @param string $key
      *
      * @return mixed|string
