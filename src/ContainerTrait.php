@@ -101,4 +101,9 @@ trait ContainerTrait
     {
         return $this->container()->get('db');
     }
+
+    /**
+     * @return mixed
+     */
+    abstract public function container();
 }
