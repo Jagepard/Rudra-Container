@@ -7,6 +7,7 @@
 [![Total Downloads](https://poser.pugx.org/rudra/container/downloads)](https://packagist.org/packages/rudra/container)
 [![License](https://poser.pugx.org/rudra/container/license)](https://packagist.org/packages/rudra/container)
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/921f30be-110a-468d-98b3-29823702a633/big.png)](https://insight.sensiolabs.com/projects/921f30be-110a-468d-98b3-29823702a633)
 # Rudra-Container
 #### IoC Контейнер
 
