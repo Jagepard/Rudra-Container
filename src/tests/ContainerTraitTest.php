@@ -15,7 +15,7 @@ declare(strict_types = 1);
 
 
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
-use Rudra\IContainer;
+use Rudra\ContainerInterface;
 use Rudra\Container;
 
 
@@ -32,11 +32,11 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(): void
     {
-        Container::app()->setBinding(IContainer::class, Container::$app);
+        Container::app()->setBinding(ContainerInterface::class, Container::$app);
 
         $app = [
             'contracts' => [
-                IContainer::class => Container::$app
+                ContainerInterface::class => Container::$app
             ],
 
             'services' => [

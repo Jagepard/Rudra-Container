@@ -16,7 +16,7 @@ declare(strict_types = 1);
 
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 use Rudra\Container;
-use Rudra\IContainer;
+use Rudra\ContainerInterface;
 
 
 /**
@@ -26,7 +26,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var IContainer
+     * @var ContainerInterface
      */
     protected $container;
 
@@ -38,11 +38,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     protected function setUp(): void
     {
         $this->container = Container::app();
-        Container::$app->setBinding(IContainer::class, Container::$app);
+        Container::$app->setBinding(ContainerInterface::class, Container::$app);
 
         $this->app = [
             'contracts' => [
-                IContainer::class => Container::$app
+                ContainerInterface::class => Container::$app
             ],
 
             'services' => [
@@ -56,7 +56,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @return mixed
      */
-    protected function container(): IContainer
+    protected function container(): ContainerInterface
     {
         return $this->container;
     }

@@ -18,11 +18,11 @@ use \ReflectionClass;
 
 
 /**
- * Class IContainer
+ * Class ContainerInterface
  *
  * @package Rudra
  */
-class Container implements IContainer
+class Container implements ContainerInterface
 {
 
     use ContainerCookieTrait;
@@ -30,7 +30,7 @@ class Container implements IContainer
     use ContainerSessionTrait;
 
     /**
-     * @var IContainer
+     * @var ContainerInterface
      */
     public static $app;
 
@@ -45,9 +45,9 @@ class Container implements IContainer
     protected $bind = [];
 
     /**
-     * @return IContainer
+     * @return ContainerInterface
      */
-    public static function app(): IContainer
+    public static function app(): ContainerInterface
     {
         if (!static::$app instanceof static) {
             static::$app = new static();
