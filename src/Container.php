@@ -97,7 +97,7 @@ class Container implements ContainerInterface
             return $this->rawSet($key, $object);
         }
 
-        return $this->IoC($key, $object, $params);
+        return $this->iOc($key, $object, $params);
     }
 
     /**
@@ -116,7 +116,7 @@ class Container implements ContainerInterface
      *
      * @return object
      */
-    protected function IoC(string $key, $object, $params = null)
+    protected function iOc(string $key, $object, $params = null)
     {
         $reflection  = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
