@@ -14,11 +14,11 @@ declare(strict_types = 1);
 namespace Rudra;
 
 /**
- * Interface IContainer
+ * Interface ContainerInterface
  *
  * @package Rudra
  */
-interface IContainer
+interface ContainerInterface
 {
 
     /**
