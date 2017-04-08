@@ -1,6 +1,6 @@
 <?php
 
-use \Rudra\IContainer;
+use \Rudra\ContainerInterface;
 
 
 /**
@@ -12,9 +12,9 @@ class ClassWithDependency
     /**
      * ClassWithDependency constructor.
      *
-     * @param IContainer $container
+     * @param ContainerInterface $container
      */
-    public function __construct(IContainer $container)
+    public function __construct(ContainerInterface $container)
     {
     }
 }

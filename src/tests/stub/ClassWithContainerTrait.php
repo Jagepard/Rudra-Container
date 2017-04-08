@@ -11,7 +11,7 @@ declare(strict_types = 1);
 
 
 use Rudra\ContainerTrait;
-use Rudra\IContainer;
+use Rudra\ContainerInterface;
 
 
 /**
@@ -23,24 +23,24 @@ class ClassWithContainerTrait
     use ContainerTrait;
 
     /**
-     * @var IContainer
+     * @var ContainerInterface
      */
     protected $container;
 
     /**
      * ClassWithContainerTrait constructor.
      *
-     * @param IContainer $container
+     * @param ContainerInterface $container
      */
-    public function __construct(IContainer $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
     /**
-     * @return IContainer
+     * @return ContainerInterface
      */
-    public function container(): IContainer
+    public function container(): ContainerInterface
     {
         return $this->container;
     }
