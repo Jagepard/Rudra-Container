@@ -186,8 +186,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testServerData(): void
     {
-        Container::$app->setServer(['key' => 'value']);
+        Container::$app->setServer('key', 'value');
         $this->assertEquals('value', $this->container()->getServer('key'));
+        $this->assertArrayHasKey('key', $this->container()->getServer());
     }
 
     public function testSessionData(): void
