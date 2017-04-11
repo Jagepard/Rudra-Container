@@ -107,7 +107,7 @@ interface ContainerInterface
      *
      * @return string
      */
-    public function getServer(string $key);
+    public function getServer(string $key = null);
 
     /**
      * @param string $key
