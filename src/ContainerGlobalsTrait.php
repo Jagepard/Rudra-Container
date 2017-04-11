@@ -34,6 +34,21 @@ trait ContainerGlobalsTrait
     /**
      * @var array
      */
+    protected $put;
+
+    /**
+     * @var array
+     */
+    protected $patch;
+
+    /**
+     * @var array
+     */
+    protected $delete;
+
+    /**
+     * @var array
+     */
     protected $server;
 
     /**
@@ -172,5 +187,89 @@ trait ContainerGlobalsTrait
     public function isFileType(string $key, string $value) : bool
     {
         return ($this->files['type'][$key] == $value) ? true : false;
+    }
+
+    /**
+     * @param string|null $key
+     *
+     * @return array|mixed
+     */
+    public function getPut(string $key = null)
+    {
+        return empty($key) ? $this->put : $this->put[$key];
+    }
+
+    /**
+     * @param array $put
+     */
+    public function setPut(array $put): void
+    {
+        $this->put = $put;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasPut(string $key): bool
+    {
+        return isset($this->put[$key]);
+    }
+
+    /**
+     * @param string|null $key
+     *
+     * @return array|mixed
+     */
+    public function getPatch(string $key = null)
+    {
+        return empty($key) ? $this->patch : $this->patch[$key];
+    }
+
+    /**
+     * @param array $patch
+     */
+    public function setPatch(array $patch): void
+    {
+        $this->patch = $patch;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasPatch(string $key): bool
+    {
+        return isset($this->patch[$key]);
+    }
+
+    /**
+     * @param string|null $key
+     *
+     * @return array|mixed
+     */
+    public function getDelete(string $key = null)
+    {
+        return empty($key) ? $this->delete : $this->delete[$key];
+    }
+
+    /**
+     * @param array $delete
+     */
+    public function setDelete(array $delete): void
+    {
+        $this->delete = $delete;
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return bool
+     */
+    public function hasDelete(string $key): bool
+    {
+        return isset($this->delete[$key]);
     }
 }
