@@ -85,6 +85,27 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('value', $this->getStub()->post('key'));
     }
 
+    public function testPut(): void
+    {
+        Container::$app->setPut(['key' => 'value']);
+        $this->assertTrue($this->getStub()->container()->hasPut('key'));
+        $this->assertEquals('value', $this->getStub()->container()->getPut('key'));
+    }
+
+    public function testPatch(): void
+    {
+        Container::$app->setPatch(['key' => 'value']);
+        $this->assertTrue($this->getStub()->container()->hasPatch('key'));
+        $this->assertEquals('value', $this->getStub()->container()->getPatch('key'));
+    }
+
+    public function testDelete(): void
+    {
+        Container::$app->setDelete(['key' => 'value']);
+        $this->assertTrue($this->getStub()->container()->hasDelete('key'));
+        $this->assertEquals('value', $this->getStub()->container()->getDelete('key'));
+    }
+
     public function testSessionData(): void
     {
         $this->getStub()->setSession('key', 'value');
