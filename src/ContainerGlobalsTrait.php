@@ -114,17 +114,22 @@ trait ContainerGlobalsTrait
      *
      * @return array|mixed|null
      */
-    public function getServer(string $key)
+    public function getServer(string $key = null)
     {
-        return $this->server[$key] ?? null;
+        if (isset($key)) {
+            return $this->server[$key] ?? null;
+        }
+
+        return $this->server;
     }
 
     /**
-     * @param array $server
+     * @param string $key
+     * @param string $value
      */
-    public function setServer(array $server)
+    public function setServer(string $key, string $value)
     {
-        $this->server = $server;
+        $this->server[$key] = $value;
     }
 
     /**
