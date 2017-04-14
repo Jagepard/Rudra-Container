@@ -42,7 +42,7 @@ class Auth
 {
     public function __construct(Container $container)
     {
-        $this->container = Container;
+        $this->container = $container;
     }
 }
 ```
@@ -56,17 +56,18 @@ Rudra::$app->set('auth', 'Auth');
 ```php
 class Auth
 {
-    public function __construct(IContainer $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 }
 ```
+
 >Добавление объекта в данном случае также аналогично, но в данном случае обязательно связывать интерфейс с реализацией
 . Для этого воспользуемся методом setBinding, в который мы передадим в качестве первого элемента интерфейс, а в 
 качестве второго реализацию
 ```php
-Rudra::$app->setBinding(IContainer::class, Container::$app);
+Rudra::$app->setBinding(ContainerInterface::class, Container::$app);
 ```
 ```php
 Rudra::$app->set('auth', 'Auth');
@@ -74,10 +75,11 @@ Rudra::$app->set('auth', 'Auth');
 
 >Если конструктор класса содержит аргументы со значениями по умолчанию, то если аргументы не передавать, то значения 
 по умолчанию будут добавлены контейнером
+
 ```php
 class Auth
 {
-    public function __construct(IContainer $container, $name, $config = 'something')
+    public function __construct(ContainerInterface $container, $name, $config = 'something')
     {
         $this->$container = $container;
     }
