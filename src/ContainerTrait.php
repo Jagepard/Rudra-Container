@@ -105,5 +105,5 @@ trait ContainerTrait
     /**
      * @return mixed
      */
-    abstract public function container();
+    abstract public function container(): ContainerInterface;
 }
