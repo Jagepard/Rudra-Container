@@ -4,7 +4,10 @@
     "type"              : "library",
     "keywords"          : [
         "rudra",
-        "container"
+        "container",
+        "dependency-injection-container",
+        "ioc-container",
+        "dependency-injection"
     ],
     "license"           : "MIT",
     "authors"           : [
