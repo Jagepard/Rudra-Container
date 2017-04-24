@@ -175,7 +175,9 @@ trait ContainerGlobalsTrait
      */
     public function isUploaded(string $value, string $formName = 'upload') : bool
     {
-        return ($this->files[$formName]['name'][$value] !== '');
+        return isset($this->files[$formName]['name'][$value])
+            ? ($this->files[$formName]['name'][$value] !== '')
+            : false;
     }
 
     /**
