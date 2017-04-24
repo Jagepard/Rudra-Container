@@ -30,11 +30,13 @@ trait ContainerTrait
     }
 
     /**
+     * @param null $target
+     *
      * @return mixed
      */
-    public function redirect()
+    public function redirect($target = null)
     {
-        return $this->container()->get('redirect');
+        return isset($target) ? $this->container()->get('redirect')->run($target) : $this->container()->get('redirect');
     }
 
     /**
