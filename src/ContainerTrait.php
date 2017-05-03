@@ -44,7 +44,7 @@ trait ContainerTrait
      *
      * @return mixed
      */
-    public function post($key)
+    public function post($key = null)
     {
         return $this->container()->getPost($key);
     }
