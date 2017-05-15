@@ -49,7 +49,7 @@ trait ContainerCookieTrait
     public function unsetCookie(string $key): void
     {
         unset($_COOKIE[$key]);
-        setcookie($key, null, -1, '/');
+        setcookie($key, '', -1, '/');
     }
 
     /**
