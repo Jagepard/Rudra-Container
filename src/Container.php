@@ -28,6 +28,7 @@ class Container implements ContainerInterface
     use ContainerCookieTrait;
     use ContainerGlobalsTrait;
     use ContainerSessionTrait;
+    use ContainerConfigTrait;
 
     /**
      * @var ContainerInterface
