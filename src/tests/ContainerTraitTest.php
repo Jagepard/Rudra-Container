@@ -120,6 +120,14 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Container::$app->hasSession('subKey', 'subSet'));
     }
 
+    public function testConfig(): void
+    {
+        Container::$app->setConfig(['key' => ['subKey' => 'value']]);
+
+        $this->assertInternalType('array', Container::$app->config('key'));
+        $this->assertEquals('value', Container::$app->config('key', 'subKey'));
+    }
+
     /**
      * @return ClassWithContainerTrait
      */
