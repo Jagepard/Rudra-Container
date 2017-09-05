@@ -195,6 +195,19 @@ interface ContainerInterface
     public function unsetCookie(string $key): void;
 
     /**
+     * @param string      $key
+     * @param string|null $subKey
+     *
+     * @return array|mixed
+     */
+    public function config(string $key, string $subKey = null);
+
+    /**
+     * @param array $config
+     */
+    public function setConfig(array $config);
+
+    /**
      * @param $key
      *
      * @return mixed
