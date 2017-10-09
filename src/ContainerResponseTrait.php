@@ -20,13 +20,20 @@ trait ContainerResponseTrait
 
     /**
      * @param array $data
+     */
+    public function jsonResponse(array $data): void
+    {
+        header('Content-Type: application/json');
+        echo $this->getJson($data);
+    }
+
+    /**
+     * @param array $data
      *
      * @return string
      */
-    public function jsonResponse(array $data): string
+    protected function getJson(array $data): string
     {
-        header('Content-Type: application/json');
-
         return json_encode($data);
     }
 }
