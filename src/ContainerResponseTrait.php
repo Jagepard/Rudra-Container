@@ -21,7 +21,7 @@ trait ContainerResponseTrait
     /**
      * @param array $data
      */
-    public function jsonResponse(array $data): void
+    public function jsonResponse(array $data)
     {
         header('Content-Type: application/json');
         echo $this->getJson($data);
@@ -32,7 +32,7 @@ trait ContainerResponseTrait
      *
      * @return string
      */
-    protected function getJson(array $data): string
+    protected function getJson(array $data)
     {
         return json_encode($data);
     }
