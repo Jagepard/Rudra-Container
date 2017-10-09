@@ -134,7 +134,12 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     public function testJsonResponse(): void
     {
         $data = ['key' => ['subKey' => 'value']];
-        $this->assertEquals(json_encode($data), Container::$app->jsonResponse($data));
+
+        ob_start();
+        Container::$app->jsonResponse($data);
+        $json = ob_get_clean();
+
+        $this->assertEquals(json_encode($data), $json);
     }
 
     /**
