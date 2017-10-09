@@ -19,6 +19,7 @@ trait ContainerResponseTrait
 {
 
     /**
+     * @codeCoverageIgnore
      * @param array $data
      */
     public function jsonResponse(array $data): void
@@ -28,6 +29,7 @@ trait ContainerResponseTrait
     }
 
     /**
+     * @codeCoverageIgnore
      * @param array $data
      *
      * @return string
