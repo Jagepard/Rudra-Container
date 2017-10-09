@@ -29,6 +29,7 @@ class Container implements ContainerInterface
     use ContainerGlobalsTrait;
     use ContainerSessionTrait;
     use ContainerConfigTrait;
+    use ContainerResponseTrait;
 
     /**
      * @var ContainerInterface
