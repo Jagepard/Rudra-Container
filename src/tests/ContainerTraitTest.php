@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types = 1);
-
 /**
  * Date: 17.02.17
  * Time: 13:23
