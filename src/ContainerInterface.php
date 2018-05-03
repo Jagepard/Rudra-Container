@@ -31,10 +31,11 @@ interface ContainerInterface
     /**
      * @param string $key
      * @param        $object
+     * @param array  $params
      *
-     * @return mixed
+     * @return object|void
      */
-    public function set(string $key, $object);
+    public function set(string $key, $object, $params = null);
 
     /**
      * @param      $object
