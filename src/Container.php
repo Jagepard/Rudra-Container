@@ -1,13 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
- * Date: 25.08.2016
- * Time: 14:50
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
- * @copyright Copyright (c) 2016, Korotkov Danila
+ * @copyright Copyright (c) 2018, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
@@ -35,12 +32,10 @@ class Container implements ContainerInterface
      * @var ContainerInterface
      */
     public static $app;
-
     /**
      * @var array
      */
     protected $objects = [];
-
     /**
      * @var array
      */
@@ -52,7 +47,6 @@ class Container implements ContainerInterface
     public static function app(): ContainerInterface
     {
         if (!static::$app instanceof static) {
-            session_name("RudraFramework");
             static::$app = new static();
         }
 
@@ -64,16 +58,17 @@ class Container implements ContainerInterface
      */
     public function setServices(array $app): void
     {
-        foreach ($app['services'] as $name => $service) {
-            foreach ($app['contracts'] as $interface => $contract) {
-                $this->setBinding($interface, $contract);
-            }
+        foreach ($app['contracts'] as $interface => $contract) {
+            $this->setBinding($interface, $contract);
+        }
 
+        foreach ($app['services'] as $name => $service) {
             if (array_key_exists(1, $service)) {
                 $this->set($name, $service[0], $service[1]);
-            } else {
-                $this->set($name, $service[0]);
+                continue;
             }
+
+            $this->set($name, $service[0]);
         }
     }
 
@@ -84,7 +79,7 @@ class Container implements ContainerInterface
      */
     public function get(string $key = null)
     {
-        return ($key === null) ? $this->objects : $this->objects[$key];
+        return (empty($key)) ? $this->objects : $this->objects[$key];
     }
 
     /**
@@ -96,11 +91,7 @@ class Container implements ContainerInterface
      */
     public function set(string $key, $object, $params = null)
     {
-        if ('raw' == $params) {
-            return $this->rawSet($key, $object);
-        }
-
-        return $this->iOc($key, $object, $params);
+        ('raw' == $params) ? $this->rawSet($key, $object) : $this->iOc($key, $object, $params);
     }
 
     /**
@@ -113,28 +104,22 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @param      $key
-     * @param      $object
-     * @param null $params
-     *
-     * @return object
+     * @param string $key
+     * @param        $object
+     * @param null   $params
      */
-    protected function iOc(string $key, $object, $params = null)
+    protected function iOc(string $key, $object, $params = null): void
     {
         $reflection  = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
-        if ($constructor) {
-            if ($constructor->getNumberOfParameters()) {
-                $paramsIoC = $this->getParamsIoC($constructor, $params);
-
-                return $this->objects[$key] = $reflection->newInstanceArgs($paramsIoC);
-            } else {
-                return $this->objects[$key] = new $object;
-            }
-        } else {
-            return $this->objects[$key] = new $object;
+        if ($constructor && $constructor->getNumberOfParameters()) {
+            $paramsIoC           = $this->getParamsIoC($constructor, $params);
+            $this->objects[$key] = $reflection->newInstanceArgs($paramsIoC);
+            return;
         }
+
+        $this->objects[$key] = new $object;
     }
 
     /**
@@ -148,17 +133,13 @@ class Container implements ContainerInterface
         $reflection  = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
-        if ($constructor) {
-            if ($constructor->getNumberOfParameters()) {
-                $paramsIoC = $this->getParamsIoC($constructor, $params);
+        if ($constructor && $constructor->getNumberOfParameters()) {
+            $paramsIoC = $this->getParamsIoC($constructor, $params);
 
-                return $reflection->newInstanceArgs($paramsIoC);
-            } else {
-                return new $object;
-            }
-        } else {
-            return new $object;
+            return $reflection->newInstanceArgs($paramsIoC);
         }
+
+        return new $object;
     }
 
     /**
@@ -167,17 +148,22 @@ class Container implements ContainerInterface
      *
      * @return array
      */
-    protected function getParamsIoC($constructor, $params)
+    protected function getParamsIoC($constructor, $params): array
     {
         $paramsIoC = [];
         foreach ($constructor->getParameters() as $key => $value) {
             if (isset($value->getClass()->name)) {
                 $className       = $this->getBinding($value->getClass()->name);
                 $paramsIoC[$key] = (is_object($className)) ? $className : new $className;
-            } else {
-                $paramsIoC[$key] = ($value->isDefaultValueAvailable())
-                    ? $value->getDefaultValue() : $params[$value->getName()];
+                continue;
             }
+
+            if ($value->isDefaultValueAvailable()) {
+                $paramsIoC[$key] = $value->getDefaultValue();
+                continue;
+            }
+
+            $paramsIoC[$key] = $params[$value->getName()];
         }
 
         return $paramsIoC;
@@ -190,7 +176,7 @@ class Container implements ContainerInterface
      */
     public function has(string $key): bool
     {
-        return isset($this->objects[$key]) ? true : false;
+        return isset($this->objects[$key]);
     }
 
     /**
@@ -201,10 +187,8 @@ class Container implements ContainerInterface
      */
     public function getParam(string $key, string $param)
     {
-        if ($this->has($key)) {
-            if (isset($this->get($key)->$param)) {
-                return $this->get($key)->$param;
-            }
+        if ($this->has($key) && isset($this->get($key)->$param)) {
+            return $this->get($key)->$param;
         }
     }
 
@@ -229,11 +213,11 @@ class Container implements ContainerInterface
     public function hasParam(string $key, string $param)
     {
         if ($this->has($key)) {
-            return isset($this->get($key)->$param) ? true : false;
+            return isset($this->get($key)->$param);
         }
     }
 
-     /**
+    /**
      * @param string $key
      *
      * @return mixed|string

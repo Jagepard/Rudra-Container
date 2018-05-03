@@ -26,7 +26,7 @@
         "php" : ">=7.1"
     },
     "require-dev"       : {
-        "satooshi/php-coveralls" : "dev-master"
+        "phpunit/phpunit": "^7"
     },
     "autoload"          : {
         "psr-4" : {

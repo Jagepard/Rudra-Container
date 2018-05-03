@@ -3,11 +3,8 @@
 declare(strict_types = 1);
 
 /**
- * Date: 15.03.16
- * Time: 20:35
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
- * @copyright Copyright (c) 2016, Korotkov Danila
+ * @copyright Copyright (c) 2018, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
@@ -22,6 +19,11 @@ interface ContainerInterface
 {
 
     /**
+     * @param $app
+     */
+    public function setServices(array $app): void;
+
+    /**
      * @param string $key
      *
      * @return mixed
@@ -31,10 +33,11 @@ interface ContainerInterface
     /**
      * @param string $key
      * @param        $object
+     * @param array  $params
      *
-     * @return mixed
+     * @return object|void
      */
-    public function set(string $key, $object);
+    public function set(string $key, $object, $params = null);
 
     /**
      * @param      $object
