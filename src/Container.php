@@ -52,6 +52,7 @@ class Container implements ContainerInterface
     public static function app(): ContainerInterface
     {
         if (!static::$app instanceof static) {
+            session_name("RudraFramework");
             static::$app = new static();
         }
 
