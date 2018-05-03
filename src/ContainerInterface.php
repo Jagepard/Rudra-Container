@@ -3,11 +3,8 @@
 declare(strict_types = 1);
 
 /**
- * Date: 15.03.16
- * Time: 20:35
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
- * @copyright Copyright (c) 2016, Korotkov Danila
+ * @copyright Copyright (c) 2018, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
