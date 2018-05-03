@@ -22,6 +22,11 @@ interface ContainerInterface
 {
 
     /**
+     * @param $app
+     */
+    public function setServices(array $app): void;
+
+    /**
      * @param string $key
      *
      * @return mixed
