@@ -76,4 +76,11 @@ trait ContainerReflectionTrait
 
         return $paramsIoC;
     }
+
+    /**
+     * @param $key
+     *
+     * @return mixed
+     */
+    abstract public function getBinding(string $key);
 }
