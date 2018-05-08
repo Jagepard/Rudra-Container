@@ -30,12 +30,12 @@
     },
     "autoload"          : {
         "psr-4" : {
-            "Rudra\\Container\\" : "src/"
+            "Rudra\\" : "src/"
         }
     },
     "autoload-dev" : {
         "psr-4": {
-            "Rudra\\Container\\Tests\\" : "tests/"
+            "Rudra\\Tests\\" : "tests/"
         }
     },
     "minimum-stability" : "dev",

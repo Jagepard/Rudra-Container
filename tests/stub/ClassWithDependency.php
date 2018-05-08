@@ -1,8 +1,8 @@
 <?php
 
-namespace Rudra\Container\Tests\Stub;
+namespace Rudra\Tests\Stub;
 
-use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Interfaces\ContainerInterface;
 
 class ClassWithDependency
 {

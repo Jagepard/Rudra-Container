@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPL-3.0
  */
 
-namespace Rudra\Container\Interfaces;
+namespace Rudra\Interfaces;
 
 /**
  * Interface ContainerReflectionInterface

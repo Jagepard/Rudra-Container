@@ -8,21 +8,21 @@ declare(strict_types=1);
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra\Container;
+namespace Rudra;
 
-use Rudra\Container\Interfaces\ContainerConfigInterface;
-use Rudra\Container\Interfaces\ContainerCookieInterface;
-use Rudra\Container\Interfaces\ContainerGlobalInterface;
-use Rudra\Container\Interfaces\ContainerInterface;
-use Rudra\Container\Interfaces\ContainerReflectionInterface;
-use Rudra\Container\Interfaces\ContainerResponseInterface;
-use Rudra\Container\Interfaces\ContainerSessionInterface;
-use Rudra\Container\Traits\ContainerConfigTrait;
-use Rudra\Container\Traits\ContainerCookieTrait;
-use Rudra\Container\Traits\ContainerGlobalsTrait;
-use Rudra\Container\Traits\ContainerReflectionTrait;
-use Rudra\Container\Traits\ContainerResponseTrait;
-use Rudra\Container\Traits\ContainerSessionTrait;
+use Rudra\Interfaces\ContainerConfigInterface;
+use Rudra\Interfaces\ContainerCookieInterface;
+use Rudra\Interfaces\ContainerGlobalInterface;
+use Rudra\Interfaces\ContainerInterface;
+use Rudra\Interfaces\ContainerReflectionInterface;
+use Rudra\Interfaces\ContainerResponseInterface;
+use Rudra\Interfaces\ContainerSessionInterface;
+use Rudra\Traits\ContainerConfigTrait;
+use Rudra\Traits\ContainerCookieTrait;
+use Rudra\Traits\ContainerGlobalsTrait;
+use Rudra\Traits\ContainerReflectionTrait;
+use Rudra\Traits\ContainerResponseTrait;
+use Rudra\Traits\ContainerSessionTrait;
 
 /**
  * Class Container

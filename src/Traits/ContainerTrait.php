@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra\Container\Traits;
+namespace Rudra\Traits;
 
-use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Interfaces\ContainerInterface;
 
 /**
  * Trait ContainerTrait
