@@ -2,15 +2,12 @@
 
 namespace Rudra\Tests\Stub;
 
-use Rudra\ContainerTrait;
-use Rudra\SetContainerTrait;
+use Rudra\Traits\ContainerTrait;
+use Rudra\Traits\SetContainerTrait;
 
-/**
- * Class ClassWithContainerTrait
- */
 class ClassWithContainerTrait
 {
 
-    use SetContainerTrait;
     use ContainerTrait;
+    use SetContainerTrait;
 }

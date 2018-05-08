@@ -1,22 +1,20 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
- * Date: 21.03.2017
- * Time: 18:26
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
- * @copyright Copyright (c) 2016, Korotkov Danila
+ * @copyright Copyright (c) 2018, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra;
+namespace Rudra\Traits;
+
+use Rudra\Interfaces\ContainerInterface;
 
 /**
- * Class ContainerTrait
- *
- * @package Rudra
+ * Trait ContainerTrait
+ * @package Rudra\Container\Traits
  */
 trait ContainerTrait
 {
@@ -31,7 +29,6 @@ trait ContainerTrait
 
     /**
      * @param null $target
-     *
      * @return mixed
      */
     public function redirect($target = null)
@@ -40,8 +37,7 @@ trait ContainerTrait
     }
 
     /**
-     * @param $key
-     *
+     * @param null $key
      * @return mixed
      */
     public function post($key = null)
@@ -52,7 +48,6 @@ trait ContainerTrait
     /**
      * @param      $object
      * @param null $params
-     *
      * @return mixed
      */
     public function new($object, $params = null)
@@ -82,7 +77,7 @@ trait ContainerTrait
      */
     public function setPagination($value): void
     {
-        $this->container()->set('pagination', new Pagination($value['id']), 'raw');
+        $this->container()->set('pagination', new \Rudra\Pagination($value['id']), 'raw');
     }
 
 

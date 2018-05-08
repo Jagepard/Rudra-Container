@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Rudra\Tests;
 
-use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 use Rudra\Container;
-use Rudra\ContainerInterface;
+use Rudra\Interfaces\ContainerInterface;
 use Rudra\Tests\Stub\ClassWithDefaultParameters;
 use Rudra\Tests\Stub\ClassWithDependency;
 use Rudra\Tests\Stub\ClassWithoutConstructor;
 use Rudra\Tests\Stub\ClassWithoutParameters;
+use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 /**
  * Class ContainerTest

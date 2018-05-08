@@ -1,60 +1,45 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2018, Korotkov Danila
- * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
+ * @license   http://www.gnu.org/licenses/gpl.html GNU GPL-3.0
  */
 
-namespace Rudra;
+namespace Rudra\Interfaces;
 
 /**
- * Interface ContainerInterface
- *
+ * Interface ContainerReflectionInterface
  * @package Rudra
  */
-interface ContainerInterface
+interface ContainerReflectionInterface
 {
 
     /**
-     * @return ContainerInterface
+     * @param      $object
+     * @param null $params
+     * @return mixed|object
      */
-    public static function app(): ContainerInterface;
+    public function new($object, $params = null);
 
     /**
-     * @param $app
+     * @param string|null $key
+     * @return array|mixed
      */
-    public function setServices(array $app): void;
-
-    /**
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function get(string $key);
+    public function get(string $key = null);
 
     /**
      * @param string $key
      * @param        $object
-     * @param array  $params
-     *
+     * @param null   $params
      * @return object|void
      */
     public function set(string $key, $object, $params = null);
 
     /**
-     * @param      $object
-     * @param null $params
-     *
-     * @return mixed
-     */
-    public function new($object, $params = null);
-
-    /**
      * @param string $key
-     *
      * @return bool
      */
     public function has(string $key): bool;
@@ -62,11 +47,9 @@ interface ContainerInterface
     /**
      * @param string $key
      * @param string $param
-     *
      * @return mixed
      */
     public function getParam(string $key, string $param);
-
     /**
      * @param string $key
      * @param string $param
@@ -77,15 +60,13 @@ interface ContainerInterface
     /**
      * @param string $key
      * @param string $param
-     *
      * @return bool
      */
     public function hasParam(string $key, string $param);
 
     /**
-     * @param $key
-     *
-     * @return mixed
+     * @param string $key
+     * @return mixed|string
      */
     public function getBinding(string $key);
 

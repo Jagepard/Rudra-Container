@@ -1,21 +1,17 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
- * Date: 06.04.17
- * Time: 14:55
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2016, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra;
+namespace Rudra\Traits;
 
 /**
- * Class ContainerCookieTrait
- *
+ * Trait ContainerCookieTrait
  * @package Rudra
  */
 trait ContainerCookieTrait
@@ -23,7 +19,6 @@ trait ContainerCookieTrait
 
     /**
      * @param string $key
-     *
      * @return string
      */
     public function getCookie(string $key): string
@@ -33,7 +28,6 @@ trait ContainerCookieTrait
 
     /**
      * @param string $key
-     *
      * @return bool
      */
     public function hasCookie(string $key): bool
@@ -43,7 +37,6 @@ trait ContainerCookieTrait
 
     /**
      * @codeCoverageIgnore
-     *
      * @param string $key
      */
     public function unsetCookie(string $key): void
