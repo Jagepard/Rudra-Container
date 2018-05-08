@@ -1,10 +1,7 @@
 <?php
 
-namespace Rudra\Tests\Stub;
+namespace Rudra\Container\Tests\Stub;
 
-/**
- * Class ClassWithoutConstructor
- */
 class ClassWithoutConstructor
 {
 }

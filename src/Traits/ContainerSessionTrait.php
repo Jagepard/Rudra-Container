@@ -1,22 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
- * Date: 06.04.17
- * Time: 15:04
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2016, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra;
+namespace Rudra\Container\Traits;
 
 /**
- * Class ContainerSessionTrait
- *
- * @package Rudra
+ * Trait ContainerSessionTrait
+ * @package Rudra\Traits
  */
 trait ContainerSessionTrait
 {
@@ -24,7 +20,6 @@ trait ContainerSessionTrait
     /**
      * @param string      $key
      * @param string|null $subKey
-     *
      * @return mixed
      */
     public function getSession(string $key, string $subKey = null)
@@ -51,9 +46,8 @@ trait ContainerSessionTrait
     }
 
     /**
-     * @param string $key
-     * @param string $subKey
-     *
+     * @param string      $key
+     * @param string|null $subKey
      * @return bool
      */
     public function hasSession(string $key, string $subKey = null): bool

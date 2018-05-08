@@ -1,21 +1,17 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
- * Date: 06.04.17
- * Time: 15:00
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2016, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra;
+namespace Rudra\Container\Traits;
 
 /**
- * Class ContainerFilesTrait
- *
+ * Trait ContainerGlobalsTrait
  * @package Rudra
  */
 trait ContainerGlobalsTrait
@@ -25,52 +21,34 @@ trait ContainerGlobalsTrait
      * @var array
      */
     protected $get;
-
     /**
      * @var array
      */
     protected $post;
-
     /**
      * @var array
      */
     protected $put;
-
     /**
      * @var array
      */
     protected $patch;
-
     /**
      * @var array
      */
     protected $delete;
-
     /**
      * @var array
      */
     protected $server;
-
     /**
      * @var array
      */
     protected $files;
 
     /**
-     * Container constructor.
-     */
-    protected function __construct()
-    {
-        $this->get    = $_GET;
-        $this->post   = $_POST;
-        $this->server = $_SERVER;
-        $this->files  = $_FILES;
-    }
-
-    /**
      * @param string|null $key
-     *
-     * @return array|mixed
+     * @return array
      */
     public function getGet(string $key = null)
     {
@@ -85,10 +63,8 @@ trait ContainerGlobalsTrait
         $this->get = $get;
     }
 
-
     /**
      * @param string $key
-     *
      * @return bool
      */
     public function hasGet(string $key): bool
@@ -98,8 +74,7 @@ trait ContainerGlobalsTrait
 
     /**
      * @param string|null $key
-     *
-     * @return array|mixed
+     * @return array
      */
     public function getPost(string $key = null)
     {
@@ -116,7 +91,6 @@ trait ContainerGlobalsTrait
 
     /**
      * @param string $key
-     *
      * @return bool
      */
     public function hasPost(string $key): bool
@@ -125,9 +99,8 @@ trait ContainerGlobalsTrait
     }
 
     /**
-     * @param string $key
-     *
-     * @return array|mixed|null
+     * @param string|null $key
+     * @return array|null
      */
     public function getServer(string $key = null)
     {
@@ -159,10 +132,9 @@ trait ContainerGlobalsTrait
      * @param string $key
      * @param string $fieldName
      * @param string $formName
-     *
      * @return string
      */
-    public function getUpload(string $key, string $fieldName, string $formName = 'upload') : string
+    public function getUpload(string $key, string $fieldName, string $formName = 'upload'): string
     {
         return $this->files[$formName][$fieldName][$key];
     }
@@ -170,10 +142,9 @@ trait ContainerGlobalsTrait
     /**
      * @param string $value
      * @param string $formName
-     *
      * @return bool
      */
-    public function isUploaded(string $value, string $formName = 'upload') : bool
+    public function isUploaded(string $value, string $formName = 'upload'): bool
     {
         return isset($this->files[$formName]['name'][$value])
             ? ($this->files[$formName]['name'][$value] !== '')
@@ -183,18 +154,16 @@ trait ContainerGlobalsTrait
     /**
      * @param string $key
      * @param string $value
-     *
      * @return bool
      */
-    public function isFileType(string $key, string $value) : bool
+    public function isFileType(string $key, string $value): bool
     {
         return ($this->files['type'][$key] == $value) ? true : false;
     }
 
     /**
      * @param string|null $key
-     *
-     * @return array|mixed
+     * @return array
      */
     public function getPut(string $key = null)
     {
@@ -211,7 +180,6 @@ trait ContainerGlobalsTrait
 
     /**
      * @param string $key
-     *
      * @return bool
      */
     public function hasPut(string $key): bool
@@ -221,8 +189,7 @@ trait ContainerGlobalsTrait
 
     /**
      * @param string|null $key
-     *
-     * @return array|mixed
+     * @return array
      */
     public function getPatch(string $key = null)
     {
@@ -239,7 +206,6 @@ trait ContainerGlobalsTrait
 
     /**
      * @param string $key
-     *
      * @return bool
      */
     public function hasPatch(string $key): bool
@@ -249,8 +215,7 @@ trait ContainerGlobalsTrait
 
     /**
      * @param string|null $key
-     *
-     * @return array|mixed
+     * @return array
      */
     public function getDelete(string $key = null)
     {
@@ -267,7 +232,6 @@ trait ContainerGlobalsTrait
 
     /**
      * @param string $key
-     *
      * @return bool
      */
     public function hasDelete(string $key): bool

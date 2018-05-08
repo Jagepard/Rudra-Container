@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @author    : Korotkov Danila <dankorot@gmail.com>
@@ -8,11 +8,10 @@ declare(strict_types = 1);
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra;
+namespace Rudra\Container\Traits;
 
 /**
- * Class ContainerConfigTrait
- *
+ * Trait ContainerConfigTrait
  * @package Rudra
  */
 trait ContainerConfigTrait
@@ -26,8 +25,7 @@ trait ContainerConfigTrait
     /**
      * @param string      $key
      * @param string|null $subKey
-     *
-     * @return array|mixed
+     * @return mixed
      */
     public function config(string $key, string $subKey = null)
     {
@@ -37,7 +35,7 @@ trait ContainerConfigTrait
     /**
      * @param array $config
      */
-    public function setConfig(array $config)
+    public function setConfig(array $config): void
     {
         $this->config = $config;
     }

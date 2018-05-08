@@ -10,15 +10,15 @@ declare(strict_types=1);
  *  phpunit src/tests/ContainerTraitTest --coverage-html src/tests/coverage-html
  */
 
-namespace Rudra\Tests;
+namespace Rudra\Container\Tests;
 
+use Rudra\Container\Container;
+use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Container\Tests\Stub\ClassWithContainerTrait;
+use Rudra\Container\Tests\Stub\ClassWithDefaultParameters;
+use Rudra\Container\Tests\Stub\ClassWithoutConstructor;
+use Rudra\Container\Tests\Stub\ClassWithoutParameters;
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
-use Rudra\ContainerInterface;
-use Rudra\Container;
-use Rudra\Tests\Stub\ClassWithContainerTrait;
-use Rudra\Tests\Stub\ClassWithDefaultParameters;
-use Rudra\Tests\Stub\ClassWithoutConstructor;
-use Rudra\Tests\Stub\ClassWithoutParameters;
 
 /**
  * Class ContainerTraitTest
@@ -30,6 +30,10 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
      * @var ClassWithContainerTrait
      */
     protected $stub;
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
 
     /**
      * @var string
@@ -38,11 +42,12 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(): void
     {
-        Container::app()->setBinding(ContainerInterface::class, Container::$app);
+        $this->container = Container::app();
+        $this->container->setBinding(ContainerInterface::class, $this->container);
 
         $app = [
             'contracts' => [
-                ContainerInterface::class => Container::$app
+                ContainerInterface::class => $this->container
             ],
 
             'services' => [
@@ -52,9 +57,9 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
             ]
         ];
 
-        Container::$app->setServices($app);
+        $this->container->setServices($app);
 
-        $this->stub = new ClassWithContainerTrait(Container::$app);
+        $this->stub = new ClassWithContainerTrait($this->container);
     }
 
     public function testValidation(): void
@@ -87,27 +92,27 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
 
     public function testPost(): void
     {
-        Container::$app->setPost(['key' => 'value']);
+        $this->container->setPost(['key' => 'value']);
         $this->assertEquals('value', $this->getStub()->post('key'));
     }
 
     public function testPut(): void
     {
-        Container::$app->setPut(['key' => 'value']);
+        $this->container->setPut(['key' => 'value']);
         $this->assertTrue($this->getStub()->container()->hasPut('key'));
         $this->assertEquals('value', $this->getStub()->container()->getPut('key'));
     }
 
     public function testPatch(): void
     {
-        Container::$app->setPatch(['key' => 'value']);
+        $this->container->setPatch(['key' => 'value']);
         $this->assertTrue($this->getStub()->container()->hasPatch('key'));
         $this->assertEquals('value', $this->getStub()->container()->getPatch('key'));
     }
 
     public function testDelete(): void
     {
-        Container::$app->setDelete(['key' => 'value']);
+        $this->container->setDelete(['key' => 'value']);
         $this->assertTrue($this->getStub()->container()->hasDelete('key'));
         $this->assertEquals('value', $this->getStub()->container()->getDelete('key'));
     }
@@ -117,21 +122,21 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $this->getStub()->setSession('key', 'value');
         $this->getStub()->setSession('subKey', 'value', 'subSet');
         $this->getStub()->setSession('increment', 'value', 'increment');
-        $this->assertEquals('value', Container::$app->getSession('key'));
-        $this->assertEquals('value', Container::$app->getSession('subKey', 'subSet'));
-        $this->assertEquals('value', Container::$app->getSession('increment', '0'));
+        $this->assertEquals('value', $this->container->getSession('key'));
+        $this->assertEquals('value', $this->container->getSession('subKey', 'subSet'));
+        $this->assertEquals('value', $this->container->getSession('increment', '0'));
         $this->assertNull($this->getStub()->unsetSession('key'));
         $this->assertNull($this->getStub()->unsetSession('subKey', 'subSet'));
-        $this->assertFalse(Container::$app->hasSession('key'));
-        $this->assertFalse(Container::$app->hasSession('subKey', 'subSet'));
+        $this->assertFalse($this->container->hasSession('key'));
+        $this->assertFalse($this->container->hasSession('subKey', 'subSet'));
     }
 
     public function testConfig(): void
     {
-        Container::$app->setConfig(['key' => ['subKey' => 'value']]);
+        $this->container->setConfig(['key' => ['subKey' => 'value']]);
 
-        $this->assertInternalType('array', Container::$app->config('key'));
-        $this->assertEquals('value', Container::$app->config('key', 'subKey'));
+        $this->assertInternalType('array', $this->container->config('key'));
+        $this->assertEquals('value', $this->container->config('key', 'subKey'));
     }
 
     /**
@@ -142,7 +147,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $data = ['key' => ['subKey' => 'value']];
 
         ob_start();
-        Container::$app->jsonResponse($data);
+        $this->container->jsonResponse($data);
         $json = ob_get_clean();
 
         $this->assertEquals(json_encode($data), $json);

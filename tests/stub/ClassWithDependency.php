@@ -1,20 +1,12 @@
 <?php
 
-namespace Rudra\Tests\Stub;
+namespace Rudra\Container\Tests\Stub;
 
-use \Rudra\ContainerInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
 
-/**
- * Class ClassWithDependency
- */
 class ClassWithDependency
 {
 
-    /**
-     * ClassWithDependency constructor.
-     *
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
     }

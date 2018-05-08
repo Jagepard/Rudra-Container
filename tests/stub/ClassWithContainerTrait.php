@@ -1,16 +1,13 @@
 <?php
 
-namespace Rudra\Tests\Stub;
+namespace Rudra\Container\Tests\Stub;
 
-use Rudra\ContainerTrait;
-use Rudra\SetContainerTrait;
+use Rudra\Container\Traits\ContainerTrait;
+use Rudra\Container\Traits\SetContainerTrait;
 
-/**
- * Class ClassWithContainerTrait
- */
 class ClassWithContainerTrait
 {
 
-    use SetContainerTrait;
     use ContainerTrait;
+    use SetContainerTrait;
 }

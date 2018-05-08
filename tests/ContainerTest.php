@@ -10,15 +10,15 @@ declare(strict_types=1);
  *  phpunit src/tests/ContainerTest --coverage-html src/tests/coverage-html
  */
 
-namespace Rudra\Tests;
+namespace Rudra\Container\Tests;
 
+use Rudra\Container\Container;
+use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Container\Tests\Stub\ClassWithDefaultParameters;
+use Rudra\Container\Tests\Stub\ClassWithDependency;
+use Rudra\Container\Tests\Stub\ClassWithoutConstructor;
+use Rudra\Container\Tests\Stub\ClassWithoutParameters;
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
-use Rudra\Container;
-use Rudra\ContainerInterface;
-use Rudra\Tests\Stub\ClassWithDefaultParameters;
-use Rudra\Tests\Stub\ClassWithDependency;
-use Rudra\Tests\Stub\ClassWithoutConstructor;
-use Rudra\Tests\Stub\ClassWithoutParameters;
 
 /**
  * Class ContainerTest

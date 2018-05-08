@@ -1,17 +1,16 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
- * Date: 21.04.2017
- * Time: 11:40
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2016, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra;
+namespace Rudra\Container\Traits;
+
+use Rudra\Container\Interfaces\ContainerInterface;
 
 /**
  * trait SetContainerTrait

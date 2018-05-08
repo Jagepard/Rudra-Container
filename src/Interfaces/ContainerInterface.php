@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @author    : Korotkov Danila <dankorot@gmail.com>
@@ -8,11 +8,10 @@ declare(strict_types = 1);
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra;
+namespace Rudra\Container\Interfaces;
 
 /**
  * Interface ContainerInterface
- *
  * @package Rudra
  */
 interface ContainerInterface
@@ -30,7 +29,6 @@ interface ContainerInterface
 
     /**
      * @param string $key
-     *
      * @return mixed
      */
     public function get(string $key);
@@ -38,16 +36,14 @@ interface ContainerInterface
     /**
      * @param string $key
      * @param        $object
-     * @param array  $params
-     *
-     * @return object|void
+     * @param null   $params
+     * @return mixed
      */
     public function set(string $key, $object, $params = null);
 
     /**
      * @param      $object
      * @param null $params
-     *
      * @return mixed
      */
     public function new($object, $params = null);
@@ -62,7 +58,6 @@ interface ContainerInterface
     /**
      * @param string $key
      * @param string $param
-     *
      * @return mixed
      */
     public function getParam(string $key, string $param);
@@ -77,14 +72,12 @@ interface ContainerInterface
     /**
      * @param string $key
      * @param string $param
-     *
-     * @return bool
+     * @return mixed
      */
     public function hasParam(string $key, string $param);
 
     /**
-     * @param $key
-     *
+     * @param string $key
      * @return mixed
      */
     public function getBinding(string $key);
