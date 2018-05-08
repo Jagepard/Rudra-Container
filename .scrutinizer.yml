@@ -8,7 +8,7 @@ checks:
     php: true
 filter:
     excluded_paths:
-        - "src/tests/"
+        - "tests/"
 coding_style:
     php:
         spaces:
