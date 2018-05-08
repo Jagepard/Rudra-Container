@@ -1,9 +1,8 @@
 <?php
 
+declare(strict_types=1);
+
 /**
- * Date: 17.02.17
- * Time: 13:23
- *
  * @author    : Korotkov Danila <dankorot@gmail.com>
  * @copyright Copyright (c) 2016, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
@@ -11,11 +10,15 @@
  *  phpunit src/tests/ContainerTraitTest --coverage-html src/tests/coverage-html
  */
 
+namespace Rudra\Tests;
 
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 use Rudra\ContainerInterface;
 use Rudra\Container;
-
+use Rudra\Tests\Stub\ClassWithContainerTrait;
+use Rudra\Tests\Stub\ClassWithDefaultParameters;
+use Rudra\Tests\Stub\ClassWithoutConstructor;
+use Rudra\Tests\Stub\ClassWithoutParameters;
 
 /**
  * Class ContainerTraitTest
@@ -28,6 +31,11 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
      */
     protected $stub;
 
+    /**
+     * @var string
+     */
+    protected $stubNamespace = 'Rudra\\Tests\\Stub\\';
+
     protected function setUp(): void
     {
         Container::app()->setBinding(ContainerInterface::class, Container::$app);
@@ -38,9 +46,9 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
             ],
 
             'services' => [
-                'validation' => ['ClassWithoutConstructor'],
-                'redirect'   => ['ClassWithoutParameters'],
-                'db'         => ['ClassWithDefaultParameters', ['param' => '123']],
+                'validation' => [ClassWithoutConstructor::class],
+                'redirect'   => [ClassWithoutParameters::class],
+                'db'         => [ClassWithDefaultParameters::class, ['param' => '123']],
             ]
         ];
 
@@ -66,8 +74,8 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
 
     public function testNew(): void
     {
-        $newClassWithoutConstructor = $this->getStub()->new('ClassWithoutConstructor');
-        $this->assertInstanceOf('ClassWithoutConstructor', $newClassWithoutConstructor);
+        $newClassWithoutConstructor = $this->getStub()->new(ClassWithoutConstructor::class);
+        $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
     }
 
     public function testSetPagination(): void
@@ -129,16 +137,16 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     /**
      * @runInSeparateProcess
      */
-//    public function testJsonResponse(): void
-//    {
-//        $data = ['key' => ['subKey' => 'value']];
-//
-//        ob_start();
-//        Container::$app->jsonResponse($data);
-//        $json = ob_get_clean();
-//
-//        $this->assertEquals(json_encode($data), $json);
-//    }
+    public function testJsonResponse(): void
+    {
+        $data = ['key' => ['subKey' => 'value']];
+
+        ob_start();
+        Container::$app->jsonResponse($data);
+        $json = ob_get_clean();
+
+        $this->assertEquals(json_encode($data), $json);
+    }
 
     /**
      * @return ClassWithContainerTrait

@@ -33,6 +33,11 @@
             "Rudra\\" : "src/"
         }
     },
+    "autoload-dev" : {
+        "psr-4": {
+            "Rudra\\Tests\\" : "tests/"
+        }
+    },
     "minimum-stability" : "dev",
     "config"            : {
         "optimize-autoloader" : true,
