@@ -1,7 +1,8 @@
 <?php
 
-use \Rudra\ContainerInterface;
+namespace Rudra\Tests\Stub;
 
+use \Rudra\ContainerInterface;
 
 /**
  * Class ClassWithDependency
