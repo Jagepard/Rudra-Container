@@ -1,6 +1,6 @@
 {
     "name"              : "rudra/container",
-    "description"       : "The Rudra framework",
+    "description"       : "Rudra framework",
     "type"              : "library",
     "keywords"          : [
         "rudra",
@@ -9,7 +9,7 @@
         "ioc-container",
         "dependency-injection"
     ],
-    "license"           : "MIT",
+    "license"           : "GPL-3.0-or-later",
     "authors"           : [
         {
             "name"     : "Danila Korotkov (Jagepard)",
