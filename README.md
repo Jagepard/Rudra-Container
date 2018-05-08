@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Jagepard/Rudra-Container.svg?branch=master)](https://travis-ci.org/Jagepard/Rudra-Container)
-[![codecov](https://codecov.io/gh/Jagepard/Rudra-Annotations/branch/master/graph/badge.svg)](https://codecov.io/gh/Jagepard/Rudra-Container)
+[![codecov](https://codecov.io/gh/Jagepard/Rudra-Container/branch/master/graph/badge.svg)](https://codecov.io/gh/Jagepard/Rudra-Container)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Jagepard/Rudra-Container/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Jagepard/Rudra-Container/?branch=master)
 [![Code Climate](https://codeclimate.com/github/Jagepard/Rudra-Container/badges/gpa.svg)](https://codeclimate.com/github/Jagepard/Rudra-Container)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c1e7d5fe3a4946459fc14e9a455dd878)](https://www.codacy.com/app/Jagepard/Rudra-Container?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Jagepard/Rudra-Container&amp;utm_campaign=Badge_Grade)
