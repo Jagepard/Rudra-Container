@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 /**
  * @author    : Korotkov Danila <dankorot@gmail.com>
- * @copyright Copyright (c) 2016, Korotkov Danila
+ * @copyright Copyright (c) 2018, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra\Traits;
+namespace Rudra\ExternalTraits;
 
 use Rudra\Interfaces\ContainerInterface;
 
 /**
- * trait SetContainerTrait
- *
- * @package Rudra
+ * Trait SetContainerTrait
+ * @package Rudra\ExternalTraits
  */
 trait SetContainerTrait
 {
@@ -26,8 +25,7 @@ trait SetContainerTrait
     protected $container;
 
     /**
-     * Middleware constructor.
-     *
+     * SetContainerTrait constructor.
      * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
