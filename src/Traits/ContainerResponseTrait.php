@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @author    : Korotkov Danila <dankorot@gmail.com>
- * @copyright Copyright (c) 2017, Korotkov Danila
+ * @copyright Copyright (c) 2018, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
