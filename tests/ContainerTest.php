@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * @author    : Korotkov Danila <dankorot@gmail.com>
- * @copyright Copyright (c) 2016, Korotkov Danila
+ * @copyright Copyright (c) 2018, Korotkov Danila
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  *
  *  phpunit src/tests/ContainerTest --coverage-html src/tests/coverage-html
@@ -64,6 +64,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
                 'CWDP' => [ClassWithDefaultParameters::class, ['param' => '123']],
             ]
         ]);
+
         $this->assertInstanceOf(ClassWithoutConstructor::class, $this->container->get('CWC'));
         $this->assertInstanceOf(ClassWithoutParameters::class, $this->container->get('CWP'));
         $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->container->get('CWDP'));
