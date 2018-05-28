@@ -8,9 +8,10 @@ declare(strict_types=1);
  * @license   http://www.gnu.org/licenses/gpl.html GNU GPLv3.0
  */
 
-namespace Rudra\Traits;
+namespace Rudra\ExternalTraits;
 
-use Rudra\Interfaces\ContainerInterface;
+use Rudra\Pagination;
+use Rudra\ContainerInterface;
 
 /**
  * Trait ContainerTrait
@@ -77,7 +78,7 @@ trait ContainerTrait
      */
     public function setPagination($value): void
     {
-        $this->container()->set('pagination', new \Rudra\Pagination($value['id']), 'raw');
+        $this->container()->set('pagination', new Pagination($value['id']), 'raw');
     }
 
 

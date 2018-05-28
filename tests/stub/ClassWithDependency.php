@@ -2,7 +2,7 @@
 
 namespace Rudra\Tests\Stub;
 
-use Rudra\Interfaces\ContainerInterface;
+use Rudra\ContainerInterface;
 
 class ClassWithDependency
 {
