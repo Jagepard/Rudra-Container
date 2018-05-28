@@ -2,7 +2,7 @@
 
 namespace Rudra\Tests\Stub;
 
-use Rudra\Traits\ContainerTrait;
+use Rudra\ExternalTraits\ContainerTrait;
 use Rudra\ExternalTraits\SetContainerTrait;
 
 class ClassWithContainerTrait

@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Rudra;
 
-use Rudra\Interfaces\ContainerInterface;
+use Rudra\ContainerInterface;
 use Rudra\Traits\ContainerConfigTrait;
 use Rudra\Traits\ContainerCookieTrait;
 use Rudra\Traits\ContainerGlobalsTrait;

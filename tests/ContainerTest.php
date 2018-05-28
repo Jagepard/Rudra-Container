@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Rudra\Tests;
 
 use Rudra\Container;
-use Rudra\Interfaces\ContainerInterface;
+use Rudra\ContainerInterface;
 use Rudra\Tests\Stub\ClassWithDefaultParameters;
 use Rudra\Tests\Stub\ClassWithDependency;
 use Rudra\Tests\Stub\ClassWithoutConstructor;
