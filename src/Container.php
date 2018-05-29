@@ -10,13 +10,13 @@ declare(strict_types=1);
 
 namespace Rudra;
 
-use Rudra\ContainerInterface;
 use Rudra\Traits\ContainerConfigTrait;
 use Rudra\Traits\ContainerCookieTrait;
 use Rudra\Traits\ContainerGlobalsTrait;
-use Rudra\Traits\ContainerReflectionTrait;
-use Rudra\Traits\ContainerResponseTrait;
 use Rudra\Traits\ContainerSessionTrait;
+use Rudra\Traits\ContainerResponseTrait;
+use Rudra\Traits\ContainerReflectionTrait;
+use Rudra\Interfaces\ContainerInterface;
 
 /**
  * Class Container
