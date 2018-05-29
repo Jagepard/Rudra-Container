@@ -11,9 +11,8 @@ declare(strict_types=1);
 namespace Rudra\Traits;
 
 /**
- * Class ContainerResponseTrait
- *
- * @package Rudra
+ * Trait ContainerResponseTrait
+ * @package Rudra\Traits
  */
 trait ContainerResponseTrait
 {

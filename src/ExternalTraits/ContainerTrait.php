@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace Rudra\ExternalTraits;
 
 use Rudra\Pagination;
-use Rudra\ContainerInterface;
+use Rudra\Interfaces\ContainerInterface;
 
 /**
  * Trait ContainerTrait
