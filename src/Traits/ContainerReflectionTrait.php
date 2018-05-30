@@ -85,13 +85,14 @@ trait ContainerReflectionTrait
     {
         $paramsIoC = [];
         foreach ($constructor->getParameters() as $key => $value) {
+
             if (isset($value->getClass()->name)) {
                 $className       = $this->getBinding($value->getClass()->name);
                 $paramsIoC[$key] = (is_object($className)) ? $className : new $className;
                 continue;
             }
 
-            if ($value->isDefaultValueAvailable()) {
+            if ($value->isDefaultValueAvailable() && !isset($params[$value->getName()])) {
                 $paramsIoC[$key] = $value->getDefaultValue();
                 continue;
             }

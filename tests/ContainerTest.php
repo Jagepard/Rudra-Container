@@ -102,7 +102,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testIoCwithDefaultParameters(): void
     {
         $newClassWithDefaultParameters = $this->container->new(ClassWithDefaultParameters::class);
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $newClassWithDefaultParameters);
+        $this->assertEquals('Default', $newClassWithDefaultParameters->getParam());
+
+        $newClassWithDefaultParameters = $this->container->new(ClassWithDefaultParameters::class, ['param' => 'Test']);
+        $this->assertEquals('Test', $newClassWithDefaultParameters->getParam());
 
         $this->container->set('ClassWithDefaultParameters', $newClassWithDefaultParameters);
         $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->container->get('ClassWithDefaultParameters'));

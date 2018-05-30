@@ -135,6 +135,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     {
         $this->container->setConfig(['key' => ['subKey' => 'value']]);
 
+        $this->assertTrue(is_array($this->container->getConfig()));
         $this->assertInternalType('array', $this->container->config('key'));
         $this->assertEquals('value', $this->container->config('key', 'subKey'));
     }
