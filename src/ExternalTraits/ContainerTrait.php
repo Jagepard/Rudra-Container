@@ -74,11 +74,13 @@ trait ContainerTrait
     }
 
     /**
-     * @param $value
+     * @param $page
+     * @param $perPage
+     * @param $numRows
      */
-    public function setPagination($value): void
+    public function setPagination($page, $perPage, $numRows): void
     {
-        $this->container()->set('pagination', new Pagination($value['id']), 'raw');
+        $this->container()->set('pagination', new Pagination($page['id'], $perPage, $numRows), 'raw');
     }
 
 

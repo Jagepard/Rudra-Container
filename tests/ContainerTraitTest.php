@@ -86,7 +86,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     public function testSetPagination(): void
     {
         $this->getMockBuilder('Rudra\Pagination')->getMock();
-        $this->getStub()->setPagination(['id' => 1]);
+        $this->getStub()->setPagination(['id' => 1], 1, 1);
         $this->assertInstanceOf('Rudra\Pagination', $this->getStub()->pagination());
     }
 
