@@ -86,7 +86,7 @@ trait ContainerReflectionTrait
         $paramsIoC = [];
         foreach ($constructor->getParameters() as $key => $value) {
 
-            if (isset($value->getClass()->name)) {
+            if (isset($value->getClass()->name) && $this->hasBinding($value->getClass()->name)) {
                 $className       = $this->getBinding($value->getClass()->name);
                 $paramsIoC[$key] = (is_object($className)) ? $className : new $className;
                 continue;
@@ -176,6 +176,15 @@ trait ContainerReflectionTrait
     public function getBinding(string $key)
     {
         return $this->bind[$key] ?? $key;
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasBinding(string $key): bool
+    {
+        return array_key_exists($key, $this->bind);
     }
 
     /**
