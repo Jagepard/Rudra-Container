@@ -10,30 +10,33 @@
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-498e7f.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 # Rudra-Container
-#### IoC Контейнер
-
-***
-###### Иницианализируем контейнер:
-
+#### Установка / Install
+```composer require rudra/container```
+#### Использование / Usage
 ```php
-use \Rudra\Container as Rudra;
-Rudra::app();
+use Rudra\Container;
 ``` 
->Теперь контейнер доступен для вызова 2 способами
+>Контейнер доступен для вызова 2 способами
 
 ```php
-Rudra::app();
-Rudra::$app;
+Container::app();
+``` 
+>после инициализации можно так
+```php
+Container::$app;
 ``` 
 ***    
 ###### Добавляем объекты:
+```php
+$rudra = Container::app();
+``` 
 Без аргументов - добавит в контейнер класс *Annotations* с ключом вызова *annotation*
 ```php
-Rudra::$app->set('annotation', 'Annotations');
+$rudra->set('annotation', 'Rudra\Annotation');
 ```
 
 С аргументами
->Если в конструкторе класс Auth ожидает зависимость Container, то контейнер автоматически создаст необходимый объект 
+>Если в конструкторе класс ожидает зависимость Container, то контейнер автоматически создаст необходимый объект 
 и подставит в качестве аргумента
 
 *Примечание:* класс Container должен быть доступен в автозагрузке Composer
@@ -50,10 +53,13 @@ class Auth
 >Добавление объекта в данном случае аналогично первому
 
 ```php
-Rudra::$app->set('auth', 'Auth');
+$rudra->set('auth', 'Rudra\Auth');
 ```
->Если в конструкторе класс Auth ожидает реализацию инетрфейса IContainer, то для того, чтобы контейнер автоматически 
-создал необходимый объект и подставил в качестве аргумента, нам необходимо связать инетрфейс IContainer с реализацией.
+>Если в конструкторе класс Auth ожидает реализацию инетрфейса ContainerInterface, то для того, чтобы контейнер автоматически 
+создал необходимый объект и подставил в качестве аргумента, нам необходимо связать инетрфейс ContainerInterface с реализацией.
+```php
+use Rudra\Interfaces\ContainerInterface;
+```
 ```php
 class Auth
 {
@@ -68,13 +74,13 @@ class Auth
 . Для этого воспользуемся методом setBinding, в который мы передадим в качестве первого элемента интерфейс, а в 
 качестве второго реализацию
 ```php
-Rudra::$app->setBinding(ContainerInterface::class, Container::$app);
+$rudra->setBinding(ContainerInterface::class, Container::$app);
 ```
 ```php
-Rudra::$app->set('auth', 'Auth');
+$rudra->set('auth', 'Rudra\Auth');
 ```
 
->Если конструктор класса содержит аргументы со значениями по умолчанию, то если аргументы не передавать, то значения 
+>Если конструктор класса содержит аргументы со значениями по умолчанию, то если аргументы не передавать, значения 
 по умолчанию будут добавлены контейнером
 
 ```php
@@ -90,8 +96,8 @@ class Auth
 >В данном случае можно передать как только аргумент $name, так и $name, $config
 
 ```php
-Rudra::$app->set('auth', 'Auth', ['name' => 'value']);
+$rudra->set('auth', 'Auth', ['name' => 'value']);
 ```
 ```php
-Rudra::$app->set('auth', 'Auth', ['name' => 'value', 'config' => 'concrete']);
+$rudra->set('auth', 'Auth', ['name' => 'value', 'config' => 'concrete']);
 ```
