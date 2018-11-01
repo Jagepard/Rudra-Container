@@ -101,3 +101,4 @@ $rudra->set('auth', 'Rudra\Auth', ['name' => 'value']);
 ```php
 $rudra->set('auth', 'Rudra\Auth', ['name' => 'value', 'config' => 'concrete']);
 ```
+![Rudra-Container](https://github.com/Jagepard/Rudra-Container/blob/master/UML.png)
