@@ -9,7 +9,7 @@
 [![Total Downloads](https://poser.pugx.org/rudra/container/downloads)](https://packagist.org/packages/rudra/container)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-498e7f.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-# Rudra-Container | [API](https://github.com/Jagepard/Rudra-Container/blob/master/Rudra-Container.md "Documentation API")
+# Rudra-Container | [API](https://github.com/Jagepard/Rudra-Container/blob/master/docs.md "Documentation API")
 #### Установка / Install
 ```composer require rudra/container```
 #### Использование / Usage
