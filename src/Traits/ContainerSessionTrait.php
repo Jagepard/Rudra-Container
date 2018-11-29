@@ -36,13 +36,15 @@ trait ContainerSessionTrait
     {
         if (empty($subKey)) {
             $_SESSION[$key] = $value;
-        } else {
-            if ($subKey == 'increment') {
-                $_SESSION[$key][] = $value;
-            } else {
-                $_SESSION[$key][$subKey] = $value;
-            }
+            return;
         }
+
+        if ($subKey == 'increment') {
+            $_SESSION[$key][] = $value;
+            return;
+        }
+
+        $_SESSION[$key][$subKey] = $value;
     }
 
     /**
@@ -63,9 +65,10 @@ trait ContainerSessionTrait
     {
         if (empty($subKey)) {
             unset($_SESSION[$key]);
-        } else {
-            unset($_SESSION[$key][$subKey]);
+            return;
         }
+
+        unset($_SESSION[$key][$subKey]);
     }
 
     /**
