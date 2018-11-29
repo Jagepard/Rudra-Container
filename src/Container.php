@@ -70,12 +70,7 @@ class Container implements ContainerInterface
         }
 
         foreach ($app['services'] as $name => $service) {
-            if (array_key_exists(1, $service)) {
-                $this->set($name, $service[0], $service[1]);
-                continue;
-            }
-
-            $this->set($name, $service[0]);
+            $this->set($name, ...$service);
         }
     }
 }
