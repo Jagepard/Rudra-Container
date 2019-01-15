@@ -61,7 +61,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             'services' => [
                 'CWC'  => [ClassWithoutConstructor::class],
                 'CWP'  => [ClassWithoutParameters::class],
-                'CWDP' => [ClassWithDefaultParameters::class, ['param' => '123']],
+                'CWDP' => [ClassWithDefaultParameters::class, ['123']],
             ]
         ]);
 
@@ -104,7 +104,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithDefaultParameters = $this->container->new(ClassWithDefaultParameters::class);
         $this->assertEquals('Default', $newClassWithDefaultParameters->getParam());
 
-        $newClassWithDefaultParameters = $this->container->new(ClassWithDefaultParameters::class, ['param' => 'Test']);
+        $newClassWithDefaultParameters = $this->container->new(ClassWithDefaultParameters::class, ['Test']);
         $this->assertEquals('Test', $newClassWithDefaultParameters->getParam());
 
         $this->container->set('ClassWithDefaultParameters', $newClassWithDefaultParameters);

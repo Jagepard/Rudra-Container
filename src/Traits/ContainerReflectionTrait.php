@@ -84,20 +84,21 @@ trait ContainerReflectionTrait
     protected function getParamsIoC(ReflectionMethod $constructor, $params): array
     {
         $paramsIoC = [];
-        foreach ($constructor->getParameters() as $key => $value) {
+
+        foreach ($constructor->getParameters() as $value) {
 
             if (isset($value->getClass()->name) && $this->hasBinding($value->getClass()->name)) {
-                $className       = $this->getBinding($value->getClass()->name);
-                $paramsIoC[$key] = (is_object($className)) ? $className : new $className;
+                $className   = $this->getBinding($value->getClass()->name);
+                $paramsIoC[] = (is_object($className)) ? $className : new $className;
                 continue;
             }
 
-            if ($value->isDefaultValueAvailable() && !isset($params[$value->getName()])) {
-                $paramsIoC[$key] = $value->getDefaultValue();
+            if ($value->isDefaultValueAvailable() && !isset($params[$value->getPosition() - count($paramsIoC)])) {
+                $paramsIoC[] = $value->getDefaultValue();
                 continue;
             }
 
-            $paramsIoC[$key] = $params[$value->getName()];
+            $paramsIoC[] = $params[$value->getPosition() - count($paramsIoC)];
         }
 
         return $paramsIoC;

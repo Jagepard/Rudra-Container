@@ -53,7 +53,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
             'services' => [
                 'validation' => [ClassWithoutConstructor::class],
                 'redirect'   => [ClassWithoutParameters::class],
-                'db'         => [ClassWithDefaultParameters::class, ['param' => '123']],
+                'db'         => [ClassWithDefaultParameters::class, ['123']],
             ]
         ];
 
