@@ -96,9 +96,9 @@ class Auth
 >В данном случае можно передать как только аргумент $name, так и $name, $config
 
 ```php
-$rudra->set('auth', 'Rudra\Auth', ['name' => 'value']);
+$rudra->set('auth', 'Rudra\Auth', ['value']);
 ```
 ```php
-$rudra->set('auth', 'Rudra\Auth', ['name' => 'value', 'config' => 'concrete']);
+$rudra->set('auth', 'Rudra\Auth', ['value', 'concrete']);
 ```
 ![Rudra-Container](https://github.com/Jagepard/Rudra-Container/blob/master/UML.png)
