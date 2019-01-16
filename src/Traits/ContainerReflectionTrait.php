@@ -83,6 +83,7 @@ trait ContainerReflectionTrait
      */
     protected function getParamsIoC(ReflectionMethod $constructor, $params): array
     {
+        $i         = 0;
         $paramsIoC = [];
 
         foreach ($constructor->getParameters() as $value) {
@@ -93,12 +94,12 @@ trait ContainerReflectionTrait
                 continue;
             }
 
-            if ($value->isDefaultValueAvailable() && !isset($params[$value->getPosition() - count($paramsIoC)])) {
+            if ($value->isDefaultValueAvailable() && !isset($params[$i])) {
                 $paramsIoC[] = $value->getDefaultValue();
                 continue;
             }
 
-            $paramsIoC[] = $params[$value->getPosition() - count($paramsIoC)];
+            $paramsIoC[] = $params[$i++];
         }
 
         return $paramsIoC;
