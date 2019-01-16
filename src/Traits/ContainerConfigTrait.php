@@ -47,4 +47,18 @@ trait ContainerConfigTrait
     {
         return $this->config;
     }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function addConfig($key, $value): void
+    {
+        if (is_array($key) && array_key_exists(1, $key)) {
+            $this->config[$key[0]][$key[1]] = $value;
+            return;
+        }
+
+        $this->config[$key] = $value;
+    }
 }
