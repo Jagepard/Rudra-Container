@@ -31,7 +31,10 @@
     "autoload"          : {
         "psr-4" : {
             "Rudra\\" : "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev" : {
         "psr-4": {
