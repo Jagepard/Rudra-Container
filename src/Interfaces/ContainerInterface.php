@@ -46,6 +46,12 @@ interface ContainerInterface
      */
     public function getConfig(): array;
 
+    /**
+     * @param $key
+     * @param $value
+     */
+    public function addConfig($key, $value): void;
+
     // ContainerCookieInterface
 
     /**
