@@ -12,3 +12,10 @@ if (!function_exists('config')) {
         return \Rudra\Container::app()->config($key, $subKey);
     }
 }
+
+if (!function_exists('rudra')) {
+    function rudra()
+    {
+        return \Rudra\Container::app();
+    }
+}
