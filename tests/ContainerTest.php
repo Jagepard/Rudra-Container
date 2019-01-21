@@ -33,7 +33,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(): void
     {
-        $this->container = Container::app();
+        $this->container = rudra();
         $this->container->setBinding(ContainerInterface::class, $this->container);
     }
 
