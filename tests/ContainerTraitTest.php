@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Rudra\Tests;
 
-use Rudra\Container;
 use Rudra\Interfaces\ContainerInterface;
 use Rudra\Tests\Stub\ClassWithoutParameters;
 use Rudra\Tests\Stub\ClassWithContainerTrait;
@@ -42,12 +41,12 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(): void
     {
-        $this->container = Container::app();
-        $this->container->setBinding(ContainerInterface::class, $this->container);
+        $this->container = rudra();
+        $this->container()->setBinding(ContainerInterface::class, $this->container());
 
         $app = [
             'contracts' => [
-                ContainerInterface::class => $this->container
+                ContainerInterface::class => $this->container()
             ],
 
             'services' => [
@@ -57,87 +56,87 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
             ]
         ];
 
-        $this->container->setServices($app);
+        $this->container()->setServices($app);
 
-        $this->stub = new ClassWithContainerTrait($this->container);
+        $this->stub = new ClassWithContainerTrait($this->container());
     }
 
     public function testValidation(): void
     {
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->getStub()->validation());
+        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->stub()->validation());
     }
 
     public function testRedirect(): void
     {
-        $this->assertInstanceOf(ClassWithoutParameters::class, $this->getStub()->redirect());
+        $this->assertInstanceOf(ClassWithoutParameters::class, $this->stub()->redirect());
     }
 
     public function testDb(): void
     {
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->getStub()->db());
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->stub()->db());
     }
 
     public function testNew(): void
     {
-        $newClassWithoutConstructor = $this->getStub()->new(ClassWithoutConstructor::class);
+        $newClassWithoutConstructor = $this->stub()->new(ClassWithoutConstructor::class);
         $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
     }
 
     public function testSetPagination(): void
     {
         $this->getMockBuilder('Rudra\Pagination')->getMock();
-        $this->getStub()->setPagination(['id' => 1], 1, 1);
-        $this->assertInstanceOf('Rudra\Pagination', $this->getStub()->pagination());
+        $this->stub()->setPagination(['id' => 1], 1, 1);
+        $this->assertInstanceOf('Rudra\Pagination', $this->stub()->pagination());
     }
 
     public function testPost(): void
     {
-        $this->container->setPost(['key' => 'value']);
-        $this->assertEquals('value', $this->getStub()->post('key'));
+        $this->container()->setPost(['key' => 'value']);
+        $this->assertEquals('value', $this->stub()->post('key'));
     }
 
     public function testPut(): void
     {
-        $this->container->setPut(['key' => 'value']);
-        $this->assertTrue($this->getStub()->container()->hasPut('key'));
-        $this->assertEquals('value', $this->getStub()->container()->getPut('key'));
+        $this->container()->setPut(['key' => 'value']);
+        $this->assertTrue($this->stub()->container()->hasPut('key'));
+        $this->assertEquals('value', $this->stub()->container()->getPut('key'));
     }
 
     public function testPatch(): void
     {
-        $this->container->setPatch(['key' => 'value']);
-        $this->assertTrue($this->getStub()->container()->hasPatch('key'));
-        $this->assertEquals('value', $this->getStub()->container()->getPatch('key'));
+        $this->container()->setPatch(['key' => 'value']);
+        $this->assertTrue($this->stub()->container()->hasPatch('key'));
+        $this->assertEquals('value', $this->stub()->container()->getPatch('key'));
     }
 
     public function testDelete(): void
     {
-        $this->container->setDelete(['key' => 'value']);
-        $this->assertTrue($this->getStub()->container()->hasDelete('key'));
-        $this->assertEquals('value', $this->getStub()->container()->getDelete('key'));
+        $this->container()->setDelete(['key' => 'value']);
+        $this->assertTrue($this->stub()->container()->hasDelete('key'));
+        $this->assertEquals('value', $this->stub()->container()->getDelete('key'));
     }
 
     public function testSessionData(): void
     {
-        $this->getStub()->setSession('key', 'value');
-        $this->getStub()->setSession('subKey', 'value', 'subSet');
-        $this->getStub()->setSession('increment', 'value', 'increment');
-        $this->assertEquals('value', $this->container->getSession('key'));
-        $this->assertEquals('value', $this->container->getSession('subKey', 'subSet'));
-        $this->assertEquals('value', $this->container->getSession('increment', '0'));
-        $this->assertNull($this->getStub()->unsetSession('key'));
-        $this->assertNull($this->getStub()->unsetSession('subKey', 'subSet'));
-        $this->assertFalse($this->container->hasSession('key'));
-        $this->assertFalse($this->container->hasSession('subKey', 'subSet'));
+        $this->stub()->setSession('key', 'value');
+        $this->stub()->setSession('subKey', 'value', 'subSet');
+        $this->stub()->setSession('increment', 'value', 'increment');
+        $this->assertEquals('value', $this->container()->getSession('key'));
+        $this->assertEquals('value', $this->container()->getSession('subKey', 'subSet'));
+        $this->assertEquals('value', $this->container()->getSession('increment', '0'));
+        $this->assertNull($this->stub()->unsetSession('key'));
+        $this->assertNull($this->stub()->unsetSession('subKey', 'subSet'));
+        $this->assertFalse($this->container()->hasSession('key'));
+        $this->assertFalse($this->container()->hasSession('subKey', 'subSet'));
     }
 
     public function testConfig(): void
     {
-        $this->container->setConfig(['key' => ['subKey' => 'value']]);
-        $this->container->addConfig(['addKey', 'subKey'] , 'value');
-        $this->container->addConfig('stringKey' , 'value');
+        $this->container()->setConfig(['key' => ['subKey' => 'value']]);
+        $this->container()->addConfig(['addKey', 'subKey'] , 'value');
+        $this->container()->addConfig('stringKey' , 'value');
 
-        $this->assertTrue(is_array($this->container->getConfig()));
+        $this->assertTrue(is_array($this->container()->getConfig()));
         $this->assertInternalType('array', config('key'));
         $this->assertEquals('value', config('key', 'subKey'));
         $this->assertEquals('value', config('addKey', 'subKey'));
@@ -152,7 +151,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $data = ['key' => ['subKey' => 'value']];
 
         ob_start();
-        $this->container->jsonResponse($data);
+        $this->container()->jsonResponse($data);
         $json = ob_get_clean();
 
         $this->assertEquals(json_encode($data), $json);
@@ -161,8 +160,16 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     /**
      * @return ClassWithContainerTrait
      */
-    public function getStub(): ClassWithContainerTrait
+    public function stub(): ClassWithContainerTrait
     {
         return $this->stub;
+    }
+
+    /**
+     * @return ContainerInterface
+     */
+    public function container(): ContainerInterface
+    {
+        return $this->container;
     }
 }
