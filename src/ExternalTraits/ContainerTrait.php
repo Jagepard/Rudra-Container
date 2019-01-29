@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Rudra\ExternalTraits;
 
 use Rudra\Pagination;
-use Rudra\Interfaces\ContainerInterface;
 
 /**
  * Trait ContainerTrait
@@ -25,7 +24,7 @@ trait ContainerTrait
      */
     public function validation()
     {
-        return $this->container()->get('validation');
+        return rudra()->get('validation');
     }
 
     /**
@@ -34,7 +33,7 @@ trait ContainerTrait
      */
     public function redirect($target = null)
     {
-        return isset($target) ? $this->container()->get('redirect')->run($target) : $this->container()->get('redirect');
+        return isset($target) ? rudra()->get('redirect')->run($target) : rudra()->get('redirect');
     }
 
     /**
@@ -43,7 +42,7 @@ trait ContainerTrait
      */
     public function post($key = null)
     {
-        return $this->container()->getPost($key);
+        return rudra()->getPost($key);
     }
 
     /**
@@ -53,7 +52,7 @@ trait ContainerTrait
      */
     public function new($object, $params = null)
     {
-        return $this->container()->new($object, $params);
+        return rudra()->new($object, $params);
     }
 
     /**
@@ -62,7 +61,7 @@ trait ContainerTrait
      */
     public function unsetSession(string $key, string $subKey = null)
     {
-        $this->container()->unsetSession($key, $subKey);
+        rudra()->unsetSession($key, $subKey);
     }
 
     /**
@@ -70,7 +69,7 @@ trait ContainerTrait
      */
     public function pagination()
     {
-        return $this->container()->get('pagination');
+        return rudra()->get('pagination');
     }
 
     /**
@@ -80,7 +79,7 @@ trait ContainerTrait
      */
     public function setPagination($page, $perPage, $numRows): void
     {
-        $this->container()->set('pagination', new Pagination($page['id'], $perPage, $numRows), 'raw');
+        rudra()->set('pagination', new Pagination($page['id'], $perPage, $numRows), 'raw');
     }
 
 
@@ -91,7 +90,7 @@ trait ContainerTrait
      */
     public function setSession(string $key, string $value, string $subKey = null): void
     {
-        $this->container()->setSession($key, $value, $subKey);
+        rudra()->setSession($key, $value, $subKey);
     }
 
     /**
@@ -99,11 +98,6 @@ trait ContainerTrait
      */
     public function db()
     {
-        return $this->container()->get('db');
+        return rudra()->get('db');
     }
-
-    /**
-     * @return mixed
-     */
-    abstract public function container(): ContainerInterface;
 }
