@@ -23,17 +23,17 @@ trait ContainerReflectionTrait
     /**
      * @var array
      */
-    protected $objects = [];
+    private $objects = [];
     /**
      * @var array
      */
-    protected $bind = [];
+    private $bind = [];
 
     /**
      * @param string $key
      * @param        $object
      */
-    protected function rawSet(string $key, $object)
+    private function rawSet(string $key, $object)
     {
         $this->objects[$key] = $object;
     }
@@ -42,8 +42,9 @@ trait ContainerReflectionTrait
      * @param string $key
      * @param        $object
      * @param null   $params
+     * @throws \ReflectionException
      */
-    protected function iOc(string $key, $object, $params = null): void
+    private function iOc(string $key, $object, $params = null): void
     {
         $reflection  = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
@@ -60,7 +61,8 @@ trait ContainerReflectionTrait
     /**
      * @param      $object
      * @param null $params
-     * @return mixed|object
+     * @return object
+     * @throws \ReflectionException
      */
     public function new($object, $params = null)
     {
@@ -80,8 +82,9 @@ trait ContainerReflectionTrait
      * @param ReflectionMethod $constructor
      * @param                  $params
      * @return array
+     * @throws \ReflectionException
      */
-    protected function getParamsIoC(ReflectionMethod $constructor, $params): array
+    private function getParamsIoC(ReflectionMethod $constructor, $params): array
     {
         $i         = 0;
         $paramsIoC = [];
@@ -119,7 +122,7 @@ trait ContainerReflectionTrait
      * @param string $key
      * @param        $object
      * @param null   $params
-     * @return object|void
+     * @throws \ReflectionException
      */
     public function set(string $key, $object, $params = null)
     {

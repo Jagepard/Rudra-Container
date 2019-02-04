@@ -22,7 +22,7 @@ trait SetContainerTrait
     /**
      * @var ContainerInterface
      */
-    protected $container;
+    private $container;
 
     /**
      * SetContainerTrait constructor.

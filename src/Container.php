@@ -35,12 +35,12 @@ class Container implements ContainerInterface
     /**
      * @var ContainerInterface
      */
-    public static $app;
+    private static $app;
 
     /**
      * Container constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         $this->get    = $_GET;
         $this->post   = $_POST;

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1549295628">
+  <project timestamp="1549295628">
+    <package name="Rudra">
+      <file name="/home/d/projects/rudra/Rudra-Container/src/Container.php">
+        <class name="Rudra\Container" namespace="Rudra" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="6" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="16" coveredelements="16"/>
+        </class>
+        <line num="43" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="45" type="stmt" count="2"/>
+        <line num="46" type="stmt" count="2"/>
+        <line num="47" type="stmt" count="2"/>
+        <line num="48" type="stmt" count="2"/>
+        <line num="49" type="stmt" count="2"/>
+        <line num="54" type="method" name="app" visibility="public" complexity="2" crap="2" count="31"/>
+        <line num="56" type="stmt" count="31"/>
+        <line num="57" type="stmt" count="2"/>
+        <line num="60" type="stmt" count="31"/>
+        <line num="66" type="method" name="setServices" visibility="public" complexity="3" crap="3" count="13"/>
+        <line num="68" type="stmt" count="13"/>
+        <line num="69" type="stmt" count="13"/>
+        <line num="72" type="stmt" count="13"/>
+        <line num="73" type="stmt" count="13"/>
+        <line num="75" type="stmt" count="13"/>
+        <metrics loc="76" ncloc="55" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="16" coveredelements="16"/>
+      </file>
+    </package>
+    <package name="Rudra\ExternalTraits">
+      <file name="/home/d/projects/rudra/Rudra-Container/src/ExternalTraits/ContainerTrait.php">
+        <class name="ContainerTrait" namespace="Rudra\ExternalTraits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="10" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="21" coveredelements="21"/>
+        </class>
+        <line num="25" type="method" name="validation" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="27" type="stmt" count="1"/>
+        <line num="34" type="method" name="redirect" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="36" type="stmt" count="1"/>
+        <line num="43" type="method" name="post" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="53" type="method" name="new" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="55" type="stmt" count="1"/>
+        <line num="62" type="method" name="unsetSession" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="64" type="stmt" count="1"/>
+        <line num="65" type="stmt" count="1"/>
+        <line num="70" type="method" name="pagination" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="72" type="stmt" count="1"/>
+        <line num="80" type="method" name="setPagination" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="82" type="stmt" count="1"/>
+        <line num="83" type="stmt" count="1"/>
+        <line num="91" type="method" name="setSession" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="93" type="stmt" count="1"/>
+        <line num="94" type="stmt" count="1"/>
+        <line num="99" type="method" name="db" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="101" type="stmt" count="1"/>
+        <metrics loc="103" ncloc="58" classes="1" methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="21" coveredelements="21"/>
+      </file>
+      <file name="/home/d/projects/rudra/Rudra-Container/src/ExternalTraits/SetContainerTrait.php">
+        <class name="SetContainerTrait" namespace="Rudra\ExternalTraits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
+        </class>
+        <line num="31" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="12"/>
+        <line num="33" type="stmt" count="12"/>
+        <line num="34" type="stmt" count="12"/>
+        <line num="39" type="method" name="container" visibility="public" complexity="1" crap="1" count="3"/>
+        <line num="41" type="stmt" count="3"/>
+        <metrics loc="43" ncloc="24" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="5" coveredelements="5"/>
+      </file>
+    </package>
+    <file name="/home/d/projects/rudra/Rudra-Container/src/Interfaces/ContainerInterface.php">
+      <metrics loc="315" ncloc="104" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <package name="Rudra\Traits">
+      <file name="/home/d/projects/rudra/Rudra-Container/src/Traits/ContainerConfigTrait.php">
+        <class name="ContainerConfigTrait" namespace="Rudra\Traits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="7" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="13" coveredelements="13"/>
+        </class>
+        <line num="30" type="method" name="config" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="32" type="stmt" count="1"/>
+        <line num="38" type="method" name="setConfig" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="40" type="stmt" count="1"/>
+        <line num="41" type="stmt" count="1"/>
+        <line num="46" type="method" name="getConfig" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="55" type="method" name="addConfig" visibility="public" complexity="3" crap="3" count="1"/>
+        <line num="57" type="stmt" count="1"/>
+        <line num="58" type="stmt" count="1"/>
+        <line num="59" type="stmt" count="1"/>
+        <line num="62" type="stmt" count="1"/>
+        <line num="63" type="stmt" count="1"/>
+        <metrics loc="64" ncloc="37" classes="1" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="9" coveredstatements="9" elements="13" coveredelements="13"/>
+      </file>
+      <file name="/home/d/projects/rudra/Rudra-Container/src/Traits/ContainerCookieTrait.php">
+        <class name="ContainerCookieTrait" namespace="Rudra\Traits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="4" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="7" coveredelements="7"/>
+        </class>
+        <line num="24" type="method" name="getCookie" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="26" type="stmt" count="1"/>
+        <line num="33" type="method" name="hasCookie" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="35" type="stmt" count="1"/>
+        <line num="52" type="method" name="setCookie" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="54" type="stmt" count="1"/>
+        <line num="55" type="stmt" count="1"/>
+        <metrics loc="56" ncloc="31" classes="1" methods="3" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="4" coveredstatements="4" elements="7" coveredelements="7"/>
+      </file>
+      <file name="/home/d/projects/rudra/Rudra-Container/src/Traits/ContainerGlobalsTrait.php">
+        <class name="ContainerGlobalsTrait" namespace="Rudra\Traits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="29" methods="21" coveredmethods="21" conditionals="0" coveredconditionals="0" statements="32" coveredstatements="32" elements="53" coveredelements="53"/>
+        </class>
+        <line num="53" type="method" name="getGet" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="55" type="stmt" count="1"/>
+        <line num="61" type="method" name="setGet" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="63" type="stmt" count="1"/>
+        <line num="64" type="stmt" count="1"/>
+        <line num="70" type="method" name="hasGet" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="72" type="stmt" count="1"/>
+        <line num="79" type="method" name="getPost" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="81" type="stmt" count="2"/>
+        <line num="87" type="method" name="setPost" visibility="public" complexity="1" crap="1" count="2"/>
+        <line num="89" type="stmt" count="2"/>
+        <line num="90" type="stmt" count="2"/>
+        <line num="96" type="method" name="hasPost" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="98" type="stmt" count="1"/>
+        <line num="105" type="method" name="getServer" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="107" type="stmt" count="1"/>
+        <line num="108" type="stmt" count="1"/>
+        <line num="111" type="stmt" count="1"/>
+        <line num="118" type="method" name="setServer" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="120" type="stmt" count="1"/>
+        <line num="121" type="stmt" count="1"/>
+        <line num="126" type="method" name="setFiles" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="128" type="stmt" count="1"/>
+        <line num="129" type="stmt" count="1"/>
+        <line num="137" type="method" name="getUpload" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="139" type="stmt" count="1"/>
+        <line num="147" type="method" name="isUploaded" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="149" type="stmt" count="1"/>
+        <line num="150" type="stmt" count="1"/>
+        <line num="151" type="stmt" count="1"/>
+        <line num="159" type="method" name="isFileType" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="161" type="stmt" count="1"/>
+        <line num="168" type="method" name="getPut" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="170" type="stmt" count="1"/>
+        <line num="176" type="method" name="setPut" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="178" type="stmt" count="1"/>
+        <line num="179" type="stmt" count="1"/>
+        <line num="185" type="method" name="hasPut" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="187" type="stmt" count="1"/>
+        <line num="194" type="method" name="getPatch" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="196" type="stmt" count="1"/>
+        <line num="202" type="method" name="setPatch" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="204" type="stmt" count="1"/>
+        <line num="205" type="stmt" count="1"/>
+        <line num="211" type="method" name="hasPatch" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="213" type="stmt" count="1"/>
+        <line num="220" type="method" name="getDelete" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="222" type="stmt" count="1"/>
+        <line num="228" type="method" name="setDelete" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="230" type="stmt" count="1"/>
+        <line num="231" type="stmt" count="1"/>
+        <line num="237" type="method" name="hasDelete" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="239" type="stmt" count="1"/>
+        <metrics loc="241" ncloc="129" classes="1" methods="21" coveredmethods="21" conditionals="0" coveredconditionals="0" statements="32" coveredstatements="32" elements="53" coveredelements="53"/>
+      </file>
+      <file name="/home/d/projects/rudra/Rudra-Container/src/Traits/ContainerReflectionTrait.php">
+        <class name="ContainerReflectionTrait" namespace="Rudra\Traits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="29" methods="13" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="45" elements="58" coveredelements="58"/>
+        </class>
+        <line num="36" type="method" name="rawSet" visibility="private" complexity="1" crap="1" count="2"/>
+        <line num="38" type="stmt" count="2"/>
+        <line num="39" type="stmt" count="2"/>
+        <line num="47" type="method" name="iOc" visibility="private" complexity="3" crap="3" count="17"/>
+        <line num="49" type="stmt" count="17"/>
+        <line num="50" type="stmt" count="17"/>
+        <line num="52" type="stmt" count="17"/>
+        <line num="53" type="stmt" count="15"/>
+        <line num="54" type="stmt" count="15"/>
+        <line num="55" type="stmt" count="15"/>
+        <line num="58" type="stmt" count="15"/>
+        <line num="59" type="stmt" count="15"/>
+        <line num="67" type="method" name="new" visibility="public" complexity="3" crap="3" count="5"/>
+        <line num="69" type="stmt" count="5"/>
+        <line num="70" type="stmt" count="5"/>
+        <line num="72" type="stmt" count="5"/>
+        <line num="73" type="stmt" count="2"/>
+        <line num="75" type="stmt" count="2"/>
+        <line num="78" type="stmt" count="3"/>
+        <line num="87" type="method" name="getParamsIoC" visibility="private" complexity="7" crap="7" count="15"/>
+        <line num="89" type="stmt" count="15"/>
+        <line num="90" type="stmt" count="15"/>
+        <line num="92" type="stmt" count="15"/>
+        <line num="94" type="stmt" count="15"/>
+        <line num="95" type="stmt" count="1"/>
+        <line num="96" type="stmt" count="1"/>
+        <line num="97" type="stmt" count="1"/>
+        <line num="100" type="stmt" count="14"/>
+        <line num="101" type="stmt" count="1"/>
+        <line num="102" type="stmt" count="1"/>
+        <line num="105" type="stmt" count="14"/>
+        <line num="108" type="stmt" count="15"/>
+        <line num="116" type="method" name="get" visibility="public" complexity="2" crap="2" count="14"/>
+        <line num="118" type="stmt" count="14"/>
+        <line num="127" type="method" name="set" visibility="public" complexity="2" crap="2" count="18"/>
+        <line num="129" type="stmt" count="18"/>
+        <line num="130" type="stmt" count="18"/>
+        <line num="136" type="method" name="has" visibility="public" complexity="1" crap="1" count="4"/>
+        <line num="138" type="stmt" count="4"/>
+        <line num="146" type="method" name="getParam" visibility="public" complexity="3" crap="3" count="2"/>
+        <line num="148" type="stmt" count="2"/>
+        <line num="149" type="stmt" count="1"/>
+        <line num="151" type="stmt" count="1"/>
+        <line num="158" type="method" name="setParam" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="160" type="stmt" count="1"/>
+        <line num="161" type="stmt" count="1"/>
+        <line num="163" type="stmt" count="1"/>
+        <line num="170" type="method" name="hasParam" visibility="public" complexity="2" crap="2" count="1"/>
+        <line num="172" type="stmt" count="1"/>
+        <line num="173" type="stmt" count="1"/>
+        <line num="175" type="stmt" count="1"/>
+        <line num="181" type="method" name="getBinding" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="183" type="stmt" count="1"/>
+        <line num="190" type="method" name="hasBinding" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="192" type="stmt" count="1"/>
+        <line num="199" type="method" name="setBinding" visibility="public" complexity="1" crap="1" count="31"/>
+        <line num="201" type="stmt" count="31"/>
+        <line num="202" type="stmt" count="31"/>
+        <metrics loc="203" ncloc="125" classes="1" methods="13" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="45" elements="58" coveredelements="58"/>
+      </file>
+      <file name="/home/d/projects/rudra/Rudra-Container/src/Traits/ContainerResponseTrait.php">
+        <class name="ContainerResponseTrait" namespace="Rudra\Traits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="2" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+        </class>
+        <line num="34" type="method" name="getJson" visibility="private" complexity="1" crap="1" count="1"/>
+        <line num="36" type="stmt" count="1"/>
+        <metrics loc="38" ncloc="21" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="1" coveredstatements="1" elements="2" coveredelements="2"/>
+      </file>
+      <file name="/home/d/projects/rudra/Rudra-Container/src/Traits/ContainerSessionTrait.php">
+        <class name="ContainerSessionTrait" namespace="Rudra\Traits" fullPackage="Rudra" package="Rudra">
+          <metrics complexity="12" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="17" elements="22" coveredelements="22"/>
+        </class>
+        <line num="25" type="method" name="getSession" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="27" type="stmt" count="2"/>
+        <line num="35" type="method" name="setSession" visibility="public" complexity="3" crap="3" count="2"/>
+        <line num="37" type="stmt" count="2"/>
+        <line num="38" type="stmt" count="2"/>
+        <line num="39" type="stmt" count="2"/>
+        <line num="42" type="stmt" count="2"/>
+        <line num="43" type="stmt" count="2"/>
+        <line num="44" type="stmt" count="2"/>
+        <line num="47" type="stmt" count="2"/>
+        <line num="48" type="stmt" count="2"/>
+        <line num="55" type="method" name="hasSession" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="57" type="stmt" count="2"/>
+        <line num="64" type="method" name="unsetSession" visibility="public" complexity="2" crap="2" count="2"/>
+        <line num="66" type="stmt" count="2"/>
+        <line num="67" type="stmt" count="2"/>
+        <line num="68" type="stmt" count="2"/>
+        <line num="71" type="stmt" count="2"/>
+        <line num="72" type="stmt" count="2"/>
+        <line num="90" type="method" name="clearSession" visibility="public" complexity="1" crap="1" count="1"/>
+        <line num="92" type="stmt" count="1"/>
+        <line num="93" type="stmt" count="1"/>
+        <metrics loc="94" ncloc="60" classes="1" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="17" elements="22" coveredelements="22"/>
+      </file>
+    </package>
+    <file name="/home/d/projects/rudra/Rudra-Container/src/helpers.php">
+      <line num="12" type="stmt" count="1"/>
+      <line num="19" type="stmt" count="31"/>
+      <metrics loc="21" ncloc="16" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="2" coveredelements="2"/>
+    </file>
+    <metrics files="11" loc="1254" ncloc="660" classes="9" methods="61" coveredmethods="61" conditionals="0" coveredconditionals="0" statements="138" coveredstatements="138" elements="199" coveredelements="199"/>
+  </project>
+</coverage>

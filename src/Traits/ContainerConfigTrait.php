@@ -20,7 +20,7 @@ trait ContainerConfigTrait
     /**
      * @var array
      */
-    protected $config = [];
+    private $config = [];
 
     /**
      * @param string      $key
