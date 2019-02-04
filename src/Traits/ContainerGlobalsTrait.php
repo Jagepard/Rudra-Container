@@ -20,31 +20,31 @@ trait ContainerGlobalsTrait
     /**
      * @var array
      */
-    protected $get;
+    private $get;
     /**
      * @var array
      */
-    protected $post;
+    private $post;
     /**
      * @var array
      */
-    protected $put;
+    private $put;
     /**
      * @var array
      */
-    protected $patch;
+    private $patch;
     /**
      * @var array
      */
-    protected $delete;
+    private $delete;
     /**
      * @var array
      */
-    protected $server;
+    private $server;
     /**
      * @var array
      */
-    protected $files;
+    private $files;
 
     /**
      * @param string|null $key

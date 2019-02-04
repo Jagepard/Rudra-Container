@@ -31,7 +31,7 @@ trait ContainerResponseTrait
      * @param array $data
      * @return string
      */
-    protected function getJson(array $data): string
+    private function getJson(array $data): string
     {
         return json_encode($data);
     }
