@@ -61,15 +61,16 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @param array $app
+     * @param array $services
+     * @throws \ReflectionException
      */
-    public function setServices(array $app): void
+    public function setServices(array $services): void
     {
-        foreach ($app['contracts'] as $interface => $contract) {
+        foreach ($services['contracts'] as $interface => $contract) {
             $this->setBinding($interface, $contract);
         }
 
-        foreach ($app['services'] as $name => $service) {
+        foreach ($services['services'] as $name => $service) {
             $this->set($name, ...$service);
         }
     }
