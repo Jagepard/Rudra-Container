@@ -55,7 +55,7 @@ trait ContainerReflectionTrait
             return;
         }
 
-        $this->objects[$key] = new $object;
+        $this->objects[$key] = new $object();
     }
 
     /**
@@ -75,7 +75,7 @@ trait ContainerReflectionTrait
             return $reflection->newInstanceArgs($paramsIoC);
         }
 
-        return new $object;
+        return new $object();
     }
 
     /**
