@@ -35,7 +35,7 @@ class Container implements ContainerInterface
     /**
      * @var ContainerInterface
      */
-    private static $app;
+    public static $app;
 
     /**
      * Container constructor.
