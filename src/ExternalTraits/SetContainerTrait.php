@@ -12,13 +12,8 @@ namespace Rudra\ExternalTraits;
 
 use Rudra\Interfaces\ContainerInterface;
 
-/**
- * Trait SetContainerTrait
- * @package Rudra\ExternalTraits
- */
 trait SetContainerTrait
 {
-
     /**
      * @var ContainerInterface
      */
