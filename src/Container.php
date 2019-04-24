@@ -17,14 +17,21 @@ use Rudra\Traits\ContainerSessionTrait;
 use Rudra\Traits\ContainerResponseTrait;
 use Rudra\Traits\ContainerReflectionTrait;
 use Rudra\Interfaces\ContainerInterface;
+use Rudra\Interfaces\ContainerConfigInterface;
+use Rudra\Interfaces\ContainerCookieInterface;
+use Rudra\Interfaces\ContainerGlobalInterface;
+use Rudra\Interfaces\ContainerReflectionInterface;
+use Rudra\Interfaces\ContainerResponseInterface;
+use Rudra\Interfaces\ContainerSessionInterface;
 
-/**
- * Class Container
- * @package Rudra
- */
-class Container implements ContainerInterface
+class Container implements ContainerInterface,
+    ContainerGlobalInterface,
+    ContainerCookieInterface,
+    ContainerSessionInterface,
+    ContainerReflectionInterface,
+    ContainerResponseInterface,
+    ContainerConfigInterface
 {
-
     use ContainerGlobalsTrait;
     use ContainerCookieTrait;
     use ContainerSessionTrait;
