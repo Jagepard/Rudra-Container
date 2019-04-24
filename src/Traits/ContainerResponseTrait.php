@@ -10,13 +10,8 @@ declare(strict_types=1);
 
 namespace Rudra\Traits;
 
-/**
- * Trait ContainerResponseTrait
- * @package Rudra\Traits
- */
-trait ContainerResponseTrait
+trait ContainerResponseTrait // implements ContainerResponseInterface // PHP RFC: Traits with interfaces
 {
-
     /**
      * @codeCoverageIgnore
      * @param array $data

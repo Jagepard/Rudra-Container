@@ -12,13 +12,8 @@ namespace Rudra\ExternalTraits;
 
 use Rudra\Pagination;
 
-/**
- * Trait ContainerTrait
- * @package Rudra\Container\Traits
- */
 trait ContainerTrait
 {
-
     /**
      * @return mixed
      */

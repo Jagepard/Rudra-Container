@@ -10,13 +10,8 @@ declare(strict_types=1);
 
 namespace Rudra\Traits;
 
-/**
- * Trait ContainerSessionTrait
- * @package Rudra\Traits
- */
-trait ContainerSessionTrait
+trait ContainerSessionTrait // implements ContainerSessionInterface // PHP RFC: Traits with interfaces
 {
-
     /**
      * @param string      $key
      * @param string|null $subKey

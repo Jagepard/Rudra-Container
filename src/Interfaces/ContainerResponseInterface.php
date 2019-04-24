@@ -8,15 +8,11 @@
 
 namespace Rudra\Interfaces;
 
-interface ContainerInterface
+interface ContainerResponseInterface
 {
     /**
-     * @return ContainerInterface
+     * @codeCoverageIgnore
+     * @param array $data
      */
-    public static function app(): ContainerInterface;
-
-    /**
-     * @param $app
-     */
-    public function setServices(array $app): void;
+    public function jsonResponse(array $data): void;
 }

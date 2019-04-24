@@ -7,7 +7,6 @@ use Rudra\ExternalTraits\SetContainerTrait;
 
 class ClassWithContainerTrait
 {
-
     use ContainerTrait;
     use SetContainerTrait;
 }

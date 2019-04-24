@@ -19,12 +19,8 @@ use Rudra\Tests\Stub\ClassWithoutConstructor;
 use Rudra\Tests\Stub\ClassWithDefaultParameters;
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
-/**
- * Class ContainerTraitTest
- */
 class ContainerTraitTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ClassWithContainerTrait
      */
