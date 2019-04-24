@@ -13,13 +13,8 @@ namespace Rudra\Traits;
 use \ReflectionClass;
 use \ReflectionMethod;
 
-/**
- * Trait ContainerReflectionTrait
- * @package Rudra
- */
-trait ContainerReflectionTrait
+trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP RFC: Traits with interfaces
 {
-
     /**
      * @var array
      */

@@ -10,13 +10,8 @@ declare(strict_types=1);
 
 namespace Rudra\Traits;
 
-/**
- * Trait ContainerGlobalsTrait
- * @package Rudra
- */
-trait ContainerGlobalsTrait
+trait ContainerGlobalsTrait // implements ContainerGlobalsInterface // PHP RFC: Traits with interfaces
 {
-
     /**
      * @var array
      */

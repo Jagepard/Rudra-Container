@@ -10,13 +10,8 @@ declare(strict_types=1);
 
 namespace Rudra\Traits;
 
-/**
- * Trait ContainerCookieTrait
- * @package Rudra
- */
-trait ContainerCookieTrait
+trait ContainerCookieTrait // implements ContainerCookieInterface // PHP RFC: Traits with interfaces
 {
-
     /**
      * @param string $key
      * @return string
