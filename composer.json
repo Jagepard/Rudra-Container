@@ -9,7 +9,7 @@
         "ioc-container",
         "dependency-injection"
     ],
-    "license"           : "GPL-3.0-or-later",
+    "license"           : "MIT",
     "authors"           : [
         {
             "name"     : "Danila Korotkov (Jagepard)",
