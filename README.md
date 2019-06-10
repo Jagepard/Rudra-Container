@@ -7,7 +7,7 @@
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/Jagepard/Rudra-Container/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![Latest Stable Version](https://poser.pugx.org/rudra/container/v/stable)](https://packagist.org/packages/rudra/container)
 [![Total Downloads](https://poser.pugx.org/rudra/container/downloads)](https://packagist.org/packages/rudra/container)
-[![License: GPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later-498e7f.svg)](https://www.gnu.org/licenses/gpl-3.0)
+![GitHub](https://img.shields.io/github/license/jagepard/Rudra-Container.svg)
 
 # Rudra-Container | [API](https://github.com/Jagepard/Rudra-Container/blob/master/docs.md "Documentation API")
 #### Установка / Install
@@ -16,7 +16,11 @@
 ```php
 use Rudra\Container;
 ``` 
->Контейнер доступен для вызова 2 способами
+>Контейнер доступен для вызова 3 способами
+
+```php
+rudra();
+``` 
 
 ```php
 Container::app();
@@ -101,4 +105,3 @@ $rudra->set('auth', 'Rudra\Auth', ['value']);
 ```php
 $rudra->set('auth', 'Rudra\Auth', ['value', 'concrete']);
 ```
-![Rudra-Container](https://github.com/Jagepard/Rudra-Container/blob/master/UML.png)
