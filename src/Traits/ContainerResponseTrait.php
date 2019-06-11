@@ -19,7 +19,7 @@ trait ContainerResponseTrait // implements ContainerResponseInterface // PHP RFC
     public function jsonResponse(array $data): void
     {
         header('Content-Type: application/json');
-        echo $this->getJson($data);
+        print $this->getJson($data);
     }
 
     /**
