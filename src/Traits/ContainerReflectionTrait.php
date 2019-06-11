@@ -85,7 +85,6 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
         $paramsIoC = [];
 
         foreach ($constructor->getParameters() as $value) {
-
             if (isset($value->getClass()->name) && $this->hasBinding($value->getClass()->name)) {
                 $className   = $this->getBinding($value->getClass()->name);
                 $paramsIoC[] = (is_object($className)) ? $className : new $className;
