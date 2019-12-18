@@ -8,9 +8,11 @@ declare(strict_types=1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Traits;
+namespace Rudra\Container;
 
-trait ContainerResponseTrait // implements ContainerResponseInterface // PHP RFC: Traits with interfaces
+use Rudra\Container\Interfaces\ResponseInterface;
+
+class Response implements ResponseInterface
 {
     /**
      * @codeCoverageIgnore

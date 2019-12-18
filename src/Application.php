@@ -8,13 +8,23 @@ declare(strict_types=1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Traits;
+namespace Rudra\Container;
 
-use \ReflectionClass;
-use \ReflectionMethod;
+use Rudra\Container\Interfaces\{ReflectionInterface,
+    ApplicationInterface,
+    ContainerInterface,
+    CookieInterface,
+    SessionInterface,
+    ResponseInterface,
+    ConfigInterface
+};
 
-trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP RFC: Traits with interfaces
+class Application implements ApplicationInterface, ReflectionInterface
 {
+    /**
+     * @var ApplicationInterface
+     */
+    private static $app;
     /**
      * @var array
      */
@@ -23,9 +33,50 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
      * @var array
      */
     private $bind = [];
+    /**
+     * @var ContainerInterface
+     */
+    private $request;
+    /**
+     * @var CookieInterface
+     */
+    private $cookie;
+    /**
+     * @var SessionInterface
+     */
+    private $session;
+    /**
+     * @var ResponseInterface
+     */
+    private $response;
+    /**
+     * @var ConfigInterface
+     */
+    private $config;
+
+    public function __construct()
+    {
+        $this->request = new Request();
+        $this->cookie = new Cookie();
+        $this->session = new Session();
+        $this->response = new Response();
+        $this->config = new Config();
+    }
 
     /**
-     * @param string $key
+     * @return ApplicationInterface
+     */
+    public static function app(): ApplicationInterface
+    {
+        if (!static::$app instanceof static) {
+            static::$app = new static();
+        }
+
+        return static::$app;
+    }
+
+    /**
+     * @param  string  $key
      * @param        $object
      */
     private function rawSet(string $key, $object)
@@ -34,19 +85,20 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      * @param        $object
-     * @param null   $params
+     * @param  null  $params
      * @throws \ReflectionException
      */
     private function iOc(string $key, $object, $params = null): void
     {
-        $reflection  = new ReflectionClass($object);
+        $reflection = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor && $constructor->getNumberOfParameters()) {
-            $paramsIoC           = $this->getParamsIoC($constructor, $params);
+            $paramsIoC = $this->getParamsIoC($constructor, $params);
             $this->objects[$key] = $reflection->newInstanceArgs($paramsIoC);
+
             return;
         }
 
@@ -55,13 +107,13 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
 
     /**
      * @param      $object
-     * @param null $params
+     * @param  null  $params
      * @return object
      * @throws \ReflectionException
      */
     public function new($object, $params = null)
     {
-        $reflection  = new ReflectionClass($object);
+        $reflection = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor && $constructor->getNumberOfParameters()) {
@@ -74,19 +126,19 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param ReflectionMethod $constructor
+     * @param  \ReflectionMethod  $constructor
      * @param                  $params
      * @return array
      * @throws \ReflectionException
      */
-    private function getParamsIoC(ReflectionMethod $constructor, $params): array
+    private function getParamsIoC(\ReflectionMethod $constructor, $params): array
     {
-        $i         = 0;
+        $i = 0;
         $paramsIoC = [];
 
         foreach ($constructor->getParameters() as $value) {
             if (isset($value->getClass()->name) && $this->hasBinding($value->getClass()->name)) {
-                $className   = $this->getBinding($value->getClass()->name);
+                $className = $this->getBinding($value->getClass()->name);
                 $paramsIoC[] = (is_object($className)) ? $className : new $className;
                 continue;
             }
@@ -104,7 +156,7 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
 
 
     /**
-     * @param string|null $key
+     * @param  string|null  $key
      * @return array|mixed
      */
     public function get(string $key = null)
@@ -113,18 +165,18 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      * @param        $object
-     * @param null   $params
+     * @param  null  $params
      * @throws \ReflectionException
      */
     public function set(string $key, $object, $params = null)
     {
-        ('raw' == $params) ? $this->rawSet($key, $object) : $this->iOc($key, $object, $params);
+        ('raw' === $params) ? $this->rawSet($key, $object) : $this->iOc($key, $object, $params);
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      * @return bool
      */
     public function has(string $key): bool
@@ -133,8 +185,8 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
-     * @param string $param
+     * @param  string  $key
+     * @param  string  $param
      * @return mixed
      */
     public function getParam(string $key, string $param)
@@ -145,8 +197,8 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
-     * @param string $param
+     * @param  string  $key
+     * @param  string  $param
      * @param        $value
      */
     public function setParam(string $key, string $param, $value): void
@@ -157,8 +209,8 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
-     * @param string $param
+     * @param  string  $key
+     * @param  string  $param
      * @return bool
      */
     public function hasParam(string $key, string $param)
@@ -169,7 +221,22 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
+     * @param  array  $services
+     * @throws \ReflectionException
+     */
+    public function setServices(array $services): void
+    {
+        foreach ($services['contracts'] as $interface => $contract) {
+            $this->setBinding($interface, $contract);
+        }
+
+        foreach ($services['services'] as $name => $service) {
+            $this->set($name, ...$service);
+        }
+    }
+
+    /**
+     * @param  string  $key
      * @return mixed|string
      */
     public function getBinding(string $key)
@@ -178,7 +245,7 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      * @return bool
      */
     public function hasBinding(string $key): bool
@@ -187,11 +254,51 @@ trait ContainerReflectionTrait // implements ContainerReflectionInterface // PHP
     }
 
     /**
-     * @param string $key
+     * @param  string  $key
      * @param        $value
      */
     public function setBinding(string $key, $value): void
     {
         $this->bind[$key] = $value;
+    }
+
+    /**
+     * @return Request
+     */
+    public function request(): Request
+    {
+        return $this->request;
+    }
+
+    /**
+     * @return CookieInterface
+     */
+    public function cookie(): CookieInterface
+    {
+        return $this->cookie;
+    }
+
+    /**
+     * @return SessionInterface
+     */
+    public function session(): SessionInterface
+    {
+        return $this->session;
+    }
+
+    /**
+     * @return ResponseInterface
+     */
+    public function response(): ResponseInterface
+    {
+        return $this->response;
+    }
+
+    /**
+     * @return ContainerInterface
+     */
+    public function config(): ContainerInterface
+    {
+        return $this->config;
     }
 }

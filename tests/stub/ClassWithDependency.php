@@ -1,12 +1,12 @@
 <?php
 
-namespace Rudra\Tests\Stub;
+namespace Rudra\Container\Tests\Stub;
 
-use Rudra\Interfaces\ContainerInterface;
+use Rudra\Container\Interfaces\ApplicationInterface;
 
 class ClassWithDependency
 {
-    public function __construct(ContainerInterface $container)
+    public function __construct(ApplicationInterface $container)
     {
     }
 }

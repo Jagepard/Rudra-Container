@@ -30,7 +30,7 @@
     },
     "autoload"          : {
         "psr-4" : {
-            "Rudra\\" : "src/"
+            "Rudra\\Container\\" : "src/"
         },
         "files": [
             "src/helpers.php"
@@ -38,7 +38,7 @@
     },
     "autoload-dev" : {
         "psr-4": {
-            "Rudra\\Tests\\" : "tests/"
+            "Rudra\\Container\\Tests\\" : "tests/"
         }
     },
     "minimum-stability" : "dev",

@@ -7,15 +7,15 @@
  */
 
 if (!function_exists('config')) {
-    function config(string $key, string $subKey = null)
+    function config(string $key)
     {
-        return \Rudra\Container::app()->config($key, $subKey);
+        return \Rudra\Container\Application::app()->config()->get($key);
     }
 }
 
 if (!function_exists('rudra')) {
     function rudra()
     {
-        return \Rudra\Container::app();
+        return \Rudra\Container\Application::app();
     }
 }

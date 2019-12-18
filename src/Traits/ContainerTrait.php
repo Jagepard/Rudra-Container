@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\ExternalTraits;
+namespace Rudra\Container\Traits;
 
 use Rudra\Pagination;
 
@@ -37,7 +37,7 @@ trait ContainerTrait
      */
     public function post($key = null)
     {
-        return rudra()->getPost($key);
+        return rudra()->request()->post()->get($key);
     }
 
     /**
@@ -56,7 +56,7 @@ trait ContainerTrait
      */
     public function unsetSession(string $key, string $subKey = null)
     {
-        rudra()->unsetSession($key, $subKey);
+        rudra()->session()->unset($key, $subKey);
     }
 
     /**
@@ -84,7 +84,7 @@ trait ContainerTrait
      */
     public function setSession(string $key, string $value, string $subKey = null): void
     {
-        rudra()->setSession($key, $value, $subKey);
+        rudra()->session()->set($key, $value, $subKey);
     }
 
     /**

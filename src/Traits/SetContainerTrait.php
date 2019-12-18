@@ -8,30 +8,30 @@ declare(strict_types=1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\ExternalTraits;
+namespace Rudra\Container\Traits;
 
-use Rudra\Interfaces\ContainerInterface;
+use Rudra\Container\Interfaces\ApplicationInterface;
 
 trait SetContainerTrait
 {
     /**
-     * @var ContainerInterface
+     * @var ApplicationInterface
      */
     private $container;
 
     /**
      * SetContainerTrait constructor.
-     * @param ContainerInterface $container
+     * @param ApplicationInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ApplicationInterface $container)
     {
         $this->container = $container;
     }
 
     /**
-     * @return ContainerInterface
+     * @return ApplicationInterface
      */
-    public function container(): ContainerInterface
+    public function container(): ApplicationInterface
     {
         return $this->container;
     }

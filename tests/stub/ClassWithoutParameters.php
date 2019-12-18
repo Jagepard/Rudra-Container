@@ -1,6 +1,6 @@
 <?php
 
-namespace Rudra\Tests\Stub;
+namespace Rudra\Container\Tests\Stub;
 
 class ClassWithoutParameters
 {
