@@ -6,46 +6,46 @@
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Interfaces;
+namespace Rudra\Container\Interfaces;
 
-interface ContainerSessionInterface
+interface SessionInterface
 {
     /**
      * @param string      $key
      * @param string|null $subKey
      * @return mixed
      */
-    public function getSession(string $key, string $subKey = null);
+    public function get(string $key, string $subKey = null);
 
     /**
      * @param string      $key
      * @param             $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, $value, string $subKey = null): void;
+    public function set(string $key, $value, string $subKey = null): void;
 
     /**
      * @param string      $key
      * @param string|null $subKey
      * @return bool
      */
-    public function hasSession(string $key, string $subKey = null): bool;
+    public function has(string $key, string $subKey = null): bool;
 
     /**
      * @param string      $key
      * @param string|null $subKey
      */
-    public function unsetSession(string $key, string $subKey = null): void;
+    public function unset(string $key, string $subKey = null): void;
 
     /**
      * @codeCoverageIgnore
      */
-    public function startSession(): void;
+    public function start(): void;
 
     /**
      * @codeCoverageIgnore
      */
-    public function stopSession(): void;
+    public function stop(): void;
 
-    public function clearSession(): void;
+    public function clear(): void;
 }

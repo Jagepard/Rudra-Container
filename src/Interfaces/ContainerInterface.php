@@ -6,17 +6,25 @@
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Interfaces;
+namespace Rudra\Container\Interfaces;
 
 interface ContainerInterface
 {
     /**
-     * @return ContainerInterface
+     * @param string|null $key
+     * @return array
      */
-    public static function app(): ContainerInterface;
+    public function get(string $key = null);
 
     /**
-     * @param $app
+     * @param array $data
      */
-    public function setServices(array $app): void;
+    public function set(array $data): void;
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function has(string $key): bool;
+
 }

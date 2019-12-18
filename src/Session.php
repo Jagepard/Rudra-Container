@@ -8,16 +8,18 @@ declare(strict_types=1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Traits;
+namespace Rudra\Container;
 
-trait ContainerSessionTrait // implements ContainerSessionInterface // PHP RFC: Traits with interfaces
+use Rudra\Container\Interfaces\SessionInterface;
+
+class Session  implements SessionInterface
 {
     /**
      * @param string      $key
      * @param string|null $subKey
      * @return mixed
      */
-    public function getSession(string $key, string $subKey = null)
+    public function get(string $key, string $subKey = null)
     {
         return ($subKey === null) ? $_SESSION[$key] : $_SESSION[$key][$subKey];
     }
@@ -27,7 +29,7 @@ trait ContainerSessionTrait // implements ContainerSessionInterface // PHP RFC: 
      * @param             $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, $value, string $subKey = null): void
+    public function set(string $key, $value, string $subKey = null): void
     {
         if (empty($subKey)) {
             $_SESSION[$key] = $value;
@@ -47,7 +49,7 @@ trait ContainerSessionTrait // implements ContainerSessionInterface // PHP RFC: 
      * @param string|null $subKey
      * @return bool
      */
-    public function hasSession(string $key, string $subKey = null): bool
+    public function has(string $key, string $subKey = null): bool
     {
         return empty($subKey) ? isset($_SESSION[$key]) : isset($_SESSION[$key][$subKey]);
     }
@@ -56,7 +58,7 @@ trait ContainerSessionTrait // implements ContainerSessionInterface // PHP RFC: 
      * @param string      $key
      * @param string|null $subKey
      */
-    public function unsetSession(string $key, string $subKey = null): void
+    public function unset(string $key, string $subKey = null): void
     {
         if (empty($subKey)) {
             unset($_SESSION[$key]);
@@ -69,7 +71,7 @@ trait ContainerSessionTrait // implements ContainerSessionInterface // PHP RFC: 
     /**
      * @codeCoverageIgnore
      */
-    public function startSession(): void
+    public function start(): void
     {
         session_start();
     }
@@ -77,12 +79,12 @@ trait ContainerSessionTrait // implements ContainerSessionInterface // PHP RFC: 
     /**
      * @codeCoverageIgnore
      */
-    public function stopSession(): void
+    public function stop(): void
     {
         session_destroy();
     }
 
-    public function clearSession(): void
+    public function clear(): void
     {
         $_SESSION = [];
     }

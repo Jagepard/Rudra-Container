@@ -8,15 +8,17 @@ declare(strict_types=1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Traits;
+namespace Rudra\Container;
 
-trait ContainerCookieTrait // implements ContainerCookieInterface // PHP RFC: Traits with interfaces
+use Rudra\Container\Interfaces\CookieInterface;
+
+class Cookie implements CookieInterface
 {
     /**
      * @param string $key
      * @return string
      */
-    public function getCookie(string $key): string
+    public function get(string $key): string
     {
         return $_COOKIE[$key];
     }
@@ -25,7 +27,7 @@ trait ContainerCookieTrait // implements ContainerCookieInterface // PHP RFC: Tr
      * @param string $key
      * @return bool
      */
-    public function hasCookie(string $key): bool
+    public function has(string $key): bool
     {
         return isset($_COOKIE[$key]);
     }
@@ -34,7 +36,7 @@ trait ContainerCookieTrait // implements ContainerCookieInterface // PHP RFC: Tr
      * @codeCoverageIgnore
      * @param string $key
      */
-    public function unsetCookie(string $key): void
+    public function unset(string $key): void
     {
         unset($_COOKIE[$key]);
         setcookie($key, '', -1, '/');
@@ -44,7 +46,7 @@ trait ContainerCookieTrait // implements ContainerCookieInterface // PHP RFC: Tr
      * @param string $key
      * @param string $value
      */
-    public function setCookie(string $key, string $value): void
+    public function set(string $key, string $value): void
     {
         $_COOKIE[$key] = $value;
     }

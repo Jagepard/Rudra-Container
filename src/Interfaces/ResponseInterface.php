@@ -6,9 +6,9 @@
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Interfaces;
+namespace Rudra\Container\Interfaces;
 
-interface ContainerResponseInterface
+interface ResponseInterface
 {
     /**
      * @codeCoverageIgnore

@@ -1,9 +1,9 @@
 <?php
 
-namespace Rudra\Tests\Stub;
+namespace Rudra\Container\Tests\Stub;
 
-use Rudra\ExternalTraits\ContainerTrait;
-use Rudra\ExternalTraits\SetContainerTrait;
+use Rudra\Container\Traits\ContainerTrait;
+use Rudra\Container\Traits\SetContainerTrait;
 
 class ClassWithContainerTrait
 {
