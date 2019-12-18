@@ -28,14 +28,14 @@ interface ApplicationInterface
     public function request(): Request;
 
     /**
-     * @return CookieInterface
+     * @return ContainerInterface
      */
-    public function cookie(): CookieInterface;
+    public function cookie(): ContainerInterface;
 
     /**
-     * @return SessionInterface
+     * @return ContainerInterface
      */
-    public function session(): SessionInterface;
+    public function session(): ContainerInterface;
 
     /**
      * @return ResponseInterface
