@@ -10,9 +10,9 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\CookieInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
 
-class Cookie implements CookieInterface
+class Cookie implements ContainerInterface
 {
     /**
      * @param string $key
@@ -20,6 +20,10 @@ class Cookie implements CookieInterface
      */
     public function get(string $key): string
     {
+        if (!array_key_exists($key, $_COOKIE)) {
+            throw new \InvalidArgumentException('no data corresponding to the key');
+        }
+
         return $_COOKIE[$key];
     }
 
@@ -38,16 +42,23 @@ class Cookie implements CookieInterface
      */
     public function unset(string $key): void
     {
+        if (!array_key_exists($key, $_COOKIE)) {
+            throw new \InvalidArgumentException('no data corresponding to the key');
+        }
+
         unset($_COOKIE[$key]);
         setcookie($key, '', -1, '/');
     }
 
     /**
-     * @param string $key
-     * @param string $value
+     * @param  array  $data
      */
-    public function set(string $key, string $value): void
+    public function set(array $data): void
     {
-        $_COOKIE[$key] = $value;
+        if (count($data) !== 2) {
+            throw new \InvalidArgumentException('the array contains the wrong number of elements');
+        }
+
+        $_COOKIE[$data[0]] = $data[1];
     }
 }
