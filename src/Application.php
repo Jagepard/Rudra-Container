@@ -271,17 +271,17 @@ class Application implements ApplicationInterface, ReflectionInterface
     }
 
     /**
-     * @return CookieInterface
+     * @return ContainerInterface
      */
-    public function cookie(): CookieInterface
+    public function cookie(): ContainerInterface
     {
         return $this->cookie;
     }
 
     /**
-     * @return SessionInterface
+     * @return ContainerInterface
      */
-    public function session(): SessionInterface
+    public function session(): ContainerInterface
     {
         return $this->session;
     }
