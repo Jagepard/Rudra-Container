@@ -14,7 +14,7 @@ interface ContainerInterface
      * @param string|null $key
      * @return array
      */
-    public function get(string $key = null);
+    public function get(string $key);
 
     /**
      * @param array $data
@@ -26,5 +26,4 @@ interface ContainerInterface
      * @return bool
      */
     public function has(string $key): bool;
-
 }
