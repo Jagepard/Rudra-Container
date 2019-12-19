@@ -15,16 +15,16 @@ use Rudra\Container\Interfaces\ContainerInterface;
 class Cookie implements ContainerInterface
 {
     /**
-     * @param string $key
-     * @return string
+     * @param  string  $key
+     * @return array|mixed
      */
-    public function get(string $key): string
+    public function get(string $key = null)
     {
         if (!array_key_exists($key, $_COOKIE)) {
             throw new \InvalidArgumentException('no data corresponding to the key');
         }
 
-        return $_COOKIE[$key];
+        return empty($key) ? $_COOKIE : $_COOKIE[$key];
     }
 
     /**

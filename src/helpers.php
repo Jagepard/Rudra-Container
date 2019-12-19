@@ -16,6 +16,6 @@ if (!function_exists('config')) {
 if (!function_exists('rudra')) {
     function rudra()
     {
-        return \Rudra\Container\Application::app();
+        return \Rudra\Container\Application::run();
     }
 }
