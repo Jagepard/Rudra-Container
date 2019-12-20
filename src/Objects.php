@@ -8,11 +8,22 @@
 
 namespace Rudra\Container;
 
+use Rudra\Container\Interfaces\ContainerInterface;
+
 class Objects extends Container
 {
-    public function __construct(array $data = [])
+    /**
+     * @var ContainerInterface
+     */
+    private $binding;
+
+    /**
+     * Objects constructor.
+     * @param $binding
+     */
+    public function __construct(ContainerInterface $binding)
     {
-        parent::__construct($data);
+        $this->binding = $binding;
     }
 
     /**
@@ -21,24 +32,14 @@ class Objects extends Container
      */
     public function set(array $data): void
     {
-        var_dump($data);
-        if (is_array($data[1]) && array_key_exists('params', $data[1])) {
-            $this->setObject($data[0], $data[1], $data[1]['params']);
+        list($key, $object) = $data;
+
+        if (array_key_exists(1, $object)) {
+            ('raw' === $object[1]) ? $this->mergeData($key, $object[0]) : $this->iOc($key, $object[0], $object[1]);
             return;
         }
 
-        $this->setObject($data[0], $data[1]);
-    }
-
-    /**
-     * @param  string  $key
-     * @param $object
-     * @param  null  $params
-     * @throws \ReflectionException
-     */
-    private function setObject(string $key, $object, $params = null)
-    {
-        ('raw' === $params) ? $this->rawSet($key, $object) : $this->iOc($key, $object, $params);
+        $this->iOc($key, $object[0]);
     }
 
     /**
@@ -46,9 +47,9 @@ class Objects extends Container
      * @param $object
      * @throws \ReflectionException
      */
-    private function rawSet(string $key, $object)
+    private function mergeData(string $key, $object)
     {
-        $this->set([$key => $object]);
+        $this->data = array_merge([$key => $object], $this->data);
     }
 
     /**
@@ -64,11 +65,11 @@ class Objects extends Container
 
         if ($constructor && $constructor->getNumberOfParameters()) {
             $paramsIoC = $this->getParamsIoC($constructor, $params);
-            $this->set([$key => $reflection->newInstanceArgs($paramsIoC)]);
+            $this->mergeData($key, $reflection->newInstanceArgs($paramsIoC));
             return;
         }
 
-        $this->set([$key => new $object()]);
+        $this->mergeData($key, new $object());
     }
 
 
@@ -84,8 +85,8 @@ class Objects extends Container
         $paramsIoC = [];
 
         foreach ($constructor->getParameters() as $value) {
-            if (isset($value->getClass()->name) && $this->hasBinding($value->getClass()->name)) {
-                $className = $this->getBinding($value->getClass()->name);
+            if (isset($value->getClass()->name) && $this->binding->has($value->getClass()->name)) {
+                $className = $this->binding->get($value->getClass()->name);
                 $paramsIoC[] = (is_object($className)) ? $className : new $className;
                 continue;
             }

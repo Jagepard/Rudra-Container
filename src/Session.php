@@ -20,11 +20,15 @@ class Session implements ContainerInterface
      */
     public function get(string $key = null)
     {
+        if (empty($key)) {
+            return $_SESSION;
+        }
+
         if (!array_key_exists($key, $_SESSION)) {
             throw new \InvalidArgumentException('no data corresponding to the key');
         }
 
-        return empty($key) ? $_SESSION : $_SESSION[$key];
+        return $_SESSION[$key];
     }
 
     /**

@@ -9,7 +9,7 @@
 if (!function_exists('config')) {
     function config(string $key)
     {
-        return \Rudra\Container\Application::app()->config()->get($key);
+        return \Rudra\Container\Application::run()->config()->get($key);
     }
 }
 

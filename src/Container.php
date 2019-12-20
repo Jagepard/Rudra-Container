@@ -17,16 +17,7 @@ class Container implements ContainerInterface
     /**
      * @var array
      */
-    protected $data;
-
-    /**
-     * Container constructor.
-     * @param  array  $data
-     */
-    public function __construct(array $data = [])
-    {
-        $this->data = $data;
-    }
+    protected $data = [];
 
     /**
      * @param string|null $key

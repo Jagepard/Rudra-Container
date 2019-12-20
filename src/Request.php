@@ -64,7 +64,7 @@ class Request implements RequestInterface
      */
     public function server(): ContainerInterface
     {
-        return $this->instantiate('post', Container::class, $_SERVER);
+        return $this->instantiate('server', Container::class, $_SERVER);
     }
 
     /**
@@ -72,7 +72,7 @@ class Request implements RequestInterface
      */
     public function files(): Files
     {
-        return $this->instantiate('post', Files::class, $_FILES);
+        return $this->instantiate('files', Files::class, $_FILES);
     }
 
     /**
@@ -81,7 +81,7 @@ class Request implements RequestInterface
      * @param $data
      * @return mixed
      */
-    private function instantiate($varName, $instance, $data = [])
+    private function instantiate($varName, $instance, $data = null)
     {
         if (!array_key_exists($varName, $this->instances)) {
             $this->instances[$varName] = new $instance($data);

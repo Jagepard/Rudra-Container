@@ -54,9 +54,4 @@ interface ApplicationInterface
      * @return ContainerInterface
      */
     public function binding(): ContainerInterface;
-
-    /**
-     * @return ContainerInterface
-     */
-    public function parameters(): ContainerInterface;
 }
