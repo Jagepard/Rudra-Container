@@ -62,8 +62,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
                 ],
 
                 'services' => [
-                    'CWC' => [ClassWithoutConstructor::class],
-                    'CWP' => [ClassWithoutParameters::class],
+                    'CWC' => ClassWithoutConstructor::class,
+                    'CWP' => ClassWithoutParameters::class,
                     'CWDP' => [ClassWithDefaultParameters::class, ['123']],
                 ],
             ]
@@ -91,7 +91,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithoutConstructor = $this->application->objects()->new(ClassWithoutConstructor::class);
         $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
 
-        $this->application->objects()->set(['ClassWithoutConstructor', [$newClassWithoutConstructor]]);
+        $this->application->objects()->set(['ClassWithoutConstructor', $newClassWithoutConstructor]);
         $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->objects()->get('ClassWithoutConstructor'));
     }
 
@@ -100,7 +100,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithoutParameters = $this->application->objects()->new(ClassWithoutParameters::class);
         $this->assertInstanceOf(ClassWithoutParameters::class, $newClassWithoutParameters);
 
-        $this->application->objects()->set(['ClassWithoutParameters', [$newClassWithoutParameters]]);
+        $this->application->objects()->set(['ClassWithoutParameters', $newClassWithoutParameters]);
         $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->objects()->get('ClassWithoutParameters'));
     }
 
@@ -112,7 +112,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithDefaultParameters = $this->application->objects()->new(ClassWithDefaultParameters::class, ['Test']);
         $this->assertEquals('Test', $newClassWithDefaultParameters->getParam());
 
-        $this->application->objects()->set(['ClassWithDefaultParameters', [$newClassWithDefaultParameters]]);
+        $this->application->objects()->set(['ClassWithDefaultParameters', $newClassWithDefaultParameters]);
         $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->objects()->get('ClassWithDefaultParameters'));
     }
 
@@ -121,7 +121,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithDependency = $this->application->objects()->new(ClassWithDependency::class);
         $this->assertInstanceOf(ClassWithDependency::class, $newClassWithDependency);
 
-        $this->application->objects()->set(['ClassWithDependency', [$newClassWithDependency]]);
+        $this->application->objects()->set(['ClassWithDependency', $newClassWithDependency]);
         $this->assertInstanceOf(ClassWithDependency::class, $this->application->objects()->get('ClassWithDependency'));
     }
 
