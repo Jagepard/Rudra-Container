@@ -20,11 +20,15 @@ class Cookie implements ContainerInterface
      */
     public function get(string $key = null)
     {
+        if (empty($key)) {
+            return $_COOKIE;
+        }
+
         if (!array_key_exists($key, $_COOKIE)) {
             throw new \InvalidArgumentException('no data corresponding to the key');
         }
 
-        return empty($key) ? $_COOKIE : $_COOKIE[$key];
+        return $_COOKIE[$key];
     }
 
     /**

@@ -124,10 +124,6 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $this->stub->setSession('key', 'value');
         $this->stub->setSession('subKey', 'value', 'subSet');
         $this->stub->setSession('increment', 'value', 'increment');
-
-
-        var_dump($this->container->session()->get());
-
         $this->assertEquals('value', $this->container->session()->get('key'));
         $this->assertEquals('value', $this->container->session()->get('subKey', 'subSet'));
         $this->assertEquals('value', $this->container->session()->get('increment', '0'));

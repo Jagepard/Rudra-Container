@@ -82,9 +82,9 @@ trait ContainerTrait
      * @param string      $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, string $value, string $subKey = null): void
+    public function setSession(string $key, string $value): void
     {
-        rudra()->session()->set([$key, [$subKey => $value]]);
+        rudra()->session()->set([$key, $value]);
     }
 
     /**

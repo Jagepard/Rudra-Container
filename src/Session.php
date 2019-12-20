@@ -49,27 +49,20 @@ class Session implements ContainerInterface
     }
 
     /**
-     * @param string      $key
-     * @param string|null $subKey
+     * @param  string  $key
      * @return bool
      */
-    public function has(string $key, string $subKey = null): bool
+    public function has(string $key): bool
     {
         return empty($subKey) ? isset($_SESSION[$key]) : isset($_SESSION[$key][$subKey]);
     }
 
     /**
-     * @param string      $key
-     * @param string|null $subKey
+     * @param  string  $key
      */
-    public function unset(string $key, string $subKey = null): void
+    public function unset(string $key): void
     {
-        if (empty($subKey)) {
-            unset($_SESSION[$key]);
-            return;
-        }
-
-        unset($_SESSION[$key][$subKey]);
+        unset($_SESSION[$key]);
     }
 
     /**
