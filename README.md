@@ -14,94 +14,80 @@
 ```composer require rudra/container```
 #### Using
 ```php
-use Rudra\Container;
+use Rudra\Container\Application;
 ``` 
 >The container is available for calling in 3 ways.
-
 ```php
 rudra();
 ``` 
-
 ```php
-Container::app();
+Application::run();
 ``` 
 >after initialization it is possible so
 ```php
-Container::$app;
+Application::$app;
 ``` 
 ***    
 ###### Add objects:
-```php
-$rudra = Container::app();
-``` 
 Without arguments - add to the container the class *Annotations* with the call key *annotation*
 ```php
-$rudra->set('annotation', 'Rudra\Annotation');
+rudra()->objects()->set(['annotation', 'Rudra\Annotation']);
 ```
-
 With arguments
 >If the class expects a Container dependency in the constructor, the container will automatically create the necessary object
 and substitute it as an argument
-
 *Note:* the Container class must be available at Composer startup
-
 ```php
 class Auth
 {
-    public function __construct(Container $container)
+    public function __construct(Application $application)
     {
-        $this->container = $container;
+        $this->application = $application;
     }
 }
 ```
 >Adding an object in this case is similar to the first
-
 ```php
-$rudra->set('auth', 'Rudra\Auth');
+rudra()->objects()->set(['auth', 'Rudra\Auth']);
 ```
 >If in the constructor the Auth class expects the implementation of the ContainerInterface interface, then so that the container automatically
 created the necessary object and substituted as an argument, we need to connect the ContainerInterface interface to the implementation.
 ```php
-use Rudra\Interfaces\ContainerInterface;
+use Rudra\Container\Interfaces\ApplicationInterface;
 ```
 ```php
 class Auth
 {
-    public function __construct(ContainerInterface $container)
+    public function __construct(ApplicationInterface $application)
     {
-        $this->container = $container;
+        $this->application = $application;
     }
 }
 ```
-
 >Adding an object in this case is also similar, but in this case, you must associate the interface with the implementation
 . To do this, we use the setBinding method, to which we will pass the interface as the first element, and in
 as a second implementation
 ```php
-$rudra->setBinding(ContainerInterface::class, Container::$app);
+rudra()->binding()->set([ApplicationInterface::class => rudra()]);
 ```
 ```php
-$rudra->set('auth', 'Rudra\Auth');
+rudra()->objects()->set(['auth', 'Rudra\Auth']);
 ```
-
 >If the class constructor contains arguments with default values, then if no arguments are passed, values
 will be added by default by container
-
 ```php
 class Auth
 {
-    public function __construct(ContainerInterface $container, $name, $config = 'something')
+    public function __construct(ApplicationInterface $application, $name, $config = 'something')
     {
-        $this->$container = $container;
+        $this->application = $application;
     }
 }
 ```
-
 >In this case, you can pass as soon as the argument $name, and $name, $config
-
 ```php
-$rudra->set('auth', 'Rudra\Auth', ['value']);
+rudra()->objects()->set(['auth', ['Rudra\Auth', ['value']]);
 ```
 ```php
-$rudra->set('auth', 'Rudra\Auth', ['value', 'concrete']);
+rudra()->objects()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 ```
