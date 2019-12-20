@@ -11,8 +11,8 @@ namespace Rudra\Container\Interfaces;
 interface ContainerInterface
 {
     /**
-     * @param string|null $key
-     * @return array
+     * @param  string|null  $key
+     * @return mixed
      */
     public function get(string $key = null);
 
@@ -26,5 +26,4 @@ interface ContainerInterface
      * @return bool
      */
     public function has(string $key): bool;
-
 }

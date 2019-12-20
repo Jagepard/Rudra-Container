@@ -44,7 +44,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     protected function setUp(): void
     {
         $this->container = rudra();
-        $this->container->setBinding(ApplicationInterface::class, $this->container);
+        $this->container->binding()->set([ApplicationInterface::class => $this->container]);
         $this->request = $this->container->request();
 
         $app = [
@@ -120,6 +120,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
 
     public function testSessionData(): void
     {
+        $_SESSION = [];
         $this->stub->setSession('key', 'value');
         $this->stub->setSession('subKey', 'value', 'subSet');
         $this->stub->setSession('increment', 'value', 'increment');
@@ -135,8 +136,8 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
     public function testConfig(): void
     {
         $this->container->config()->set(['key' => ['subKey' => 'value']]);
-        $this->container->config()->add('addKey', ['subKey' => 'value']);
-        $this->container->config()->add('stringKey', 'value');
+        $this->container->config()->set(['addKey' => ['subKey' => 'value']]);
+        $this->container->config()->set(['stringKey' => 'value']);
 
         $this->assertTrue(is_array($this->container->config()->get()));
         $this->assertIsArray(config('key'));
@@ -153,7 +154,7 @@ class ContainerTraitTest extends PHPUnit_Framework_TestCase
         $data = ['key' => ['subKey' => 'value']];
 
         ob_start();
-        $this->container->response()->jsonResponse($data);
+        $this->container->response()->json($data);
         $json = ob_get_clean();
 
         $this->assertEquals(json_encode($data), $json);

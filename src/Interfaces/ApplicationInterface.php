@@ -8,34 +8,37 @@
 
 namespace Rudra\Container\Interfaces;
 
-use Rudra\Container\Request;
-
 interface ApplicationInterface
 {
     /**
      * @return ApplicationInterface
      */
-    public static function app(): ApplicationInterface;
+    public static function run(): ApplicationInterface;
 
     /**
-     * @param $app
+     * @param $services
      */
-    public function setServices(array $app): void;
+    public function setServices(array $services): void;
 
     /**
-     * @return Request
+     * @return ContainerInterface
      */
-    public function request(): Request;
+    public function objects(): ContainerInterface;
 
     /**
-     * @return CookieInterface
+     * @return RequestInterface
      */
-    public function cookie(): CookieInterface;
+    public function request(): RequestInterface;
 
     /**
-     * @return SessionInterface
+     * @return ContainerInterface
      */
-    public function session(): SessionInterface;
+    public function cookie(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
+    public function session(): ContainerInterface;
 
     /**
      * @return ResponseInterface
@@ -46,4 +49,9 @@ interface ApplicationInterface
      * @return ContainerInterface
      */
     public function config(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
+    public function binding(): ContainerInterface;
 }

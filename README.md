@@ -10,13 +10,13 @@
 ![GitHub](https://img.shields.io/github/license/jagepard/Rudra-Container.svg)
 
 # Rudra-Container | [API](https://github.com/Jagepard/Rudra-Container/blob/master/docs.md "Documentation API")
-#### Установка / Install
+#### Installation
 ```composer require rudra/container```
-#### Использование / Usage
+#### Using
 ```php
 use Rudra\Container;
 ``` 
->Контейнер доступен для вызова 3 способами
+>The container is available for calling in 3 ways.
 
 ```php
 rudra();
@@ -25,25 +25,25 @@ rudra();
 ```php
 Container::app();
 ``` 
->после инициализации можно так
+>after initialization it is possible so
 ```php
 Container::$app;
 ``` 
 ***    
-###### Добавляем объекты:
+###### Add objects:
 ```php
 $rudra = Container::app();
 ``` 
-Без аргументов - добавит в контейнер класс *Annotations* с ключом вызова *annotation*
+Without arguments - add to the container the class *Annotations* with the call key *annotation*
 ```php
 $rudra->set('annotation', 'Rudra\Annotation');
 ```
 
-С аргументами
->Если в конструкторе класс ожидает зависимость Container, то контейнер автоматически создаст необходимый объект 
-и подставит в качестве аргумента
+With arguments
+>If the class expects a Container dependency in the constructor, the container will automatically create the necessary object
+and substitute it as an argument
 
-*Примечание:* класс Container должен быть доступен в автозагрузке Composer
+*Note:* the Container class must be available at Composer startup
 
 ```php
 class Auth
@@ -54,13 +54,13 @@ class Auth
     }
 }
 ```
->Добавление объекта в данном случае аналогично первому
+>Adding an object in this case is similar to the first
 
 ```php
 $rudra->set('auth', 'Rudra\Auth');
 ```
->Если в конструкторе класс Auth ожидает реализацию инетрфейса ContainerInterface, то для того, чтобы контейнер автоматически 
-создал необходимый объект и подставил в качестве аргумента, нам необходимо связать инетрфейс ContainerInterface с реализацией.
+>If in the constructor the Auth class expects the implementation of the ContainerInterface interface, then so that the container automatically
+created the necessary object and substituted as an argument, we need to connect the ContainerInterface interface to the implementation.
 ```php
 use Rudra\Interfaces\ContainerInterface;
 ```
@@ -74,9 +74,9 @@ class Auth
 }
 ```
 
->Добавление объекта в данном случае также аналогично, но в данном случае обязательно связывать интерфейс с реализацией
-. Для этого воспользуемся методом setBinding, в который мы передадим в качестве первого элемента интерфейс, а в 
-качестве второго реализацию
+>Adding an object in this case is also similar, but in this case, you must associate the interface with the implementation
+. To do this, we use the setBinding method, to which we will pass the interface as the first element, and in
+as a second implementation
 ```php
 $rudra->setBinding(ContainerInterface::class, Container::$app);
 ```
@@ -84,8 +84,8 @@ $rudra->setBinding(ContainerInterface::class, Container::$app);
 $rudra->set('auth', 'Rudra\Auth');
 ```
 
->Если конструктор класса содержит аргументы со значениями по умолчанию, то если аргументы не передавать, значения 
-по умолчанию будут добавлены контейнером
+>If the class constructor contains arguments with default values, then if no arguments are passed, values
+will be added by default by container
 
 ```php
 class Auth
@@ -97,7 +97,7 @@ class Auth
 }
 ```
 
->В данном случае можно передать как только аргумент $name, так и $name, $config
+>In this case, you can pass as soon as the argument $name, and $name, $config
 
 ```php
 $rudra->set('auth', 'Rudra\Auth', ['value']);

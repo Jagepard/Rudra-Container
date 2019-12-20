@@ -12,21 +12,12 @@ namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
 
-class AbstractContainer implements ContainerInterface
+class Container implements ContainerInterface
 {
     /**
      * @var array
      */
-    protected $data;
-
-    /**
-     * AbstractRequestMethod constructor.
-     * @param  array  $data
-     */
-    public function __construct(array $data = [])
-    {
-        $this->data = $data;
-    }
+    protected $data = [];
 
     /**
      * @param string|null $key
@@ -42,7 +33,7 @@ class AbstractContainer implements ContainerInterface
      */
     public function set(array $data): void
     {
-        $this->data = $data;
+        $this->data = array_merge($data, $this->data);
     }
 
     /**
@@ -51,6 +42,6 @@ class AbstractContainer implements ContainerInterface
      */
     public function has(string $key): bool
     {
-        return isset($this->data[$key]);
+        return array_key_exists($key, $this->data);
     }
 }

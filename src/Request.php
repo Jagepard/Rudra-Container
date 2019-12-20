@@ -10,66 +10,21 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\{
-    Interfaces\ContainerInterface,
-    Interfaces\RequestInterface,
-    Request\Delete,
-    Request\Files,
-    Request\Get,
-    Request\Patch,
-    Request\Post,
-    Request\Put,
-    Request\Server
-};
+use Rudra\Container\Interfaces\{ContainerInterface, RequestInterface};
 
 class Request implements RequestInterface
 {
     /**
-     * @var ContainerInterface
+     * @var array
      */
-    private $get;
-    /**
-     * @var ContainerInterface
-     */
-    private $post;
-    /**
-     * @var ContainerInterface
-     */
-    private $put;
-    /**
-     * @var ContainerInterface
-     */
-    private $patch;
-    /**
-     * @var ContainerInterface
-     */
-    private $delete;
-    /**
-     * @var ContainerInterface
-     */
-    private $server;
-    /**
-     * @var ContainerInterface
-     */
-    private $files;
-
-    public function __construct()
-    {
-        $this->get = new Get($_GET);
-        $this->post = new Post($_POST);
-        $this->put = new Put();
-        $this->patch = new Patch();
-        $this->delete = new Delete();
-        $this->server = new Server($_SERVER);
-        $this->files = new Files($_FILES);
-    }
+    private $instances = [];
 
     /**
      * @return ContainerInterface
      */
     public function get(): ContainerInterface
     {
-        return $this->get;
+        return $this->instantiate('get', Container::class, $_GET);
     }
 
     /**
@@ -77,7 +32,7 @@ class Request implements RequestInterface
      */
     public function post(): ContainerInterface
     {
-        return $this->post;
+        return $this->instantiate('post', Container::class, $_POST);
     }
 
     /**
@@ -85,7 +40,7 @@ class Request implements RequestInterface
      */
     public function put(): ContainerInterface
     {
-        return $this->put;
+        return $this->instantiate('put', Container::class);
     }
 
     /**
@@ -93,7 +48,7 @@ class Request implements RequestInterface
      */
     public function patch(): ContainerInterface
     {
-        return $this->patch;
+        return $this->instantiate('patch', Container::class);
     }
 
     /**
@@ -101,15 +56,15 @@ class Request implements RequestInterface
      */
     public function delete(): ContainerInterface
     {
-        return $this->delete;
+        return $this->instantiate('delete', Container::class);
     }
 
     /**
-     * @return Server
+     * @return ContainerInterface
      */
-    public function server(): Server
+    public function server(): ContainerInterface
     {
-        return $this->server;
+        return $this->instantiate('server', Container::class, $_SERVER);
     }
 
     /**
@@ -117,6 +72,21 @@ class Request implements RequestInterface
      */
     public function files(): Files
     {
-        return $this->files;
+        return $this->instantiate('files', Files::class, $_FILES);
+    }
+
+    /**
+     * @param $varName
+     * @param $instance
+     * @param $data
+     * @return mixed
+     */
+    private function instantiate($varName, $instance, $data = null)
+    {
+        if (!array_key_exists($varName, $this->instances)) {
+            $this->instances[$varName] = new $instance($data);
+        }
+
+        return $this->instances[$varName];
     }
 }

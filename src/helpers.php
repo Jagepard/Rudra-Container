@@ -9,13 +9,13 @@
 if (!function_exists('config')) {
     function config(string $key)
     {
-        return \Rudra\Container\Application::app()->config()->get($key);
+        return \Rudra\Container\Application::run()->config()->get($key);
     }
 }
 
 if (!function_exists('rudra')) {
     function rudra()
     {
-        return \Rudra\Container\Application::app();
+        return \Rudra\Container\Application::run();
     }
 }

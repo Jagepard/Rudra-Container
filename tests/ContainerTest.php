@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
+use Rudra\Container\Request;
+use Rudra\Container\Container;
 use Rudra\Container\Application;
 use Rudra\Container\Interfaces\ApplicationInterface;
 use Rudra\Container\Tests\Stub\ClassWithDependency;
@@ -25,31 +27,38 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @var ApplicationInterface
      */
-    protected $container;
+    protected $application;
 
     protected function setUp(): void
     {
-        $this->container = rudra();
-        $this->container->setBinding(ApplicationInterface::class, $this->container);
+        $this->application = rudra();
+        $this->application->binding()->set([ApplicationInterface::class, $this->application]);
     }
 
     public function testCallSingleton(): void
     {
-        $this->assertInstanceOf(Application::class, Application::app());
-        $this->assertInstanceOf(Application::class, $this->container);
+        $this->assertInstanceOf(Application::class, Application::run());
+        $this->assertInstanceOf(Application::class, $this->application);
+    }
+
+    public function testInstances()
+    {
+        $this->assertInstanceOf(Request::class, Application::run()->request());
+        $this->assertInstanceOf(Container::class, Application::run()->objects());
+        $this->assertInstanceOf(Container::class, Application::run()->binding());
     }
 
     public function testGet(): void
     {
-        $this->assertTrue(empty($this->container->get()));
+        $this->assertTrue(empty($this->application->objects()->get()));
     }
 
     public function testSetServices(): void
     {
-        $this->container->setServices(
+        $this->application->setServices(
             [
                 'contracts' => [
-                    ApplicationInterface::class => $this->container,
+                    ApplicationInterface::class => $this->application,
                 ],
 
                 'services' => [
@@ -60,151 +69,133 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->container->get('CWC'));
-        $this->assertInstanceOf(ClassWithoutParameters::class, $this->container->get('CWP'));
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->container->get('CWDP'));
+        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->objects()->get('CWC'));
+        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->objects()->get('CWP'));
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->objects()->get('CWDP'));
     }
 
     public function testSetRaw(): void
     {
-        $this->container->set(ContainerTest::class, $this, 'raw');
-        $this->assertInstanceOf(ContainerTest::class, $this->container->get(ContainerTest::class));
+        $this->application->objects()->set([ContainerTest::class, [$this, 'raw']]);
+        $this->assertInstanceOf(ContainerTest::class, $this->application->objects()->get(ContainerTest::class));
     }
 
     public function testGetArrayHasKey(): void
     {
-        $this->container->set(ContainerTest::class, $this, 'raw');
-        $this->assertArrayHasKey(ContainerTest::class, $this->container->get());
+        $this->application->objects()->set([ContainerTest::class, [$this, 'raw']]);
+        $this->assertArrayHasKey(ContainerTest::class, $this->application->objects()->get());
     }
 
     public function testIoCClassWithoutConstructor(): void
     {
-        $newClassWithoutConstructor = $this->container->new(ClassWithoutConstructor::class);
+        $newClassWithoutConstructor = $this->application->objects()->new(ClassWithoutConstructor::class);
         $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
 
-        $this->container->set('ClassWithoutConstructor', $newClassWithoutConstructor);
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->container->get('ClassWithoutConstructor'));
+        $this->application->objects()->set(['ClassWithoutConstructor', [$newClassWithoutConstructor]]);
+        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->objects()->get('ClassWithoutConstructor'));
     }
 
     public function testIoCwithoutParameters(): void
     {
-        $newClassWithoutParameters = $this->container->new(ClassWithoutParameters::class);
+        $newClassWithoutParameters = $this->application->objects()->new(ClassWithoutParameters::class);
         $this->assertInstanceOf(ClassWithoutParameters::class, $newClassWithoutParameters);
 
-        $this->container->set('ClassWithoutParameters', $newClassWithoutParameters);
-        $this->assertInstanceOf(ClassWithoutParameters::class, $this->container->get('ClassWithoutParameters'));
+        $this->application->objects()->set(['ClassWithoutParameters', [$newClassWithoutParameters]]);
+        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->objects()->get('ClassWithoutParameters'));
     }
 
     public function testIoCwithDefaultParameters(): void
     {
-        $newClassWithDefaultParameters = $this->container->new(ClassWithDefaultParameters::class);
+        $newClassWithDefaultParameters = $this->application->objects()->new(ClassWithDefaultParameters::class);
         $this->assertEquals('Default', $newClassWithDefaultParameters->getParam());
 
-        $newClassWithDefaultParameters = $this->container->new(ClassWithDefaultParameters::class, ['Test']);
+        $newClassWithDefaultParameters = $this->application->objects()->new(ClassWithDefaultParameters::class, ['Test']);
         $this->assertEquals('Test', $newClassWithDefaultParameters->getParam());
 
-        $this->container->set('ClassWithDefaultParameters', $newClassWithDefaultParameters);
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->container->get('ClassWithDefaultParameters'));
+        $this->application->objects()->set(['ClassWithDefaultParameters', [$newClassWithDefaultParameters]]);
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->objects()->get('ClassWithDefaultParameters'));
     }
 
     public function testIoCwithDependency(): void
     {
-        $newClassWithDependency = $this->container->new(ClassWithDependency::class);
+        $newClassWithDependency = $this->application->objects()->new(ClassWithDependency::class);
         $this->assertInstanceOf(ClassWithDependency::class, $newClassWithDependency);
 
-        $this->container->set('ClassWithDependency', $newClassWithDependency);
-        $this->assertInstanceOf(ClassWithDependency::class, $this->container->get('ClassWithDependency'));
+        $this->application->objects()->set(['ClassWithDependency', [$newClassWithDependency]]);
+        $this->assertInstanceOf(ClassWithDependency::class, $this->application->objects()->get('ClassWithDependency'));
     }
 
     public function testHas(): void
     {
-        $this->assertTrue($this->container->has(ContainerTest::class));
-        $this->assertTrue($this->container->has('ClassWithoutConstructor'));
-        $this->assertTrue($this->container->has('ClassWithoutParameters'));
-        $this->assertTrue($this->container->has('ClassWithDefaultParameters'));
-        $this->assertTrue($this->container->has('ClassWithDependency'));
-        $this->assertFalse($this->container->has('SomeClass'));
-    }
-
-    public function testSetParam(): void
-    {
-        $param = 'value';
-        $this->container->setParam('ClassWithDependency', 'param', $param);
-        $this->assertEquals($param, $this->container->getParam('ClassWithDependency', 'param'));
-    }
-
-    public function testHasParam(): void
-    {
-        $this->assertTrue($this->container->hasParam('ClassWithDependency', 'param'));
-        $this->assertNull($this->container->hasParam('SomeClass', 'param'));
-    }
-
-    public function testFailureGetParam(): void
-    {
-        $this->assertNull($this->container->getParam('SomeClass', 'param'));
+        $this->assertTrue($this->application->objects()->has(ContainerTest::class));
+        $this->assertTrue($this->application->objects()->has('ClassWithoutConstructor'));
+        $this->assertTrue($this->application->objects()->has('ClassWithoutParameters'));
+        $this->assertTrue($this->application->objects()->has('ClassWithDefaultParameters'));
+        $this->assertTrue($this->application->objects()->has('ClassWithDependency'));
+        $this->assertFalse($this->application->objects()->has('SomeClass'));
     }
 
     public function testGetData(): void
     {
-        $this->container->request()->get()->set(['key' => 'value']);
-        $this->assertEquals('value', $this->container->request()->get()->get('key'));
-        $this->assertContains('value', $this->container->request()->get()->get());
-        $this->assertTrue($this->container->request()->get()->has('key'));
-        $this->assertFalse($this->container->request()->get()->has('false'));
+        $this->application->request()->get()->set(['key' => 'value']);
+        $this->assertEquals('value', $this->application->request()->get()->get('key'));
+        $this->assertContains('value', $this->application->request()->get()->get());
+        $this->assertTrue($this->application->request()->get()->has('key'));
+        $this->assertFalse($this->application->request()->get()->has('false'));
     }
 
     public function testPostData(): void
     {
-        $this->container->request()->post()->set(['key' => 'value']);
-        $this->assertEquals('value', $this->container->request()->post()->get('key'));
-        $this->assertContains('value', $this->container->request()->post()->get());
-        $this->assertTrue($this->container->request()->post()->has('key'));
-        $this->assertFalse($this->container->request()->post()->has('false'));
+        $this->application->request()->post()->set(['key' => 'value']);
+        $this->assertEquals('value', $this->application->request()->post()->get('key'));
+        $this->assertContains('value', $this->application->request()->post()->get());
+        $this->assertTrue($this->application->request()->post()->has('key'));
+        $this->assertFalse($this->application->request()->post()->has('false'));
     }
 
     public function testServerData(): void
     {
-        $this->container->request()->server()->setValue('key', 'value');
-        $this->assertEquals('value', $this->container->request()->server()->get('key'));
-        $this->assertArrayHasKey('key', $this->container->request()->server()->get());
+        $this->application->request()->server()->set(['key' => 'value']);
+        $this->assertEquals('value', $this->application->request()->server()->get('key'));
+        $this->assertArrayHasKey('key', $this->application->request()->server()->get());
     }
 
     public function testSessionData(): void
     {
-        $this->container->session()->set('key', 'value');
-        $this->container->session()->set('subKey', 'value', 'subSet');
-        $this->container->session()->set('increment', 'value', 'increment');
-        $this->assertEquals('value', $this->container->session()->get('key'));
-        $this->assertEquals('value', $this->container->session()->get('subKey', 'subSet'));
-        $this->assertEquals('value', $this->container->session()->get('increment', '0'));
-        $this->assertTrue($this->container->session()->has('key'));
-        $this->assertTrue($this->container->session()->has('subKey', 'subSet'));
-        $this->assertNull($this->container->session()->unset('key'));
-        $this->assertNull($this->container->session()->unset('subKey', 'subSet'));
-        $this->assertFalse($this->container->session()->has('key'));
-        $this->assertFalse($this->container->session()->has('subKey', 'subSet'));
-        $this->assertNull($this->container->session()->clear());
+        $this->application->session()->set(['key', 'value']);
+        $this->application->session()->set(['subKey', ['subSet' => 'value']]);
+        $this->application->session()->set(['increment', ['increment' => 'value']]);
+        $this->assertEquals('value', $this->application->session()->get('key'));
+        $this->assertEquals('value', $this->application->session()->get('subKey')['subSet']);
+        $this->assertEquals('value', $this->application->session()->get('increment')[0]['increment']);
+        $this->assertTrue($this->application->session()->has('key'));
+        $this->assertTrue($this->application->session()->has('subKey', 'subSet'));
+        $this->assertNull($this->application->session()->unset('key'));
+        $this->assertNull($this->application->session()->unset('subKey', 'subSet'));
+        $this->assertFalse($this->application->session()->has('key'));
+        $this->assertFalse($this->application->session()->has('subKey', 'subSet'));
+        $this->assertNull($this->application->session()->clear());
     }
 
     public function testCookieData(): void
     {
-        $this->container->cookie()->set('key', 'value');
-        $this->assertEquals('value', $this->container->cookie()->get('key'));
-        $this->assertTrue($this->container->cookie()->has('key'));
-        $this->assertFalse($this->container->cookie()->has('false'));
+        $this->application->cookie()->set(['key', 'value']);
+        $this->assertEquals('value', $this->application->cookie()->get('key'));
+        $this->assertTrue($this->application->cookie()->has('key'));
+        $this->assertFalse($this->application->cookie()->has('false'));
     }
 
     public function testFilesData(): void
     {
-        $this->container->request()->files()->set(
+        $this->application->request()->files()->set(
             [
                 'upload' => ['name' => ['img' => '41146.png']],
                 'type' => ['img' => 'image/png'],
             ]
         );
 
-        $this->assertTrue($this->container->request()->files()->isLoaded('img'));
-        $this->assertTrue($this->container->request()->files()->isFileType('img', 'image/png'));
-        $this->assertEquals('41146.png', $this->container->request()->files()->getLoaded('img', 'name'));
+        $this->assertTrue($this->application->request()->files()->isLoaded('img'));
+        $this->assertTrue($this->application->request()->files()->isFileType('img', 'image/png'));
+        $this->assertEquals('41146.png', $this->application->request()->files()->getLoaded('img', 'name'));
     }
 }

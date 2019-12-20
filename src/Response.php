@@ -18,7 +18,7 @@ class Response implements ResponseInterface
      * @codeCoverageIgnore
      * @param array $data
      */
-    public function jsonResponse(array $data): void
+    public function json(array $data): void
     {
         header('Content-Type: application/json');
         print $this->getJson($data);

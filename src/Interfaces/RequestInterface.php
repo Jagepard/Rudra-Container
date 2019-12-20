@@ -8,8 +8,7 @@
 
 namespace Rudra\Container\Interfaces;
 
-use Rudra\Container\Request\Files;
-use Rudra\Container\Request\Server;
+use Rudra\Container\Files;
 
 interface RequestInterface
 {
@@ -39,9 +38,9 @@ interface RequestInterface
     public function delete(): ContainerInterface;
 
     /**
-     * @return Server
+     * @return ContainerInterface
      */
-    public function server(): Server;
+    public function server(): ContainerInterface;
 
     /**
      * @return Files

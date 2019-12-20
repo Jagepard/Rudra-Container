@@ -8,11 +8,9 @@ declare(strict_types=1);
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Container\Request;
+namespace Rudra\Container;
 
-use Rudra\Container\AbstractContainer;
-
-class Files extends AbstractContainer
+class Files extends Container
 {
     /**
      * @param  string  $key

@@ -19,7 +19,7 @@ trait ContainerTrait
      */
     public function validation()
     {
-        return rudra()->get('validation');
+        return rudra()->objects()->get('validation');
     }
 
     /**
@@ -28,7 +28,7 @@ trait ContainerTrait
      */
     public function redirect($target = null)
     {
-        return isset($target) ? rudra()->get('redirect')->run($target) : rudra()->get('redirect');
+        return isset($target) ? rudra()->objects()->get('redirect')->run($target) : rudra()->objects()->get('redirect');
     }
 
     /**
@@ -47,7 +47,7 @@ trait ContainerTrait
      */
     public function new($object, $params = null)
     {
-        return rudra()->new($object, $params);
+        return rudra()->objects()->new($object, $params);
     }
 
     /**
@@ -64,7 +64,7 @@ trait ContainerTrait
      */
     public function pagination()
     {
-        return rudra()->get('pagination');
+        return rudra()->objects()->get('pagination');
     }
 
     /**
@@ -74,7 +74,7 @@ trait ContainerTrait
      */
     public function setPagination($page, $perPage, $numRows): void
     {
-        rudra()->set('pagination', new Pagination($page['id'], $perPage, $numRows), 'raw');
+        rudra()->objects()->set(['pagination', [new Pagination($page['id'], $perPage, $numRows), 'raw']]);
     }
 
     /**
@@ -82,9 +82,9 @@ trait ContainerTrait
      * @param string      $value
      * @param string|null $subKey
      */
-    public function setSession(string $key, string $value, string $subKey = null): void
+    public function setSession(string $key, string $value): void
     {
-        rudra()->session()->set($key, $value, $subKey);
+        rudra()->session()->set([$key, $value]);
     }
 
     /**
@@ -92,6 +92,6 @@ trait ContainerTrait
      */
     public function db()
     {
-        return rudra()->get('db');
+        return rudra()->objects()->get('db');
     }
 }

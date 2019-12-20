@@ -10,62 +10,59 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\SessionInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
 
-class Session  implements SessionInterface
+class Session implements ContainerInterface
 {
     /**
-     * @param string      $key
-     * @param string|null $subKey
+     * @param  string|null  $key
      * @return mixed
      */
-    public function get(string $key, string $subKey = null)
+    public function get(string $key = null)
     {
-        return ($subKey === null) ? $_SESSION[$key] : $_SESSION[$key][$subKey];
+        if (empty($key)) {
+            return $_SESSION;
+        }
+
+        if (!array_key_exists($key, $_SESSION)) {
+            throw new \InvalidArgumentException('no data corresponding to the key');
+        }
+
+        return $_SESSION[$key];
     }
 
     /**
-     * @param string      $key
-     * @param             $value
-     * @param string|null $subKey
+     * @param  array  $data
      */
-    public function set(string $key, $value, string $subKey = null): void
+    public function set(array $data): void
     {
-        if (empty($subKey)) {
-            $_SESSION[$key] = $value;
+        if (count($data) !== 2) {
+            throw new \InvalidArgumentException('the array contains the wrong number of elements');
+        }
+
+        if (is_array($data[1]) && (key($data[1]) === 'increment')) {
+            $_SESSION[$data[0]][] = $data[1];
             return;
         }
 
-        if ($subKey == 'increment') {
-            $_SESSION[$key][] = $value;
-            return;
-        }
-
-        $_SESSION[$key][$subKey] = $value;
+        $_SESSION[$data[0]] = $data[1];
     }
 
     /**
-     * @param string      $key
-     * @param string|null $subKey
+     * @param  string  $key
      * @return bool
      */
-    public function has(string $key, string $subKey = null): bool
+    public function has(string $key): bool
     {
         return empty($subKey) ? isset($_SESSION[$key]) : isset($_SESSION[$key][$subKey]);
     }
 
     /**
-     * @param string      $key
-     * @param string|null $subKey
+     * @param  string  $key
      */
-    public function unset(string $key, string $subKey = null): void
+    public function unset(string $key): void
     {
-        if (empty($subKey)) {
-            unset($_SESSION[$key]);
-            return;
-        }
-
-        unset($_SESSION[$key][$subKey]);
+        unset($_SESSION[$key]);
     }
 
     /**
