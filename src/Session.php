@@ -54,7 +54,7 @@ class Session implements ContainerInterface
      */
     public function has(string $key): bool
     {
-        return empty($subKey) ? isset($_SESSION[$key]) : isset($_SESSION[$key][$subKey]);
+        return isset($_SESSION[$key]);
     }
 
     /**

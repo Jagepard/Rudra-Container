@@ -23,7 +23,7 @@ trait ContainerTrait
     }
 
     /**
-     * @param null $target
+     * @param $target
      * @return mixed
      */
     public function redirect($target = null)
@@ -32,7 +32,7 @@ trait ContainerTrait
     }
 
     /**
-     * @param null $key
+     * @param $key
      * @return mixed
      */
     public function post($key = null)
@@ -42,7 +42,7 @@ trait ContainerTrait
 
     /**
      * @param      $object
-     * @param null $params
+     * @param      $params
      * @return mixed
      */
     public function new($object, $params = null)
@@ -51,8 +51,8 @@ trait ContainerTrait
     }
 
     /**
-     * @param string      $key
-     * @param string|null $subKey
+     * @param  string  $key
+     * @param  string|null  $subKey
      */
     public function unsetSession(string $key, string $subKey = null)
     {
@@ -78,9 +78,9 @@ trait ContainerTrait
     }
 
     /**
-     * @param string      $key
-     * @param string      $value
-     * @param string|null $subKey
+     * @param  string  $key
+     * @param  string  $value
+     * @param  string|null  $subKey
      */
     public function setSession(string $key, string $value): void
     {
