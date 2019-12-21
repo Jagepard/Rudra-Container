@@ -55,7 +55,7 @@ class Objects extends Container
     /**
      * @param  string  $key
      * @param        $object
-     * @param  null  $params
+     * @param        $params
      * @throws \ReflectionException
      */
     private function iOc(string $key, $object, $params = null): void
@@ -104,7 +104,7 @@ class Objects extends Container
 
     /**
      * @param      $object
-     * @param  null  $params
+     * @param      $params
      * @return object
      * @throws \ReflectionException
      */
