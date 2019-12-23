@@ -7,9 +7,9 @@
  */
 
 if (!function_exists('config')) {
-    function config(string $key)
+    function config()
     {
-        return \Rudra\Container\Application::run()->config()->get($key);
+        return \Rudra\Container\Application::run()->config();
     }
 }
 
@@ -17,5 +17,19 @@ if (!function_exists('rudra')) {
     function rudra()
     {
         return \Rudra\Container\Application::run();
+    }
+}
+
+if (!function_exists('request')) {
+    function request()
+    {
+        return \Rudra\Container\Application::run()->request();
+    }
+}
+
+if (!function_exists('di')) {
+    function di()
+    {
+        return \Rudra\Container\Application::run()->di();
     }
 }

@@ -23,7 +23,7 @@ interface ApplicationInterface
     /**
      * @return ContainerInterface
      */
-    public function objects(): ContainerInterface;
+    public function di(): ContainerInterface;
 
     /**
      * @return RequestInterface

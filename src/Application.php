@@ -46,16 +46,16 @@ class Application implements ApplicationInterface
         }
 
         foreach ($services['services'] as $name => $service) {
-            $this->objects()->set([$name, $service]);
+            $this->di()->set([$name, $service]);
         }
     }
 
     /**
      * @return ContainerInterface
      */
-    public function objects(): ContainerInterface
+    public function di(): ContainerInterface
     {
-        return $this->instantiate('objects', Objects::class, $this->binding());
+        return $this->instantiate('di', DI::class, $this->binding());
     }
 
     /**
