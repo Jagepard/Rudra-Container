@@ -10,7 +10,7 @@ namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
 
-class Di extends Container
+class DI extends Container
 {
     /**
      * @var ContainerInterface
