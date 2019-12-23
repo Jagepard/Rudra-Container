@@ -19,7 +19,7 @@ trait ContainerTrait
      */
     public function validation()
     {
-        return rudra()->objects()->get('validation');
+        return rudra()->di()->get('validation');
     }
 
     /**
@@ -28,7 +28,7 @@ trait ContainerTrait
      */
     public function redirect($target = null)
     {
-        return isset($target) ? rudra()->objects()->get('redirect')->run($target) : rudra()->objects()->get('redirect');
+        return isset($target) ? rudra()->di()->get('redirect')->run($target) : rudra()->di()->get('redirect');
     }
 
     /**
@@ -47,7 +47,7 @@ trait ContainerTrait
      */
     public function new($object, $params = null)
     {
-        return rudra()->objects()->new($object, $params);
+        return rudra()->di()->new($object, $params);
     }
 
     /**
@@ -64,7 +64,7 @@ trait ContainerTrait
      */
     public function pagination()
     {
-        return rudra()->objects()->get('pagination');
+        return rudra()->di()->get('pagination');
     }
 
     /**
@@ -74,7 +74,7 @@ trait ContainerTrait
      */
     public function setPagination($page, $perPage, $numRows): void
     {
-        rudra()->objects()->set(['pagination', [new Pagination($page['id'], $perPage, $numRows), 'raw']]);
+        rudra()->di()->set(['pagination', [new Pagination($page['id'], $perPage, $numRows), 'raw']]);
     }
 
     /**
@@ -92,6 +92,6 @@ trait ContainerTrait
      */
     public function db()
     {
-        return rudra()->objects()->get('db');
+        return rudra()->di()->get('db');
     }
 }
