@@ -15,10 +15,9 @@ namespace Rudra\Container\Tests;
 use Rudra\Container\Interfaces\ApplicationInterface;
 
 use Rudra\Container\Request;
-use Rudra\Container\Tests\Stub\ClassWithoutParameters;
-use Rudra\Container\Tests\Stub\ClassWithContainerTrait;
-use Rudra\Container\Tests\Stub\ClassWithoutConstructor;
-use Rudra\Container\Tests\Stub\ClassWithDefaultParameters;
+use Rudra\Container\Tests\Stub\{
+    ClassWithoutParameters, ClassWithContainerTrait, ClassWithoutConstructor, ClassWithDefaultParameters
+};
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 class ContainerTraitTest extends PHPUnit_Framework_TestCase

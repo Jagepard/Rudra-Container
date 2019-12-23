@@ -12,14 +12,10 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
-use Rudra\Container\Request;
-use Rudra\Container\Container;
-use Rudra\Container\Application;
-use Rudra\Container\Interfaces\ApplicationInterface;
-use Rudra\Container\Tests\Stub\ClassWithDependency;
-use Rudra\Container\Tests\Stub\ClassWithoutParameters;
-use Rudra\Container\Tests\Stub\ClassWithoutConstructor;
-use Rudra\Container\Tests\Stub\ClassWithDefaultParameters;
+use Rudra\Container\{Request, Container, Application, Interfaces\ApplicationInterface};
+use Rudra\Container\Tests\Stub\{
+    ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
+};
 use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 class ContainerTest extends PHPUnit_Framework_TestCase
