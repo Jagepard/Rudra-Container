@@ -46,7 +46,7 @@ class Application implements ApplicationInterface
         }
 
         foreach ($services['services'] as $name => $service) {
-            $this->objects()->set([$name, $service]);
+            $this->di()->set([$name, $service]);
         }
     }
 
