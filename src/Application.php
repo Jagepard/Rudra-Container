@@ -55,7 +55,7 @@ class Application implements ApplicationInterface
      */
     public function di(): ContainerInterface
     {
-        return $this->instantiate('objects', Di::class, $this->binding());
+        return $this->instantiate('di', DI::class, $this->binding());
     }
 
     /**
