@@ -9,13 +9,20 @@ namespace Rudra\Container\Interfaces;
 
 interface ApplicationInterface
 {
-    public static function run(): ApplicationInterface;
+    // Services and Binding
+    public function binding(): ContainerInterface;
     public function setServices(array $services): void;
-    public function di(): ContainerInterface;
-    public function request(): RequestInterface;
+
+    // Containers for:
+    public function di(): ContainerInterface; // objects
     public function cookie(): ContainerInterface;
     public function session(): ContainerInterface;
-    public function response(): ResponseInterface;
     public function config(): ContainerInterface;
-    public function binding(): ContainerInterface;
+
+    // Containers for the HTTP / 1.1 Common Method Kit
+    public function request(): RequestInterface;
+    // For different types of responses
+    public function response(): ResponseInterface;
+    // Creates the main singleton
+    public static function run(): ApplicationInterface;
 }
