@@ -16,22 +16,15 @@
 ```php
 use Rudra\Container\Application;
 ``` 
->The container is available for calling in 3 ways.
-```php
-rudra();
-``` 
+>The container is available for calling.
 ```php
 Application::run();
-``` 
->after initialization it is possible so
-```php
-Application::$app;
 ``` 
 ***    
 ###### Add objects:
 Without arguments - add to the container the class *Annotations* with the call key *annotation*
 ```php
-rudra()->objects()->set(['annotation', 'Rudra\Annotation']);
+Application::run()->di()->set(['annotation', 'Rudra\Annotation']);
 ```
 With arguments
 >If the class expects a Container dependency in the constructor, the container will automatically create the necessary object
@@ -48,7 +41,7 @@ class Auth
 ```
 >Adding an object in this case is similar to the first
 ```php
-rudra()->objects()->set(['auth', 'Rudra\Auth']);
+Application::run()->di()->set(['auth', 'Rudra\Auth']);
 ```
 >If in the constructor the Auth class expects the implementation of the ContainerInterface interface, then so that the container automatically
 created the necessary object and substituted as an argument, we need to connect the ContainerInterface interface to the implementation.
@@ -68,10 +61,10 @@ class Auth
 . To do this, we use the setBinding method, to which we will pass the interface as the first element, and in
 as a second implementation
 ```php
-rudra()->binding()->set([ApplicationInterface::class => rudra()]);
+Application::run()->binding()->set([ApplicationInterface::class => rudra()]);
 ```
 ```php
-rudra()->objects()->set(['auth', 'Rudra\Auth']);
+Application::run()->di()->set(['auth', 'Rudra\Auth']);
 ```
 >If the class constructor contains arguments with default values, then if no arguments are passed, values
 will be added by default by container
@@ -86,8 +79,8 @@ class Auth
 ```
 >In this case, you can pass as soon as the argument $name, and $name, $config
 ```php
-rudra()->objects()->set(['auth', ['Rudra\Auth', ['value']]);
+Application::run()->di()->set(['auth', ['Rudra\Auth', ['value']]);
 ```
 ```php
-rudra()->objects()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
+Application::run()->di()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 ```
