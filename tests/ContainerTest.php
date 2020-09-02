@@ -23,7 +23,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     protected function setUp(): void
     {
-        $this->application = rudra();
+        $this->application = Application::run();
         $this->application->binding()->set([ApplicationInterface::class, $this->application]);
     }
 
