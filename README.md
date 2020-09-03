@@ -24,7 +24,7 @@ Application::run();
 ###### Add objects:
 Without arguments - add to the container the class *Annotations* with the call key *annotation*
 ```php
-Application::run()->di()->set(['annotation', 'Rudra\Annotation']);
+Application::run()->objects()->set(['annotation', 'Rudra\Annotation']);
 ```
 With arguments
 >If the class expects a Container dependency in the constructor, the container will automatically create the necessary object
@@ -41,7 +41,7 @@ class Auth
 ```
 >Adding an object in this case is similar to the first
 ```php
-Application::run()->di()->set(['auth', 'Rudra\Auth']);
+Application::run()->objects()->set(['auth', 'Rudra\Auth']);
 ```
 >If in the constructor the Auth class expects the implementation of the ContainerInterface interface, then so that the container automatically
 created the necessary object and substituted as an argument, we need to connect the ContainerInterface interface to the implementation.
@@ -64,7 +64,7 @@ as a second implementation
 Application::run()->binding()->set([ApplicationInterface::class => rudra()]);
 ```
 ```php
-Application::run()->di()->set(['auth', 'Rudra\Auth']);
+Application::run()->objects()->set(['auth', 'Rudra\Auth']);
 ```
 >If the class constructor contains arguments with default values, then if no arguments are passed, values
 will be added by default by container
@@ -79,8 +79,8 @@ class Auth
 ```
 >In this case, you can pass as soon as the argument $name, and $name, $config
 ```php
-Application::run()->di()->set(['auth', ['Rudra\Auth', ['value']]);
+Application::run()->objects()->set(['auth', ['Rudra\Auth', ['value']]);
 ```
 ```php
-Application::run()->di()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
+Application::run()->objects()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 ```
