@@ -30,13 +30,13 @@ class Application implements ApplicationInterface
         }
 
         foreach ($services["services"] as $name => $service) {
-            $this->di()->set([$name, $service]);
+            $this->objects()->set([$name, $service]);
         }
     }
 
-    public function di(): ContainerInterface
+    public function objects(): ContainerInterface
     {
-        return $this->instantiate("di", DI::class, $this->binding());
+        return $this->instantiate("objects", DI::class, $this->binding());
     }
 
     public function cookie(): ContainerInterface
