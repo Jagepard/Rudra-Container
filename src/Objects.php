@@ -22,8 +22,13 @@ class Objects extends Container
     {
         list($key, $object) = $data;
 
-        if (is_array($object) && array_key_exists(1, $object)) {
-            ("raw" === $object[1]) ? $this->mergeData($key, $object[0]) : $this->iOc($key, $object[0], $object[1]);
+        if (is_array($object)) {
+            if (array_key_exists(1, $object)) {
+                ("raw" === $object[1]) ? $this->mergeData($key, $object[0]) : $this->iOc($key, $object[0], $object[1]);
+                return;
+            }
+
+            $this->iOc($key, $object[0]);
             return;
         }
 
