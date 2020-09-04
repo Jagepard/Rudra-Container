@@ -36,7 +36,7 @@ class Application implements ApplicationInterface
 
     public function objects(): ContainerInterface
     {
-        return $this->instantiate("objects", DI::class, $this->binding());
+        return $this->instantiate("objects", Objects::class, $this->binding());
     }
 
     public function cookie(): ContainerInterface
