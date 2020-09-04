@@ -9,7 +9,7 @@ namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
 
-class DI extends Container
+class Objects extends Container
 {
     private ContainerInterface $binding;
 
