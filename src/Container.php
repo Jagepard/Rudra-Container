@@ -15,6 +15,11 @@ class Container implements ContainerInterface
 {
     protected array $data = [];
 
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
     public function get(string $key = null)
     {
         return empty($key) ? $this->data : $this->data[$key];
