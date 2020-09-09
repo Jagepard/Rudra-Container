@@ -27,7 +27,7 @@ class Container implements ContainerInterface
 
     public function set(array $data): void
     {
-        $this->data = array_merge($data, $this->data);
+        $this->data = $data + $this->data;
     }
 
     public function has(string $key): bool
