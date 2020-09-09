@@ -11,7 +11,7 @@ trait InstantiationsTrait
 {
     private array $instances = [];
 
-    private function instantiate(string $name, string $instance, $data = null)
+    private function instantiate(string $name, string $instance, $data = [])
     {
         if (!array_key_exists($name, $this->instances)) {
             $this->instances[$name] = new $instance($data);
