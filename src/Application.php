@@ -16,7 +16,7 @@ class Application implements ApplicationInterface
 {
     use InstantiationsTrait;
 
-    private static ?ApplicationInterface $application = null;
+    public static ?ApplicationInterface $application = null;
 
     public function binding(): ContainerInterface
     {
