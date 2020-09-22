@@ -14,7 +14,6 @@ interface ApplicationInterface
     public function setServices(array $services): void;
 
     // Containers for:
-    public function objects(): ContainerInterface; // objects
     public function cookie(): ContainerInterface;
     public function session(): ContainerInterface;
     public function config(): ContainerInterface;
