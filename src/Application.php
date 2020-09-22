@@ -25,25 +25,19 @@ class Application extends Container implements ApplicationInterface
 
     public function setServices(array $services): void
     {
-        if (!$this->has("binding") && !$this->has("services")) {
-            $this->set(["binding", new Container($services["contracts"])]);
-            $this->set(["services", new Container($services["services"])]);
-        }
-    }
-
-    public function objects(): ContainerInterface
-    {
-        return $this->instantiate("objects", Objects::class, $this->binding());
+        ($this->has("binding")) ?: $this->set(["binding", new Container($services["contracts"])]);
+        ($this->has("services")) ?: $this->set(["services", new Container($services["services"])]);
+        ($this->has("config")) ?: $this->set(["config", new Container($services["config"])]);
     }
 
     public function cookie(): ContainerInterface
     {
-        return $this->instantiate("cookie", Cookie::class);
+        return $this->get("cookie");
     }
 
     public function session(): ContainerInterface
     {
-        return $this->instantiate("session", Session::class);
+        return $this->get("session");
     }
 
     public function binding(): ContainerInterface
@@ -58,12 +52,12 @@ class Application extends Container implements ApplicationInterface
     
     public function config(): ContainerInterface
     {
-        return $this->instantiate("config", Container::class);
+        return $this->get("config");
     }
 
     public function request(): RequestInterface
     {
-        return $this->instantiate("request", Request::class);
+        return $this->get("request");
     }
 
     public function response(): ResponseInterface
