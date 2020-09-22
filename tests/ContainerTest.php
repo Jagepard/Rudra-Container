@@ -24,7 +24,19 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     protected function setUp(): void
     {
         $this->application = Application::run();
-        $this->application->binding()->set([ApplicationInterface::class, $this->application]);
+        $this->application->setServices(
+            [
+                "contracts" => [
+                    ApplicationInterface::class => $this->application,
+                ],
+
+                "services" => [
+                    "CWC" => ClassWithoutConstructor::class,
+                    "CWP" => ClassWithoutParameters::class,
+                    "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
+                ],
+            ]
+        );
     }
 
     public function testCallSingleton(): void
@@ -42,89 +54,75 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testGet(): void
     {
-        $this->assertTrue(empty($this->application->objects()->get()));
+        $this->assertTrue(count($this->application->get()) > 0);
     }
 
     public function testSetServices(): void
     {
-        $this->application->setServices(
-            [
-                "contracts" => [
-                    ApplicationInterface::class => $this->application,
-                ],
-
-                "services" => [
-                    "CWC" => ClassWithoutConstructor::class,
-                    "CWP" => ClassWithoutParameters::class,
-                    "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
-                ],
-            ]
-        );
-
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->objects()->get("CWC"));
-        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->objects()->get("CWP"));
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->objects()->get("CWDP"));
+        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->get("CWC"));
+        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->get("CWP"));
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->get("CWDP"));
     }
 
     public function testSetRaw(): void
     {
-        $this->application->objects()->set([ContainerTest::class, [$this, "raw"]]);
-        $this->assertInstanceOf(ContainerTest::class, $this->application->objects()->get(ContainerTest::class));
+        $this->application->set([ContainerTest::class, $this]);
+        $this->assertInstanceOf(ContainerTest::class, $this->application->get(ContainerTest::class));
     }
 
     public function testGetArrayHasKey(): void
     {
-        $this->application->objects()->set([ContainerTest::class, [$this, "raw"]]);
-        $this->assertArrayHasKey(ContainerTest::class, $this->application->objects()->get());
+        $this->application->set([ContainerTest::class, $this]);
+        $this->assertArrayHasKey(ContainerTest::class, $this->application->get());
     }
 
     public function testIoCClassWithoutConstructor(): void
     {
-        $newClassWithoutConstructor = $this->application->objects()->new(ClassWithoutConstructor::class);
+        $newClassWithoutConstructor = $this->application->new(ClassWithoutConstructor::class);
         $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
 
-        $this->application->objects()->set(["ClassWithoutConstructor", $newClassWithoutConstructor]);
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->objects()->get("ClassWithoutConstructor"));
+        $this->application->set(["ClassWithoutConstructor", $newClassWithoutConstructor]);
+        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->get("ClassWithoutConstructor"));
     }
 
     public function testIoCwithoutParameters(): void
     {
-        $newClassWithoutParameters = $this->application->objects()->new(ClassWithoutParameters::class);
+        $newClassWithoutParameters = $this->application->new(ClassWithoutParameters::class);
         $this->assertInstanceOf(ClassWithoutParameters::class, $newClassWithoutParameters);
 
-        $this->application->objects()->set(["ClassWithoutParameters", $newClassWithoutParameters]);
-        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->objects()->get("ClassWithoutParameters"));
+        $this->application->set(["ClassWithoutParameters", $newClassWithoutParameters]);
+        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->get("ClassWithoutParameters"));
     }
 
     public function testIoCwithDefaultParameters(): void
     {
-        $newClassWithDefaultParameters = $this->application->objects()->new(ClassWithDefaultParameters::class);
+        $newClassWithDefaultParameters = $this->application->new(ClassWithDefaultParameters::class);
         $this->assertEquals("Default", $newClassWithDefaultParameters->getParam());
 
-        $newClassWithDefaultParameters = $this->application->objects()->new(ClassWithDefaultParameters::class, ["Test"]);
+        $newClassWithDefaultParameters = $this->application->new(ClassWithDefaultParameters::class, ["Test"]);
         $this->assertEquals("Test", $newClassWithDefaultParameters->getParam());
 
-        $this->application->objects()->set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->objects()->get("ClassWithDefaultParameters"));
+        $this->application->set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->get("ClassWithDefaultParameters"));
     }
 
     public function testIoCwithDependency(): void
     {
-        $newClassWithDependency = $this->application->objects()->new(ClassWithDependency::class);
+        $newClassWithDependency = $this->application->new(ClassWithDependency::class);
         $this->assertInstanceOf(ClassWithDependency::class, $newClassWithDependency);
 
-        $this->application->objects()->set(["ClassWithDependency", $newClassWithDependency]);
-        $this->assertInstanceOf(ClassWithDependency::class, $this->application->objects()->get("ClassWithDependency"));
+        $this->application->set(["ClassWithDependency", $newClassWithDependency]);
+        $this->assertInstanceOf(ClassWithDependency::class, $this->application->get("ClassWithDependency"));
     }
 
     public function testHas(): void
     {
-        $this->assertTrue($this->application->objects()->has(ContainerTest::class));
-        $this->assertTrue($this->application->objects()->has("ClassWithoutConstructor"));
-        $this->assertTrue($this->application->objects()->has("ClassWithoutParameters"));
-        $this->assertTrue($this->application->objects()->has("ClassWithDefaultParameters"));
-        $this->assertTrue($this->application->objects()->has("ClassWithDependency"));
-        $this->assertFalse($this->application->objects()->has("SomeClass"));
+        $this->assertTrue($this->application->has(ContainerTest::class));
+        $this->assertTrue($this->application->has("ClassWithoutConstructor"));
+        $this->assertTrue($this->application->has("ClassWithoutParameters"));
+        $this->assertTrue($this->application->has("ClassWithDefaultParameters"));
+        $this->assertTrue($this->application->has("ClassWithDependency"));
+        $this->assertFalse($this->application->has("SomeClass"));
     }
 
     public function testGetData(): void
