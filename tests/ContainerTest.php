@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
-use Rudra\Container\{Request, Container, Application, Interfaces\ApplicationInterface};
+use Rudra\Container\{Cookie, Request, Container, Application, Interfaces\ApplicationInterface, Session};
 use Rudra\Container\Tests\Stub\{
     ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
 };
@@ -34,7 +34,14 @@ class ContainerTest extends PHPUnit_Framework_TestCase
                     "CWC" => ClassWithoutConstructor::class,
                     "CWP" => ClassWithoutParameters::class,
                     "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
+
+                    // Systems
+                    "cookie" => Cookie::class,
+                    "session" => Session::class,
+                    "request" => Request::class,
                 ],
+
+                "config" => []
             ]
         );
     }
@@ -48,7 +55,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testInstances()
     {
         $this->assertInstanceOf(Request::class, Application::run()->request());
-        $this->assertInstanceOf(Container::class, Application::run()->objects());
         $this->assertInstanceOf(Container::class, Application::run()->binding());
     }
 
