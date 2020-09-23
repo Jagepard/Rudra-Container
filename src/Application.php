@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\{ApplicationInterface, ContainerInterface, RequestInterface, ResponseInterface};
-use http\Exception\InvalidArgumentException;
 use Rudra\Container\Traits\InstantiationsTrait;
 
 class Application extends Container implements ApplicationInterface
@@ -78,7 +77,7 @@ class Application extends Container implements ApplicationInterface
     {
         if (isset($key) && !$this->has($key)) {
             if (!$this->services()->has($key)) {
-                throw new InvalidArgumentException("Service is not installed");
+                throw new \InvalidArgumentException("Service is not installed");
             }
 
             $this->set([$key, $this->services()->get($key)]);
