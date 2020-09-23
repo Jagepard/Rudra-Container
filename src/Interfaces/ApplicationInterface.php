@@ -9,14 +9,11 @@ namespace Rudra\Container\Interfaces;
 
 interface ApplicationInterface
 {
-    // Services and Binding
+    // Config, Services and Binding
+    public function config(): ContainerInterface;
+    public function services(): ContainerInterface;
     public function binding(): ContainerInterface;
     public function setServices(array $services): void;
-
-    // Containers for:
-    public function cookie(): ContainerInterface;
-    public function session(): ContainerInterface;
-    public function config(): ContainerInterface;
 
     // Containers for the HTTP / 1.1 Common Method Kit
     public function request(): RequestInterface;
