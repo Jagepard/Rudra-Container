@@ -9,43 +9,51 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\{Interfaces\ContainerInterface, Interfaces\RequestInterface, Traits\InstantiationsTrait};
+use Rudra\Container\{
+    Abstracts\AbstractContainer,
+    Abstracts\AbstractRequest,
+    Traits\FacadeTrait,
+    Traits\InstantiationsTrait
+};
 
-class Request implements RequestInterface
+class Request extends AbstractRequest
 {
+    use FacadeTrait;
     use InstantiationsTrait;
 
-    public function get(): ContainerInterface
+    public static string $alias = "request";
+
+    protected function get(): AbstractContainer
     {
         return $this->instantiate("get", Container::class, $_GET);
     }
 
-    public function post(): ContainerInterface
+    protected function post(): AbstractContainer
     {
         return $this->instantiate("post", Container::class, $_POST);
     }
 
-    public function put(): ContainerInterface
+    protected function put(): AbstractContainer
     {
         return $this->instantiate("put", Container::class);
     }
 
-    public function patch(): ContainerInterface
+    protected function patch(): AbstractContainer
     {
         return $this->instantiate("patch", Container::class);
     }
 
-    public function delete(): ContainerInterface
+    protected function delete(): AbstractContainer
     {
         return $this->instantiate("delete", Container::class);
     }
 
-    public function server(): ContainerInterface
+    protected function server(): AbstractContainer
     {
         return $this->instantiate("server", Container::class, $_SERVER);
     }
 
-    public function files(): Files
+    protected function files(): Files
     {
         return $this->instantiate("files", Files::class, $_FILES);
     }

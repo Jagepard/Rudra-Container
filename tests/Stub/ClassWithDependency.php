@@ -2,11 +2,11 @@
 
 namespace Rudra\Container\Tests\Stub;
 
-use Rudra\Container\Interfaces\ApplicationInterface;
+use Rudra\Container\Abstracts\AbstractApplication;
 
 class ClassWithDependency
 {
-    public function __construct(ApplicationInterface $container)
+    public function __construct(AbstractApplication $container)
     {
     }
 }

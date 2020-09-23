@@ -9,62 +9,80 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\{ApplicationInterface, ContainerInterface, RequestInterface, ResponseInterface};
+use Rudra\Container\Abstracts\{AbstractApplication, AbstractContainer, AbstractRequest, AbstractResponse};
 use Rudra\Container\Traits\InstantiationsTrait;
 
-class Application extends Container implements ApplicationInterface
+class Rudra extends AbstractApplication
 {
     use InstantiationsTrait;
 
-    public static ?ApplicationInterface $application = null;
+    public static ?AbstractApplication $application = null;
+    private array $data = [];
 
     public function __construct()
     {
     }
 
-    public function setServices(array $services): void
+    protected function setServices(array $services): void
     {
         ($this->has("binding")) ?: $this->set(["binding", new Container($services["contracts"])]);
         ($this->has("services")) ?: $this->set(["services", new Container($services["services"])]);
         ($this->has("config")) ?: $this->set(["config", new Container($services["config"])]);
     }
 
-    public function cookie(): ContainerInterface
+    protected function cookie(): Cookie
     {
         return $this->get("cookie");
     }
 
-    public function session(): ContainerInterface
+    protected function session(): Session
     {
         return $this->get("session");
     }
 
-    public function binding(): ContainerInterface
+    protected function binding(): AbstractContainer
     {
         return $this->get("binding");
     }
 
-    public function services(): ContainerInterface
+    protected function services(): AbstractContainer
     {
         return $this->get("services");
     }
     
-    public function config(): ContainerInterface
+    protected function config(): AbstractContainer
     {
         return $this->get("config");
     }
 
-    public function request(): RequestInterface
+    protected function request(): AbstractRequest
     {
         return $this->get("request");
     }
 
-    public function response(): ResponseInterface
+    protected function response(): AbstractResponse
     {
-        return $this->instantiate("response", Response::class);
+        return $this->get("response");
     }
 
-    public static function run(): ApplicationInterface
+    /*
+     | Creates an object without adding to the container
+     */
+    protected function new($object, $params = null)
+    {
+        $reflection = new \ReflectionClass($object);
+        $constructor = $reflection->getConstructor();
+
+        if ($constructor && $constructor->getNumberOfParameters()) {
+            $paramsIoC = $this->getParamsIoC($constructor, $params);
+
+            return $reflection->newInstanceArgs($paramsIoC);
+        }
+
+        return new $object();
+    }
+
+    public static function run(): AbstractApplication
     {
         if (!static::$application instanceof static) {
             static::$application = new static();
@@ -101,6 +119,11 @@ class Application extends Container implements ApplicationInterface
         }
 
         $this->setObject($object, $key);
+    }
+
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->data);
     }
 
     private function setObject($object, $key): void
@@ -161,20 +184,12 @@ class Application extends Container implements ApplicationInterface
         return $paramsIoC;
     }
 
-    /*
-     | Creates an object without adding to the container
-     */
-    public function new($object, $params = null)
+    public function __call($method, $parameters) {
+        return $this->$method(...$parameters);
+    }
+
+    public static function __callStatic($method, $parameters)
     {
-        $reflection = new \ReflectionClass($object);
-        $constructor = $reflection->getConstructor();
-
-        if ($constructor && $constructor->getNumberOfParameters()) {
-            $paramsIoC = $this->getParamsIoC($constructor, $params);
-
-            return $reflection->newInstanceArgs($paramsIoC);
-        }
-
-        return new $object();
+        return Rudra::run()->$method(...$parameters);
     }
 }

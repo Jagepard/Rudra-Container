@@ -7,7 +7,7 @@
 
 namespace Rudra\Container\Traits;
 
-use Rudra\Container\Application;
+use Rudra\Container\Rudra;
 
 trait FacadeTrait
 {
@@ -17,7 +17,7 @@ trait FacadeTrait
 
     public static function __callStatic($method, $parameters)
     {
-        $object = Application::run()->objects()->get(static::$alias);
+        $object = Rudra::run()->get(static::$alias);
         return $object->$method(...$parameters);
     }
 }
