@@ -5,12 +5,12 @@
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Container\Interfaces;
+namespace Rudra\Container\Abstracts;
 
-interface ResponseInterface
+abstract class AbstractResponse
 {
     /**
      * @codeCoverageIgnore
      */
-    public function json(array $data): void;
+    abstract protected function json(array $data): void;
 }

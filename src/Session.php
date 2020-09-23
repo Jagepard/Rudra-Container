@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Container\Abstracts\AbstractContainer;
 
-class Session implements ContainerInterface
+class Session extends AbstractContainer
 {
     public function get(string $key = null)
     {
