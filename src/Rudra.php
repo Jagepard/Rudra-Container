@@ -16,7 +16,7 @@ class Rudra extends AbstractApplication
 {
     use InstantiationsTrait;
 
-    public static ?AbstractApplication $application = null;
+    public static ?AbstractApplication $rudra = null;
     private array $data = [];
 
     public function __construct()
@@ -84,11 +84,11 @@ class Rudra extends AbstractApplication
 
     public static function run(): AbstractApplication
     {
-        if (!static::$application instanceof static) {
-            static::$application = new static();
+        if (!static::$rudra instanceof static) {
+            static::$rudra = new static();
         }
 
-        return static::$application;
+        return static::$rudra;
     }
 
     public function get(string $key = null)
