@@ -34,11 +34,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
                     "CWC" => ClassWithoutConstructor::class,
                     "CWP" => ClassWithoutParameters::class,
                     "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
-
-                    // Systems
-                    "cookie" => Cookie::class,
-                    "session" => Session::class,
-                    "request" => Request::class,
                 ],
 
                 "config" => []
