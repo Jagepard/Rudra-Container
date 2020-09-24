@@ -11,11 +11,11 @@ use Rudra\Container\Files;
 
 abstract class AbstractRequest
 {
-    abstract protected function get(): AbstractContainer;
-    abstract protected function post(): AbstractContainer;
-    abstract protected function put(): AbstractContainer;
-    abstract protected function patch(): AbstractContainer;
-    abstract protected function delete(): AbstractContainer;
-    abstract protected function server(): AbstractContainer;
+    abstract protected function get(): ContainerInterface;
+    abstract protected function post(): ContainerInterface;
+    abstract protected function put(): ContainerInterface;
+    abstract protected function patch(): ContainerInterface;
+    abstract protected function delete(): ContainerInterface;
+    abstract protected function server(): ContainerInterface;
     abstract protected function files(): Files;
 }
