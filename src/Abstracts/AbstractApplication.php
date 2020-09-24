@@ -9,12 +9,12 @@ namespace Rudra\Container\Abstracts;
 
 use Rudra\Container\{Cookie, Session};
 
-abstract class AbstractApplication extends AbstractContainer
+abstract class AbstractApplication
 {
     // Config, Services and Binding
-    abstract protected function config(): AbstractContainer;
-    abstract protected function services(): AbstractContainer;
-    abstract protected function binding(): AbstractContainer;
+    abstract protected function config(): ContainerInterface;
+    abstract protected function services(): ContainerInterface;
+    abstract protected function binding(): ContainerInterface;
     abstract protected function setServices(array $services): void;
 
     // Containers for the HTTP / 1.1 Common Method Kit
