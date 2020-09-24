@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
-use Rudra\Container\{Abstracts\AbstractApplication, Cookie, Request, Container, Rudra, Session};
+use Rudra\Container\{Abstracts\AbstractApplication, Request, Container, Rudra};
 use Rudra\Container\Tests\Stub\{
     ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
 };

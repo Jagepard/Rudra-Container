@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Abstracts\{AbstractApplication, AbstractContainer, AbstractRequest, AbstractResponse};
+use Rudra\Container\Abstracts\{AbstractApplication, ContainerInterface, AbstractRequest, AbstractResponse};
 use Rudra\Container\Traits\InstantiationsTrait;
 
-class Rudra extends AbstractApplication
+class Rudra extends AbstractApplication implements ContainerInterface
 {
     use InstantiationsTrait;
 
@@ -30,19 +30,19 @@ class Rudra extends AbstractApplication
         ($this->has("config")) ?: $this->set(["config", new Container($services["config"])]);
     }
 
-    protected function binding(): AbstractContainer
+    protected function binding(): ContainerInterface
     {
         if ($this->has("binding")) return $this->get("binding");
         throw new \InvalidArgumentException("Service not preinstalled");
     }
 
-    protected function services(): AbstractContainer
+    protected function services(): ContainerInterface
     {
         if ($this->has("services")) return $this->get("services");
         throw new \InvalidArgumentException("Service not preinstalled");
     }
     
-    protected function config(): AbstractContainer
+    protected function config(): ContainerInterface
     {
         if ($this->has("config")) return $this->get("config");
         throw new \InvalidArgumentException("Service not preinstalled");

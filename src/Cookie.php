@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Abstracts\AbstractContainer;
+use Rudra\Container\Abstracts\ContainerInterface;
 
-class Cookie extends AbstractContainer
+class Cookie implements ContainerInterface
 {
     public function get(string $key = null)
     {
