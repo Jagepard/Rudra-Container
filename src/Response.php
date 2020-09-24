@@ -16,8 +16,6 @@ class Response extends AbstractResponse
 {
     use FacadeTrait;
 
-    public static string $alias = "request";
-
     /**
      * @codeCoverageIgnore
      */
