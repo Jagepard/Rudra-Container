@@ -9,9 +9,9 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Abstracts\AbstractContainer;
+use Rudra\Container\Abstracts\ContainerInterface;
 
-class Container extends AbstractContainer
+class Container implements ContainerInterface
 {
     protected array $data = [];
 
