@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\{
-    Abstracts\AbstractContainer,
+    Abstracts\ContainerInterface,
     Abstracts\AbstractRequest,
     Traits\FacadeTrait,
     Traits\InstantiationsTrait
@@ -21,32 +21,32 @@ class Request extends AbstractRequest
     use FacadeTrait;
     use InstantiationsTrait;
 
-    protected function get(): AbstractContainer
+    protected function get(): ContainerInterface
     {
         return $this->instantiate("get", Container::class, $_GET);
     }
 
-    protected function post(): AbstractContainer
+    protected function post(): ContainerInterface
     {
         return $this->instantiate("post", Container::class, $_POST);
     }
 
-    protected function put(): AbstractContainer
+    protected function put(): ContainerInterface
     {
         return $this->instantiate("put", Container::class);
     }
 
-    protected function patch(): AbstractContainer
+    protected function patch(): ContainerInterface
     {
         return $this->instantiate("patch", Container::class);
     }
 
-    protected function delete(): AbstractContainer
+    protected function delete(): ContainerInterface
     {
         return $this->instantiate("delete", Container::class);
     }
 
-    protected function server(): AbstractContainer
+    protected function server(): ContainerInterface
     {
         return $this->instantiate("server", Container::class, $_SERVER);
     }
