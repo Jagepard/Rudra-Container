@@ -21,8 +21,6 @@ class Request extends AbstractRequest
     use FacadeTrait;
     use InstantiationsTrait;
 
-    public static string $alias = "request";
-
     protected function get(): AbstractContainer
     {
         return $this->instantiate("get", Container::class, $_GET);

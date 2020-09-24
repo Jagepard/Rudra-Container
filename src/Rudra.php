@@ -30,39 +30,42 @@ class Rudra extends AbstractApplication
         ($this->has("config")) ?: $this->set(["config", new Container($services["config"])]);
     }
 
-    protected function cookie(): Cookie
-    {
-        return $this->get("cookie");
-    }
-
-    protected function session(): Session
-    {
-        return $this->get("session");
-    }
-
     protected function binding(): AbstractContainer
     {
-        return $this->get("binding");
+        if ($this->has("binding")) return $this->get("binding");
+        throw new \InvalidArgumentException("Service not preinstalled");
     }
 
     protected function services(): AbstractContainer
     {
-        return $this->get("services");
+        if ($this->has("services")) return $this->get("services");
+        throw new \InvalidArgumentException("Service not preinstalled");
     }
     
     protected function config(): AbstractContainer
     {
-        return $this->get("config");
+        if ($this->has("config")) return $this->get("config");
+        throw new \InvalidArgumentException("Service not preinstalled");
     }
 
     protected function request(): AbstractRequest
     {
-        return $this->get("request");
+        return $this->containerize(Request::class);
     }
 
     protected function response(): AbstractResponse
     {
-        return $this->get("response");
+        return $this->containerize(Response::class);
+    }
+
+    protected function cookie(): Cookie
+    {
+        return $this->containerize(Cookie::class);
+    }
+
+    protected function session(): Session
+    {
+        return $this->containerize(Session::class);
     }
 
     /*

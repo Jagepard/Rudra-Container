@@ -19,4 +19,14 @@ trait InstantiationsTrait
 
         return $this->instances[$name];
     }
+
+    private function containerize(string $name, string $instance = null, $data = [])
+    {
+        $instance ??= $name;
+        if (!array_key_exists($name, $this->data)) {
+            $this->set([$name, [$instance, $data]]);
+        }
+
+        return $this->get($instance);
+    }
 }
