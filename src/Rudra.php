@@ -12,7 +12,7 @@ namespace Rudra\Container;
 use Rudra\Container\Abstracts\{AbstractApplication, ContainerInterface, AbstractRequest, AbstractResponse};
 use Rudra\Container\Traits\InstantiationsTrait;
 
-class Rudra extends AbstractApplication implements ContainerInterface
+class Rudra extends AbstractApplication
 {
     use InstantiationsTrait;
 
@@ -94,7 +94,7 @@ class Rudra extends AbstractApplication implements ContainerInterface
         return static::$rudra;
     }
 
-    public function get(string $key = null)
+    protected function get(string $key = null)
     {
         if (isset($key) && !$this->has($key)) {
             if (!$this->services()->has($key)) {
@@ -107,7 +107,7 @@ class Rudra extends AbstractApplication implements ContainerInterface
         return empty($key) ? $this->data : $this->data[$key];
     }
 
-    public function set(array $data): void
+    protected function set(array $data): void
     {
         list($key, $object) = $data;
 
@@ -124,7 +124,7 @@ class Rudra extends AbstractApplication implements ContainerInterface
         $this->setObject($object, $key);
     }
 
-    public function has(string $key): bool
+    protected function has(string $key): bool
     {
         return array_key_exists($key, $this->data);
     }
