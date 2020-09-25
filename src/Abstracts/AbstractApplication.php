@@ -26,4 +26,9 @@ abstract class AbstractApplication
 
     abstract protected function cookie(): Cookie;
     abstract protected function session(): Session;
+
+    // Protected container
+    abstract protected function get(string $key = null);
+    abstract protected function set(array $data): void;
+    abstract protected function has(string $key): bool;
 }
