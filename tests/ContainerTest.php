@@ -19,15 +19,13 @@ use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
-    protected AbstractApplication $application;
-
     protected function setUp(): void
     {
-        $this->application = Rudra::run();
+        Rudra::run();
         Rudra::setServices(
             [
                 "contracts" => [
-                    AbstractApplication::class => $this->application,
+                    AbstractApplication::class => Rudra::run(),
                 ],
 
                 "services" => [
@@ -44,7 +42,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testCallSingleton(): void
     {
         $this->assertInstanceOf(Rudra::class, Rudra::run());
-        $this->assertInstanceOf(Rudra::class, $this->application);
     }
 
     public function testInstances()
@@ -55,26 +52,26 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testGet(): void
     {
-        $this->assertTrue(count($this->application->get()) > 0);
+        $this->assertTrue(count(Rudra::get()) > 0);
     }
 
     public function testSetServices(): void
     {
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->get("CWC"));
-        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->get("CWP"));
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->get("CWDP"));
+        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("CWC"));
+        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("CWP"));
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("CWDP"));
     }
 
     public function testSetRaw(): void
     {
-        $this->application->set([ContainerTest::class, $this]);
-        $this->assertInstanceOf(ContainerTest::class, $this->application->get(ContainerTest::class));
+        Rudra::set([ContainerTest::class, $this]);
+        $this->assertInstanceOf(ContainerTest::class, Rudra::get(ContainerTest::class));
     }
 
     public function testGetArrayHasKey(): void
     {
-        $this->application->set([ContainerTest::class, $this]);
-        $this->assertArrayHasKey(ContainerTest::class, $this->application->get());
+        Rudra::set([ContainerTest::class, $this]);
+        $this->assertArrayHasKey(ContainerTest::class, Rudra::get());
     }
 
     public function testIoCClassWithoutConstructor(): void
@@ -82,8 +79,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithoutConstructor = Rudra::new(ClassWithoutConstructor::class);
         $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
 
-        $this->application->set(["ClassWithoutConstructor", $newClassWithoutConstructor]);
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $this->application->get("ClassWithoutConstructor"));
+        Rudra::set(["ClassWithoutConstructor", $newClassWithoutConstructor]);
+        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("ClassWithoutConstructor"));
     }
 
     public function testIoCwithoutParameters(): void
@@ -91,8 +88,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithoutParameters = Rudra::new(ClassWithoutParameters::class);
         $this->assertInstanceOf(ClassWithoutParameters::class, $newClassWithoutParameters);
 
-        $this->application->set(["ClassWithoutParameters", $newClassWithoutParameters]);
-        $this->assertInstanceOf(ClassWithoutParameters::class, $this->application->get("ClassWithoutParameters"));
+        Rudra::set(["ClassWithoutParameters", $newClassWithoutParameters]);
+        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("ClassWithoutParameters"));
     }
 
     public function testIoCwithDefaultParameters(): void
@@ -103,8 +100,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithDefaultParameters = Rudra::new(ClassWithDefaultParameters::class, ["Test"]);
         $this->assertEquals("Test", $newClassWithDefaultParameters->getParam());
 
-        $this->application->set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, $this->application->get("ClassWithDefaultParameters"));
+        Rudra::set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("ClassWithDefaultParameters"));
     }
 
     public function testIoCwithDependency(): void
@@ -112,18 +109,18 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $newClassWithDependency = Rudra::new(ClassWithDependency::class);
         $this->assertInstanceOf(ClassWithDependency::class, $newClassWithDependency);
 
-        $this->application->set(["ClassWithDependency", $newClassWithDependency]);
-        $this->assertInstanceOf(ClassWithDependency::class, $this->application->get("ClassWithDependency"));
+        Rudra::set(["ClassWithDependency", $newClassWithDependency]);
+        $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("ClassWithDependency"));
     }
 
     public function testHas(): void
     {
-        $this->assertTrue($this->application->has(ContainerTest::class));
-        $this->assertTrue($this->application->has("ClassWithoutConstructor"));
-        $this->assertTrue($this->application->has("ClassWithoutParameters"));
-        $this->assertTrue($this->application->has("ClassWithDefaultParameters"));
-        $this->assertTrue($this->application->has("ClassWithDependency"));
-        $this->assertFalse($this->application->has("SomeClass"));
+        $this->assertTrue(Rudra::has(ContainerTest::class));
+        $this->assertTrue(Rudra::has("ClassWithoutConstructor"));
+        $this->assertTrue(Rudra::has("ClassWithoutParameters"));
+        $this->assertTrue(Rudra::has("ClassWithDefaultParameters"));
+        $this->assertTrue(Rudra::has("ClassWithDependency"));
+        $this->assertFalse(Rudra::has("SomeClass"));
     }
 
     public function testGetData(): void
