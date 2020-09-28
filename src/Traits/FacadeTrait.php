@@ -17,7 +17,11 @@ trait FacadeTrait
 
     public static function __callStatic($method, $parameters)
     {
-        $object = Rudra::run()->get(static::class);
+        if (!Rudra::has(static::class)) {
+            Rudra::set([static::class, [static::class]]);
+        }
+
+        $object = Rudra::get(static::class);
 
         return $object->$method(...$parameters);
     }
