@@ -24,7 +24,7 @@ Rudra::run();
 ###### Add objects:
 Without arguments - add to the container the class *Annotations* with the call key *annotation*
 ```php
-Rudra::run()->set(['annotation', 'Rudra\Annotation']);
+Rudra::set(['annotation', 'Rudra\Annotation']);
 ```
 With arguments
 >If the class expects a Container dependency in the constructor, the container will automatically create the necessary object
@@ -41,7 +41,7 @@ class Auth
 ```
 >Adding an object in this case is similar to the first
 ```php
-Rudra::run()->set(['auth', 'Rudra\Auth']);
+Rudra::set(['auth', 'Rudra\Auth']);
 ```
 >If in the constructor the Auth class expects the implementation of the ContainerInterface interface, then so that the container automatically
 created the necessary object and substituted as an argument, we need to connect the ContainerInterface interface to the implementation.
@@ -64,7 +64,7 @@ as a second implementation
 Rudra::binding()->set([AbstractApplication::class => rudra()]);
 ```
 ```php
-Rudra::run()->set(['auth', 'Rudra\Auth']);
+Rudra::set(['auth', 'Rudra\Auth']);
 ```
 >If the class constructor contains arguments with default values, then if no arguments are passed, values
 will be added by default by container
@@ -79,8 +79,8 @@ class Auth
 ```
 >In this case, you can pass as soon as the argument $name, and $name, $config
 ```php
-Rudra::run()->set(['auth', ['Rudra\Auth', ['value']]);
+Rudra::set(['auth', ['Rudra\Auth', ['value']]);
 ```
 ```php
-Rudra::run()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
+Rudra::set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 ```
