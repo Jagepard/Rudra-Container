@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
-use Rudra\Container\{Abstracts\AbstractApplication, Request, Container, Rudra};
+use Rudra\Container\{Abstracts\AbstractApplication, Abstracts\RudraInterface, Request, Container, Rudra};
 use Rudra\Container\Tests\Stub\{
     ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
 };
@@ -19,13 +19,15 @@ use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
+    private RudraInterface $rudra;
+
     protected function setUp(): void
     {
-        Rudra::run();
-        Rudra::setServices(
+        $this->rudra = Rudra::run();
+        Rudra::_setServices(
             [
                 "contracts" => [
-                    AbstractApplication::class => Rudra::run(),
+                    RudraInterface::class => Rudra::run(),
                 ],
 
                 "services" => [
@@ -46,81 +48,84 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testInstances()
     {
-        $this->assertInstanceOf(Request::class, Rudra::request());
-        $this->assertInstanceOf(Container::class, Rudra::binding());
+        $this->assertInstanceOf(Request::class, Rudra::_request());
+        $this->assertInstanceOf(Container::class, Rudra::_binding());
+
+        $this->assertInstanceOf(Request::class, $this->rudra->request());
+        $this->assertInstanceOf(Container::class, $this->rudra->binding());
     }
 
     public function testGet(): void
     {
-        $this->assertTrue(count(Rudra::get()) > 0);
+        $this->assertTrue(count(Rudra::_get()) > 0);
     }
 
     public function testSetServices(): void
     {
-        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("CWC"));
-        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("CWP"));
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("CWDP"));
+        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::_get("CWC"));
+        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::_get("CWP"));
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::_get("CWDP"));
     }
 
     public function testSetRaw(): void
     {
-        Rudra::set([ContainerTest::class, $this]);
-        $this->assertInstanceOf(ContainerTest::class, Rudra::get(ContainerTest::class));
+        Rudra::_set([ContainerTest::class, $this]);
+        $this->assertInstanceOf(ContainerTest::class, Rudra::_get(ContainerTest::class));
     }
 
     public function testGetArrayHasKey(): void
     {
-        Rudra::set([ContainerTest::class, $this]);
-        $this->assertArrayHasKey(ContainerTest::class, Rudra::get());
+        Rudra::_set([ContainerTest::class, $this]);
+        $this->assertArrayHasKey(ContainerTest::class, Rudra::_get());
     }
 
     public function testIoCClassWithoutConstructor(): void
     {
-        $newClassWithoutConstructor = Rudra::new(ClassWithoutConstructor::class);
+        $newClassWithoutConstructor = Rudra::_new(ClassWithoutConstructor::class);
         $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
 
-        Rudra::set(["ClassWithoutConstructor", $newClassWithoutConstructor]);
-        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("ClassWithoutConstructor"));
+        Rudra::_set(["ClassWithoutConstructor", $newClassWithoutConstructor]);
+        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::_get("ClassWithoutConstructor"));
     }
 
     public function testIoCwithoutParameters(): void
     {
-        $newClassWithoutParameters = Rudra::new(ClassWithoutParameters::class);
+        $newClassWithoutParameters = Rudra::_new(ClassWithoutParameters::class);
         $this->assertInstanceOf(ClassWithoutParameters::class, $newClassWithoutParameters);
 
-        Rudra::set(["ClassWithoutParameters", $newClassWithoutParameters]);
-        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("ClassWithoutParameters"));
+        Rudra::_set(["ClassWithoutParameters", $newClassWithoutParameters]);
+        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::_get("ClassWithoutParameters"));
     }
 
     public function testIoCwithDefaultParameters(): void
     {
-        $newClassWithDefaultParameters = Rudra::new(ClassWithDefaultParameters::class);
+        $newClassWithDefaultParameters = Rudra::_new(ClassWithDefaultParameters::class);
         $this->assertEquals("Default", $newClassWithDefaultParameters->getParam());
 
-        $newClassWithDefaultParameters = Rudra::new(ClassWithDefaultParameters::class, ["Test"]);
+        $newClassWithDefaultParameters = Rudra::_new(ClassWithDefaultParameters::class, ["Test"]);
         $this->assertEquals("Test", $newClassWithDefaultParameters->getParam());
 
-        Rudra::set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("ClassWithDefaultParameters"));
+        Rudra::_set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::_get("ClassWithDefaultParameters"));
     }
 
     public function testIoCwithDependency(): void
     {
-        $newClassWithDependency = Rudra::new(ClassWithDependency::class);
+        $newClassWithDependency = Rudra::_new(ClassWithDependency::class);
         $this->assertInstanceOf(ClassWithDependency::class, $newClassWithDependency);
 
-        Rudra::set(["ClassWithDependency", $newClassWithDependency]);
-        $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("ClassWithDependency"));
+        Rudra::_set(["ClassWithDependency", $newClassWithDependency]);
+        $this->assertInstanceOf(ClassWithDependency::class, Rudra::_get("ClassWithDependency"));
     }
 
     public function testHas(): void
     {
-        $this->assertTrue(Rudra::has(ContainerTest::class));
-        $this->assertTrue(Rudra::has("ClassWithoutConstructor"));
-        $this->assertTrue(Rudra::has("ClassWithoutParameters"));
-        $this->assertTrue(Rudra::has("ClassWithDefaultParameters"));
-        $this->assertTrue(Rudra::has("ClassWithDependency"));
-        $this->assertFalse(Rudra::has("SomeClass"));
+        $this->assertTrue(Rudra::_has(ContainerTest::class));
+        $this->assertTrue(Rudra::_has("ClassWithoutConstructor"));
+        $this->assertTrue(Rudra::_has("ClassWithoutParameters"));
+        $this->assertTrue(Rudra::_has("ClassWithDefaultParameters"));
+        $this->assertTrue(Rudra::_has("ClassWithDependency"));
+        $this->assertFalse(Rudra::_has("SomeClass"));
     }
 
     public function testGetData(): void
@@ -150,27 +155,27 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSessionData(): void
     {
-        Rudra::session()->set(["key", "value"]);
-        Rudra::session()->set(["subKey", ["subSet" => "value"]]);
-        Rudra::session()->set(["increment", ["increment" => "value"]]);
-        $this->assertEquals("value", Rudra::session()->get("key"));
-        $this->assertEquals("value", Rudra::session()->get("subKey")["subSet"]);
-        $this->assertEquals("value", Rudra::session()->get("increment")[0]["increment"]);
-        $this->assertTrue(Rudra::session()->has("key"));
-        $this->assertTrue(Rudra::session()->has("subKey", "subSet"));
-        $this->assertNull(Rudra::session()->unset("key"));
-        $this->assertNull(Rudra::session()->unset("subKey", "subSet"));
-        $this->assertFalse(Rudra::session()->has("key"));
-        $this->assertFalse(Rudra::session()->has("subKey", "subSet"));
-        $this->assertNull(Rudra::session()->clear());
+        Rudra::_session()->set(["key", "value"]);
+        Rudra::_session()->set(["subKey", ["subSet" => "value"]]);
+        Rudra::_session()->set(["increment", ["increment" => "value"]]);
+        $this->assertEquals("value", Rudra::_session()->get("key"));
+        $this->assertEquals("value", Rudra::_session()->get("subKey")["subSet"]);
+        $this->assertEquals("value", Rudra::_session()->get("increment")[0]["increment"]);
+        $this->assertTrue(Rudra::_session()->has("key"));
+        $this->assertTrue(Rudra::_session()->has("subKey", "subSet"));
+        $this->assertNull(Rudra::_session()->unset("key"));
+        $this->assertNull(Rudra::_session()->unset("subKey", "subSet"));
+        $this->assertFalse(Rudra::_session()->has("key"));
+        $this->assertFalse(Rudra::_session()->has("subKey", "subSet"));
+        $this->assertNull(Rudra::_session()->clear());
     }
 
     public function testCookieData(): void
     {
-        Rudra::cookie()->set(["key", "value"]);
-        $this->assertEquals("value", Rudra::cookie()->get("key"));
-        $this->assertTrue(Rudra::cookie()->has("key"));
-        $this->assertFalse(Rudra::cookie()->has("false"));
+        Rudra::_cookie()->set(["key", "value"]);
+        $this->assertEquals("value", Rudra::_cookie()->get("key"));
+        $this->assertTrue(Rudra::_cookie()->has("key"));
+        $this->assertFalse(Rudra::_cookie()->has("false"));
     }
 
     public function testFilesData(): void

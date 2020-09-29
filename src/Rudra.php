@@ -9,61 +9,62 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Abstracts\{AbstractApplication, ContainerInterface, AbstractRequest, AbstractResponse};
-use Rudra\Container\Traits\InstantiationsTrait;
+use Rudra\Container\Abstracts\{AbstractRudra,
+    RudraInterface,
+    ContainerInterface,
+    AbstractRequest,
+    AbstractResponse};
+use Rudra\Container\Traits\{InstantiationsTrait, PublicApplicationTrait};
 
-class Rudra extends AbstractApplication
+class Rudra extends AbstractRudra implements RudraInterface, ContainerInterface
 {
     use InstantiationsTrait;
+    use PublicApplicationTrait;
 
-    public static ?AbstractApplication $rudra = null;
+    public static ?AbstractRudra $rudra = null;
     private array $data = [];
 
-    public function __construct()
+    protected function _setServices(array $services): void
     {
+        ($this->_has("binding")) ?: $this->_set(["binding", new Container($services["contracts"])]);
+        ($this->_has("services")) ?: $this->_set(["services", new Container($services["services"])]);
+        ($this->_has("config")) ?: $this->_set(["config", new Container($services["config"])]);
     }
 
-    protected function setServices(array $services): void
+    protected function _binding(): ContainerInterface
     {
-        ($this->has("binding")) ?: $this->set(["binding", new Container($services["contracts"])]);
-        ($this->has("services")) ?: $this->set(["services", new Container($services["services"])]);
-        ($this->has("config")) ?: $this->set(["config", new Container($services["config"])]);
-    }
-
-    protected function binding(): ContainerInterface
-    {
-        if ($this->has("binding")) return $this->get("binding");
+        if ($this->_has("binding")) return $this->_get("binding");
         throw new \InvalidArgumentException("Service not preinstalled");
     }
 
-    protected function services(): ContainerInterface
+    protected function _services(): ContainerInterface
     {
-        if ($this->has("services")) return $this->get("services");
+        if ($this->_has("services")) return $this->_get("services");
         throw new \InvalidArgumentException("Service not preinstalled");
     }
     
-    protected function config(): ContainerInterface
+    protected function _config(): ContainerInterface
     {
-        if ($this->has("config")) return $this->get("config");
+        if ($this->_has("config")) return $this->_get("config");
         throw new \InvalidArgumentException("Service not preinstalled");
     }
 
-    protected function request(): AbstractRequest
+    protected function _request(): AbstractRequest
     {
         return $this->containerize(Request::class);
     }
 
-    protected function response(): AbstractResponse
+    protected function _response(): AbstractResponse
     {
         return $this->containerize(Response::class);
     }
 
-    protected function cookie(): Cookie
+    protected function _cookie(): Cookie
     {
         return $this->containerize(Cookie::class);
     }
 
-    protected function session(): Session
+    protected function _session(): Session
     {
         return $this->containerize(Session::class);
     }
@@ -71,7 +72,7 @@ class Rudra extends AbstractApplication
     /*
      | Creates an object without adding to the container
      */
-    protected function new($object, $params = null)
+    protected function _new($object, $params = null)
     {
         $reflection = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
@@ -85,7 +86,7 @@ class Rudra extends AbstractApplication
         return new $object();
     }
 
-    public static function run(): AbstractApplication
+    public static function run(): AbstractRudra
     {
         if (!static::$rudra instanceof static) {
             static::$rudra = new static();
@@ -94,20 +95,20 @@ class Rudra extends AbstractApplication
         return static::$rudra;
     }
 
-    protected function get(string $key = null)
+    protected function _get(string $key = null)
     {
-        if (isset($key) && !$this->has($key)) {
-            if (!$this->services()->has($key)) {
+        if (isset($key) && !$this->_has($key)) {
+            if (!$this->_services()->has($key)) {
                 throw new \InvalidArgumentException("Service is not installed");
             }
 
-            $this->set([$key, $this->services()->get($key)]);
+            $this->_set([$key, $this->_services()->get($key)]);
         }
 
         return empty($key) ? $this->data : $this->data[$key];
     }
 
-    protected function set(array $data): void
+    protected function _set(array $data): void
     {
         list($key, $object) = $data;
 
@@ -124,7 +125,7 @@ class Rudra extends AbstractApplication
         $this->setObject($object, $key);
     }
 
-    protected function has(string $key): bool
+    protected function _has(string $key): bool
     {
         return array_key_exists($key, $this->data);
     }
@@ -165,8 +166,8 @@ class Rudra extends AbstractApplication
              | so that the container automatically created the necessary object and substituted as an argument,
              | we need to bind the interface with the implementation.
              */
-            if (isset($value->getClass()->name) && $this->binding()->has($value->getClass()->name)) {
-                $className = $this->binding()->get($value->getClass()->name);
+            if (isset($value->getClass()->name) && $this->_binding()->has($value->getClass()->name)) {
+                $className = $this->_binding()->get($value->getClass()->name);
                 $paramsIoC[] = (is_object($className)) ? $className : new $className;
                 continue;
             }
@@ -185,14 +186,5 @@ class Rudra extends AbstractApplication
         }
 
         return $paramsIoC;
-    }
-
-    public function __call($method, $parameters) {
-        return $this->$method(...$parameters);
-    }
-
-    public static function __callStatic($method, $parameters)
-    {
-        return Rudra::run()->$method(...$parameters);
     }
 }
