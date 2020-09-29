@@ -43,7 +43,7 @@ class Auth
 ```
 >Adding an object in this case is similar to the first
 ```php
-Rudra::set(['auth', 'Rudra\Auth']);
+Rudra::_set(['auth', 'Rudra\Auth']);
 or
 Rudra::run()->set(['auth', 'Rudra\Auth']);
 ```
