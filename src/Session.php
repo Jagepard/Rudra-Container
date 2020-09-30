@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Abstracts\ContainerInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
 
 class Session implements ContainerInterface
 {
