@@ -9,18 +9,18 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Traits;
 
-use Rudra\Container\Interfaces\RequestInterface;
+use Rudra\Container\Interfaces\RudraInterface;
 
 trait SetRudraContainersTrait
 {
-    private RequestInterface $rudra;
+    private RudraInterface $rudra;
 
-    public function __construct(RequestInterface $rudra)
+    public function __construct(RudraInterface $rudra)
     {
         $this->rudra = $rudra;
     }
 
-    public function rudra(): RequestInterface
+    public function rudra(): RudraInterface
     {
         return $this->rudra;
     }
