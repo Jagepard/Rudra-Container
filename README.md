@@ -24,7 +24,7 @@ Rudra::run();
 ###### Add objects:
 Without arguments - add to the container the class *Annotations* with the call key *annotation*
 ```php
-Rudra::_set(['annotation', 'Rudra\Annotation']);
+RudraFacade::set(['annotation', 'Rudra\Annotation']);
 or
 Rudra::run()->set(['annotation', 'Rudra\Annotation']);
 ```
@@ -43,7 +43,7 @@ class Auth
 ```
 >Adding an object in this case is similar to the first
 ```php
-Rudra::_set(['auth', 'Rudra\Auth']);
+RudraFacade::set(['auth', 'Rudra\Auth']);
 or
 Rudra::run()->set(['auth', 'Rudra\Auth']);
 ```
@@ -65,12 +65,12 @@ class Auth
 . To do this, we use the setBinding method, to which we will pass the interface as the first element, and in
 as a second implementation
 ```php
-Rudra::_binding()->set([RudraInterface::class => rudra()]);
+RudraFacade::binding()->set([RudraInterface::class => rudra()]);
 or
 Rudra::run()->binding()->set([RudraInterface::class => rudra()]);
 ```
 ```php
-Rudra::_set(['auth', 'Rudra\Auth']);
+RudraFacade::set(['auth', 'Rudra\Auth']);
 or
 Rudra::run()->set(['auth', 'Rudra\Auth']);
 ```
@@ -87,12 +87,12 @@ class Auth
 ```
 >In this case, you can pass as soon as the argument $name, and $name, $config
 ```php
-Rudra::_set(['auth', ['Rudra\Auth', ['value']]);
+RudraFacade::set(['auth', ['Rudra\Auth', ['value']]);
 or
 Rudra::run()->set(['auth', ['Rudra\Auth', ['value']]);
 ```
 ```php
-Rudra::_set('auth', ['Rudra\Auth', ['value', 'concrete']]);
+RudraFacade::set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 or
 Rudra::run()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 ```
