@@ -5,7 +5,7 @@
  * @license   https://mit-license.org/ MIT
  */
 
-namespace Rudra\Container\Abstracts;
+namespace Rudra\Container\Interfaces;
 
 interface ContainerInterface
 {
