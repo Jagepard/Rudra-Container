@@ -51,7 +51,7 @@ class Rudra implements RudraInterface, ContainerInterface
 
     public function response(): ResponseInterface
     {
-        return $this->containerize(ResponseInterface::class);
+        return $this->containerize(Response::class);
     }
 
     public function cookie(): Cookie
