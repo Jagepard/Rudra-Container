@@ -14,6 +14,8 @@
 ```composer require rudra/container```
 #### Using
 ```php
+use Rudra\Container\Facades\Rudra;
+or
 use Rudra\Container\Rudra;
 ``` 
 >The container is available for calling.
@@ -24,7 +26,7 @@ Rudra::run();
 ###### Add objects:
 Without arguments - add to the container the class *Annotations* with the call key *annotation*
 ```php
-RudraFacade::set(['annotation', 'Rudra\Annotation']);
+Rudra::set(['annotation', 'Rudra\Annotation']);
 or
 Rudra::run()->set(['annotation', 'Rudra\Annotation']);
 ```
@@ -43,7 +45,7 @@ class Auth
 ```
 >Adding an object in this case is similar to the first
 ```php
-RudraFacade::set(['auth', 'Rudra\Auth']);
+Rudra::set(['auth', 'Rudra\Auth']);
 or
 Rudra::run()->set(['auth', 'Rudra\Auth']);
 ```
@@ -70,7 +72,7 @@ or
 Rudra::run()->binding()->set([RudraInterface::class => rudra()]);
 ```
 ```php
-RudraFacade::set(['auth', 'Rudra\Auth']);
+Rudra::set(['auth', 'Rudra\Auth']);
 or
 Rudra::run()->set(['auth', 'Rudra\Auth']);
 ```
@@ -87,12 +89,12 @@ class Auth
 ```
 >In this case, you can pass as soon as the argument $name, and $name, $config
 ```php
-RudraFacade::set(['auth', ['Rudra\Auth', ['value']]);
+Rudra::set(['auth', ['Rudra\Auth', ['value']]);
 or
 Rudra::run()->set(['auth', ['Rudra\Auth', ['value']]);
 ```
 ```php
-RudraFacade::set('auth', ['Rudra\Auth', ['value', 'concrete']]);
+Rudra::set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 or
 Rudra::run()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
 ```
