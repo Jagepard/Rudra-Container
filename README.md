@@ -67,7 +67,7 @@ class Auth
 . To do this, we use the setBinding method, to which we will pass the interface as the first element, and in
 as a second implementation
 ```php
-RudraFacade::binding()->set([RudraInterface::class => rudra()]);
+Rudra::binding()->set([RudraInterface::class => rudra()]);
 or
 Rudra::run()->binding()->set([RudraInterface::class => rudra()]);
 ```
