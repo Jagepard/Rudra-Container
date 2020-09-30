@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\{RequestInterface, RudraInterface, ContainerInterface, AbstractRequest, ResponseInterface};
+use Rudra\Container\Interfaces\{RequestInterface, RudraInterface, ContainerInterface, ResponseInterface};
 use Rudra\Container\Traits\{InstantiationsTrait};
 
 class Rudra implements RudraInterface, ContainerInterface
@@ -23,25 +23,24 @@ class Rudra implements RudraInterface, ContainerInterface
     {
         ($this->has("binding")) ?: $this->set(["binding", new Container($services["contracts"])]);
         ($this->has("services")) ?: $this->set(["services", new Container($services["services"])]);
-        ($this->has("config")) ?: $this->set(["config", new Container($services["config"])]);
     }
 
     public function binding(): ContainerInterface
     {
         if ($this->has("binding")) return $this->get("binding");
-        throw new \InvalidArgumentException("Service not preinstalled");
+        throw new \InvalidArgumentException("Service 'binding' not preinstalled");
     }
 
     public function services(): ContainerInterface
     {
         if ($this->has("services")) return $this->get("services");
-        throw new \InvalidArgumentException("Service not preinstalled");
+        throw new \InvalidArgumentException("Service 'services' not preinstalled");
     }
     
     public function config(): ContainerInterface
     {
         if ($this->has("config")) return $this->get("config");
-        throw new \InvalidArgumentException("Service not preinstalled");
+        throw new \InvalidArgumentException("Service 'config' not preinstalled");
     }
 
     public function request(): RequestInterface

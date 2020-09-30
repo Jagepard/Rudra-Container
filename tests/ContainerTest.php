@@ -12,10 +12,13 @@ declare(strict_types=1);
 namespace Rudra\Container\Tests;
 
 use Rudra\Container\{
-    Interfaces\RudraInterface,
     Container,
-    Facades\RequestFacade as Request,
-    Facades\RudraFacade as Rudra};
+    Interfaces\RudraInterface,
+    Facades\Request,
+    Facades\Rudra,
+    Facades\Session,
+    Facades\Cookie
+};
 use Rudra\Container\Tests\Stub\{
     ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
 };
@@ -30,17 +33,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->rudra = Rudra::run();
         Rudra::setServices(
             [
-                "contracts" => [
-                    RudraInterface::class => Rudra::run(),
-                ],
+                "contracts" => [RudraInterface::class => Rudra::run()],
 
                 "services" => [
                     "CWC" => ClassWithoutConstructor::class,
                     "CWP" => ClassWithoutParameters::class,
                     "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
                 ],
-
-                "config" => []
             ]
         );
     }
@@ -151,27 +150,27 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSessionData(): void
     {
-        Rudra::session()->set(["key", "value"]);
-        Rudra::session()->set(["subKey", ["subSet" => "value"]]);
-        Rudra::session()->set(["increment", ["increment" => "value"]]);
-        $this->assertEquals("value", Rudra::session()->get("key"));
-        $this->assertEquals("value", Rudra::session()->get("subKey")["subSet"]);
-        $this->assertEquals("value", Rudra::session()->get("increment")[0]["increment"]);
-        $this->assertTrue(Rudra::session()->has("key"));
-        $this->assertTrue(Rudra::session()->has("subKey", "subSet"));
-        $this->assertNull(Rudra::session()->unset("key"));
-        $this->assertNull(Rudra::session()->unset("subKey", "subSet"));
-        $this->assertFalse(Rudra::session()->has("key"));
-        $this->assertFalse(Rudra::session()->has("subKey", "subSet"));
-        $this->assertNull(Rudra::session()->clear());
+        Session::set(["key", "value"]);
+        Session::set(["subKey", ["subSet" => "value"]]);
+        Session::set(["increment", ["increment" => "value"]]);
+        $this->assertEquals("value", Session::get("key"));
+        $this->assertEquals("value", Session::get("subKey")["subSet"]);
+        $this->assertEquals("value", Session::get("increment")[0]["increment"]);
+        $this->assertTrue(Session::has("key"));
+        $this->assertTrue(Session::has("subKey", "subSet"));
+        $this->assertNull(Session::unset("key"));
+        $this->assertNull(Session::unset("subKey", "subSet"));
+        $this->assertFalse(Session::has("key"));
+        $this->assertFalse(Session::has("subKey", "subSet"));
+        $this->assertNull(Session::clear());
     }
 
     public function testCookieData(): void
     {
-        Rudra::cookie()->set(["key", "value"]);
-        $this->assertEquals("value", Rudra::cookie()->get("key"));
-        $this->assertTrue(Rudra::cookie()->has("key"));
-        $this->assertFalse(Rudra::cookie()->has("false"));
+        Cookie::set(["key", "value"]);
+        $this->assertEquals("value", Cookie::get("key"));
+        $this->assertTrue(Cookie::has("key"));
+        $this->assertFalse(Cookie::has("false"));
     }
 
     public function testFilesData(): void

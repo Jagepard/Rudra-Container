@@ -7,8 +7,7 @@
 
 namespace Rudra\Container\Traits;
 
-use Rudra\Container\Facades\RudraFacade;
-use Rudra\Container\Rudra;
+use Rudra\Container\Facades\Rudra;
 
 trait FacadeTrait
 {
@@ -17,10 +16,10 @@ trait FacadeTrait
         $className = str_replace("Facade", "", static::class);
         if (!class_exists($className)) $className = str_replace("\s", "", $className);
 
-        if (!RudraFacade::has($className)) {
-            RudraFacade::set([$className, [$className]]);
+        if (!Rudra::has($className)) {
+            Rudra::set([$className, [$className]]);
         }
 
-        return Rudra::run()->get($className)->$method(...$parameters);
+        return Rudra::get($className)->$method(...$parameters);
     }
 }
