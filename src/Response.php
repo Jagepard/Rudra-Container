@@ -9,17 +9,14 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Abstracts\AbstractResponse;
-use Rudra\Container\Traits\FacadeTrait;
+use Rudra\Container\Interfaces\ResponseInterface;
 
-class Response extends AbstractResponse
+class Response implements ResponseInterface
 {
-    use FacadeTrait;
-
     /**
      * @codeCoverageIgnore
      */
-    protected function json(array $data): void
+    public function json(array $data): void
     {
         header("Content-Type: application/json");
         print $this->getJson($data);
