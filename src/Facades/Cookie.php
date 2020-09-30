@@ -11,7 +11,7 @@ namespace Rudra\Container\Facades;
 
 use Rudra\Container\Traits\FacadeTrait;
 
-final class RequestFacade
+final class Cookie
 {
     use FacadeTrait;
 }

@@ -9,9 +9,10 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\Traits\FacadeTrait;
-
-final class ResponseFacade
+final class Rudra
 {
-    use FacadeTrait;
+    public static function __callStatic($method, $parameters = [])
+    {
+        return \Rudra\Container\Rudra::run()->$method(...$parameters);
+    }
 }
