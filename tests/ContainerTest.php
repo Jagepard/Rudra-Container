@@ -13,11 +13,11 @@ namespace Rudra\Container\Tests;
 
 use Rudra\Container\{
     Container,
-    Interfaces\RudraInterface,
     Facades\Request,
     Facades\Rudra,
     Facades\Session,
-    Facades\Cookie
+    Facades\Cookie,
+    Interfaces\RudraInterface
 };
 use Rudra\Container\Tests\Stub\{
     ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
