@@ -220,7 +220,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testCookieData(): void
     {
         Rudra::cookie()->set(["key", "value"]);
-        $this->assertTrue(is_array(Session::get()));
+        $this->assertTrue(is_array(Cookie::get()));
         $this->assertEquals("value", Cookie::get("key"));
         $this->assertTrue(Cookie::has("key"));
         $this->assertFalse(Cookie::has("false"));
