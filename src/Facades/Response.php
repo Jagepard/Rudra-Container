@@ -11,6 +11,11 @@ namespace Rudra\Container\Facades;
 
 use Rudra\Container\Traits\FacadeTrait;
 
+/**
+ * @method static json(array $data)
+ *
+ * @see \Rudra\Container\Response
+ */
 final class Response
 {
     use FacadeTrait;

@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\{RequestInterface, RudraInterface, ContainerInterface, ResponseInterface};
 use Rudra\Container\Traits\{InstantiationsTrait};
+use Rudra\Container\Interfaces\{RequestInterface, RudraInterface, ContainerInterface, ResponseInterface};
 
 class Rudra implements RudraInterface, ContainerInterface
 {
