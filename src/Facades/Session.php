@@ -11,6 +11,16 @@ namespace Rudra\Container\Facades;
 
 use Rudra\Container\Traits\FacadeTrait;
 
+/**
+ * @method static get(string $key = null)
+ * @method static void set(array $data)
+ * @method static bool has(string $key)
+ * @method static void unset(string $key)
+ * @method static void stop()
+ * @method static void clear()
+ *
+ * @see \Rudra\Container\Session
+ */
 final class Session
 {
     use FacadeTrait;

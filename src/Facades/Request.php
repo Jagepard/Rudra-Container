@@ -9,8 +9,19 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\Traits\FacadeTrait;
+use Rudra\Container\{Files, Traits\FacadeTrait, Interfaces\ContainerInterface};
 
+/**
+ * @method static ContainerInterface get()
+ * @method static ContainerInterface post()
+ * @method static ContainerInterface put()
+ * @method static ContainerInterface patch()
+ * @method static ContainerInterface delete()
+ * @method static ContainerInterface server()
+ * @method static Files files()
+ *
+ * @see \Rudra\Container\Request
+ */
 final class Request
 {
     use FacadeTrait;
