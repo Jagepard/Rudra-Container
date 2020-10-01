@@ -2,11 +2,9 @@
 
 namespace Rudra\Container\Tests\Stub;
 
-use Rudra\Container\Interfaces\RudraInterface;
+use Rudra\Container\Traits\SetRudraContainersTrait;
 
 class ClassWithDependency
 {
-    public function __construct(RudraInterface $container)
-    {
-    }
+    use SetRudraContainersTrait;
 }
