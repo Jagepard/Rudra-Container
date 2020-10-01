@@ -38,6 +38,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
                     "CWC" => ClassWithoutConstructor::class,
                     "CWP" => ClassWithoutParameters::class,
                     "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
+                    "CWD" => ClassWithDependency::class
                 ],
             ]
         );
@@ -65,6 +66,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("CWC"));
         $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("CWP"));
         $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("CWDP"));
+        $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("CWD"));
+    }
+
+    public function testSetRudraContainersTrait()
+    {
+        $this->assertInstanceOf(\Rudra\Container\Rudra::class, Rudra::get("CWD")->rudra());
     }
 
     public function testSetRaw(): void
@@ -126,6 +133,13 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(Rudra::has("ClassWithDefaultParameters"));
         $this->assertTrue(Rudra::has("ClassWithDependency"));
         $this->assertFalse(Rudra::has("SomeClass"));
+    }
+
+    public function testConfig(): void
+    {
+        Rudra::set(["config", new Container([])]);
+        Rudra::config()->set(["key" => "value"]);
+        $this->assertEquals("value", Rudra::config()->get("key"));
     }
 
     public function testGetData(): void
