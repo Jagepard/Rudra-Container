@@ -54,6 +54,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(count(Rudra::get()) > 0);
     }
 
+    public function testGetInvalidArgumentException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Rudra::get("wrongKey");
+    }
+
     public function testSetServices(): void
     {
         $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("CWC"));
