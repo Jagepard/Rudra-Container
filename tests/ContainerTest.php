@@ -11,14 +11,13 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
-use Rudra\Container\{
-    Container,
+use Rudra\Container\{Container,
     Facades\Request,
+    Facades\Response,
     Facades\Rudra,
     Facades\Session,
     Facades\Cookie,
-    Interfaces\RudraInterface
-};
+    Interfaces\RudraInterface};
 use Rudra\Container\Tests\Stub\{
     ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
 };
@@ -125,7 +124,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testGetData(): void
     {
-        Request::get()->set(["key" => "value"]);
+        Rudra::request()->get()->set(["key" => "value"]);
         $this->assertEquals("value", Request::get()->get("key"));
         $this->assertContains("value", Request::get()->get());
         $this->assertTrue(Request::get()->has("key"));
@@ -141,6 +140,33 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertFalse(Request::post()->has("false"));
     }
 
+    public function testPutData(): void
+    {
+        Request::put()->set(["key" => "value"]);
+        $this->assertEquals("value", Request::put()->get("key"));
+        $this->assertContains("value", Request::put()->get());
+        $this->assertTrue(Request::put()->has("key"));
+        $this->assertFalse(Request::put()->has("false"));
+    }
+
+    public function testPatchData(): void
+    {
+        Request::patch()->set(["key" => "value"]);
+        $this->assertEquals("value", Request::patch()->get("key"));
+        $this->assertContains("value", Request::patch()->get());
+        $this->assertTrue(Request::patch()->has("key"));
+        $this->assertFalse(Request::patch()->has("false"));
+    }
+
+    public function testDeleteData(): void
+    {
+        Request::delete()->set(["key" => "value"]);
+        $this->assertEquals("value", Request::delete()->get("key"));
+        $this->assertContains("value", Request::delete()->get());
+        $this->assertTrue(Request::delete()->has("key"));
+        $this->assertFalse(Request::delete()->has("false"));
+    }
+
     public function testServerData(): void
     {
         Request::server()->set(["key" => "value"]);
@@ -148,29 +174,68 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey("key", Request::server()->get());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
+    public function testJsonResponse(): void
+    {
+        ob_start();
+        Response::json(["key" => "value"]);
+        $this->assertEquals(["key" => "value"], json_decode(ob_get_clean(), true));
+        ob_clean();
+
+        ob_start();
+        Rudra::response()->json(["key" => "value"]);
+        $this->assertEquals(["key" => "value"], json_decode(ob_get_clean(), true));
+    }
+
     public function testSessionData(): void
     {
-        Session::set(["key", "value"]);
+        Rudra::session()->set(["key", "value"]);
         Session::set(["subKey", ["subSet" => "value"]]);
         Session::set(["increment", ["increment" => "value"]]);
+        $this->assertTrue(is_array(Session::get()));
         $this->assertEquals("value", Session::get("key"));
         $this->assertEquals("value", Session::get("subKey")["subSet"]);
         $this->assertEquals("value", Session::get("increment")[0]["increment"]);
         $this->assertTrue(Session::has("key"));
-        $this->assertTrue(Session::has("subKey", "subSet"));
-        $this->assertNull(Session::unset("key"));
-        $this->assertNull(Session::unset("subKey", "subSet"));
+        Session::unset("key");
         $this->assertFalse(Session::has("key"));
-        $this->assertFalse(Session::has("subKey", "subSet"));
-        $this->assertNull(Session::clear());
+        Session::clear();
+        $this->assertTrue(count($_SESSION) === 0);
+    }
+
+    public function testSessionDataGetWrongKey(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Session::get("wrongKey");
+    }
+
+    public function testSessionDataSetEmptyData(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Session::set([]);
     }
 
     public function testCookieData(): void
     {
-        Cookie::set(["key", "value"]);
+        Rudra::cookie()->set(["key", "value"]);
+        $this->assertTrue(is_array(Session::get()));
         $this->assertEquals("value", Cookie::get("key"));
         $this->assertTrue(Cookie::has("key"));
         $this->assertFalse(Cookie::has("false"));
+    }
+
+    public function testCookieDataGetWrongKey(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Cookie::get("wrongKey");
+    }
+
+    public function testCookieDataSetEmptyData(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        Cookie::set([]);
     }
 
     public function testFilesData(): void
