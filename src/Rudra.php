@@ -19,6 +19,11 @@ class Rudra implements RudraInterface, ContainerInterface
     public static ?RudraInterface $rudra = null;
     private array $data = [];
 
+    public function setConfig(array $config): void
+    {
+        ($this->has("config")) ?: $this->set(["config", new Container($config)]);
+    }
+
     public function setServices(array $services): void
     {
         ($this->has("binding")) ?: $this->set(["binding", new Container($services["contracts"])]);
