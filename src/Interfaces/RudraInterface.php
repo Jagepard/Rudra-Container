@@ -15,6 +15,7 @@ interface RudraInterface
     public function config(): ContainerInterface;
     public function services(): ContainerInterface;
     public function binding(): ContainerInterface;
+    public function setConfig(array $config): void;
     public function setServices(array $services): void;
 
     // Containers for the HTTP / 1.1 Common Method Kit
