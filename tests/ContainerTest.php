@@ -30,6 +30,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     protected function setUp(): void
     {
         $this->rudra = Rudra::run();
+        Rudra::setConfig([]);
         Rudra::setServices(
             [
                 "contracts" => [RudraInterface::class => Rudra::run()],
