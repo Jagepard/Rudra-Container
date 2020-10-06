@@ -98,7 +98,7 @@ class Rudra implements RudraInterface, ContainerInterface
     {
         if (isset($key) && !$this->has($key)) {
             if (!$this->services()->has($key)) {
-                throw new \InvalidArgumentException("Service is not installed");
+                throw new \InvalidArgumentException("Service '$key' is not installed");
             }
 
             $this->set([$key, $this->services()->get($key)]);
