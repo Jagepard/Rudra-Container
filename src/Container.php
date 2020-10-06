@@ -22,7 +22,15 @@ class Container implements ContainerInterface
 
     public function get(string $key = null)
     {
-        return empty($key) ? $this->data : $this->data[$key];
+        if (empty($key)) {
+            return $this->data;
+        }
+
+        if (!array_key_exists($key, $this->data)) {
+            throw new \InvalidArgumentException("'$key' is not isset");
+        }
+
+        return $this->data[$key];
     }
 
     public function set(array $data): void
