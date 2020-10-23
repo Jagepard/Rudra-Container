@@ -19,33 +19,25 @@ class Rudra implements RudraInterface, ContainerInterface
     public static ?RudraInterface $rudra = null;
     private array $data = [];
 
-    public function setConfig(array $config): void
+    public function binding(array $contracts = []): ContainerInterface
     {
-        ($this->has("config")) ?: $this->set(["config", new Container($config)]);
+        if (!$this->has("binding")) $this->set(["binding", new Container($contracts)]);
+
+        return $this->get("binding");
     }
 
-    public function setServices(array $services): void
+    public function services(array $services = []): ContainerInterface
     {
-        ($this->has("binding")) ?: $this->set(["binding", new Container($services["contracts"])]);
-        ($this->has("services")) ?: $this->set(["services", new Container($services["services"])]);
-    }
+        if (!$this->has("services")) $this->set(["services", new Container($services)]);
 
-    public function binding(): ContainerInterface
-    {
-        if ($this->has("binding")) return $this->get("binding");
-        throw new \InvalidArgumentException("Service 'binding' not preinstalled");
-    }
-
-    public function services(): ContainerInterface
-    {
-        if ($this->has("services")) return $this->get("services");
-        throw new \InvalidArgumentException("Service 'services' not preinstalled");
+        return $this->get("services");
     }
     
-    public function config(): ContainerInterface
+    public function config(array $config = []): ContainerInterface
     {
-        if ($this->has("config")) return $this->get("config");
-        throw new \InvalidArgumentException("Service 'config' not preinstalled");
+        if (!$this->has("config")) $this->set(["config", new Container($config)]);
+
+        return $this->get("config");
     }
 
     public function request(): RequestInterface

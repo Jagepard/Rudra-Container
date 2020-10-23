@@ -12,11 +12,9 @@ use Rudra\Container\{Cookie, Session};
 interface RudraInterface
 {
     // Config, Services and Binding
-    public function config(): ContainerInterface;
-    public function services(): ContainerInterface;
-    public function binding(): ContainerInterface;
-    public function setConfig(array $config): void;
-    public function setServices(array $services): void;
+    public function config(array $config = []): ContainerInterface;
+    public function services(array $services = []): ContainerInterface;
+    public function binding(array $contracts = []): ContainerInterface;
 
     // Containers for the HTTP / 1.1 Common Method Kit
     public function request(): RequestInterface;
