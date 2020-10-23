@@ -13,11 +13,9 @@ use Rudra\Container\{Cookie, Session};
 use Rudra\Container\Interfaces\{RequestInterface, ResponseInterface, ContainerInterface, RudraInterface};
 
 /**
- * @method static void setConfig(array $services)
- * @method static void setServices(array $services)
- * @method static ContainerInterface binding()
- * @method static ContainerInterface services()
- * @method static ContainerInterface config()
+ * @method static ContainerInterface binding(array $contracts = [])
+ * @method static ContainerInterface services(array $services = [])
+ * @method static ContainerInterface config(array $config = [])
  * @method static RequestInterface request()
  * @method static ResponseInterface response()
  * @method static Cookie cookie()
