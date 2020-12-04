@@ -32,11 +32,6 @@ class Session implements ContainerInterface
             throw new \InvalidArgumentException("The array contains the wrong number of elements");
         }
 
-        if (is_array($data[1]) && (key($data[1]) === "increment")) {
-            $_SESSION[$data[0]][] = $data[1];
-            return;
-        }
-
         $_SESSION[$data[0]] = $data[1];
     }
 
