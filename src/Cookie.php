@@ -10,8 +10,9 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
+use Psr\Container\ContainerInterface as PsrContainerInterface;
 
-class Cookie implements ContainerInterface
+class Cookie implements ContainerInterface, PsrContainerInterface
 {
     public function get(string $key = null)
     {
@@ -20,7 +21,7 @@ class Cookie implements ContainerInterface
         }
 
         if (!array_key_exists($key, $_COOKIE)) {
-            throw new \InvalidArgumentException("No data corresponding to the key");
+            throw new \InvalidArgumentException("No data corresponding to the $key");
         }
 
         return $_COOKIE[$key];
@@ -37,7 +38,7 @@ class Cookie implements ContainerInterface
     public function unset(string $key): void
     {
         if (!array_key_exists($key, $_COOKIE)) {
-            throw new \InvalidArgumentException("No data corresponding to the key");
+            throw new \InvalidArgumentException("No data corresponding to the $key");
         }
 
         unset($_COOKIE[$key]);

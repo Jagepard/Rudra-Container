@@ -11,8 +11,9 @@ namespace Rudra\Container;
 
 use Rudra\Container\Traits\{InstantiationsTrait};
 use Rudra\Container\Interfaces\{RequestInterface, RudraInterface, ContainerInterface, ResponseInterface};
+use Psr\Container\ContainerInterface as PsrContainerInterface;
 
-class Rudra implements RudraInterface, ContainerInterface
+class Rudra implements RudraInterface, ContainerInterface, PsrContainerInterface
 {
     use InstantiationsTrait;
 
@@ -96,7 +97,11 @@ class Rudra implements RudraInterface, ContainerInterface
             $this->set([$key, $this->services()->get($key)]);
         }
 
-        return empty($key) ? $this->data : $this->data[$key];
+        if (empty($key)) {
+            return $this->data;
+        }
+
+        return ($this->data[$key] instanceof \Closure) ? $this->data[$key]() : $this->data[$key];
     }
 
     public function set(array $data): void
