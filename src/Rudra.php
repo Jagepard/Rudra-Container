@@ -11,9 +11,8 @@ namespace Rudra\Container;
 
 use Rudra\Container\Traits\{InstantiationsTrait};
 use Rudra\Container\Interfaces\{RequestInterface, RudraInterface, ContainerInterface, ResponseInterface};
-use Psr\Container\ContainerInterface as PsrContainerInterface;
 
-class Rudra implements RudraInterface, ContainerInterface, PsrContainerInterface
+class Rudra implements RudraInterface, ContainerInterface
 {
     use InstantiationsTrait;
 

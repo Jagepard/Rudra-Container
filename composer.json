@@ -23,8 +23,7 @@
         "skype" : "jagepard.ru"
     },
     "require"           : {
-        "php" : ">=7.4",
-        "psr/container": "2.0.x-dev"
+        "php" : ">=7.4"
     },
     "autoload"          : {
         "psr-4" : {
