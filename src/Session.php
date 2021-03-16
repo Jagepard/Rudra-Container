@@ -10,8 +10,9 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
+use Psr\Container\ContainerInterface as PsrContainerInterface;
 
-class Session implements ContainerInterface
+class Session implements ContainerInterface, PsrContainerInterface
 {
     public function get(string $key = null)
     {
@@ -20,7 +21,7 @@ class Session implements ContainerInterface
         }
 
         if (!array_key_exists($key, $_SESSION)) {
-            throw new \InvalidArgumentException("No data corresponding to the key");
+            throw new \InvalidArgumentException("No data corresponding to the $key");
         }
 
         return $_SESSION[$key];

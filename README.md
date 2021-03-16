@@ -33,9 +33,9 @@ and substitute it as an argument
 ```php
 class Auth
 {
-    public function __construct(AbstractApplication $application)
+    public function __construct(RudraInterface $rudra)
     {
-        $this->application = $application;
+        $this->rudra = $rudra;
     }
 }
 ```
@@ -46,14 +46,14 @@ Rudra::run()->set(['auth', 'Rudra\Auth']);
 >If in the constructor the Auth class expects the implementation of the ContainerInterface interface, then so that the container automatically
 created the necessary object and substituted as an argument, we need to connect the ContainerInterface interface to the implementation.
 ```php
-use Rudra\Container\Abstracts\AbstractApplication;
+use Rudra\Container\Interfaces\RudraInterface;
 ```
 ```php
 class Auth
 {
-    public function __construct(AbstractApplication $application)
+    public function __construct(RudraInterface $rudra)
     {
-        $this->application = $application;
+        $this->rudra = $rudra;
     }
 }
 ```
@@ -61,7 +61,7 @@ class Auth
 . To do this, we use the setBinding method, to which we will pass the interface as the first element, and in
 as a second implementation
 ```php
-Rudra::binding()->set([AbstractApplication::class => rudra()]);
+Rudra::binding()->set([RudraInterface::class => rudra()]);
 ```
 ```php
 Rudra::run()->set(['auth', 'Rudra\Auth']);
@@ -71,9 +71,9 @@ will be added by default by container
 ```php
 class Auth
 {
-    public function __construct(AbstractApplication $application, $name, $config = 'something')
+    public function __construct(RudraInterface $rudra, $name, $config = 'something')
     {
-        $this->application = $application;
+        $this->rudra = $rudra;
     }
 }
 ```
