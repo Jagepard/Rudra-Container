@@ -10,9 +10,8 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
-use Psr\Container\ContainerInterface as PsrContainerInterface;
 
-class Container implements ContainerInterface, PsrContainerInterface
+class Container implements ContainerInterface
 {
     protected array $data = [];
 

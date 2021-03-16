@@ -10,9 +10,8 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
-use Psr\Container\ContainerInterface as PsrContainerInterface;
 
-class Session implements ContainerInterface, PsrContainerInterface
+class Session implements ContainerInterface
 {
     public function get(string $key = null)
     {

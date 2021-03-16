@@ -10,9 +10,8 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\ContainerInterface;
-use Psr\Container\ContainerInterface as PsrContainerInterface;
 
-class Cookie implements ContainerInterface, PsrContainerInterface
+class Cookie implements ContainerInterface
 {
     public function get(string $key = null)
     {
