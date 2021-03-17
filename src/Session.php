@@ -32,7 +32,11 @@ class Session implements ContainerInterface
             throw new \InvalidArgumentException("The array contains the wrong number of elements");
         }
 
-        $_SESSION[$data[0]] = $data[1];
+        if (array_key_exists($data[0], $_SESSION) && is_array($_SESSION[$data[0]])) {
+            array_merge($_SESSION[$data[0]], $data[1]);
+        } else {
+            $_SESSION[$data[0]] = $data[1];
+        }
     }
 
     public function has(string $key): bool
@@ -43,6 +47,13 @@ class Session implements ContainerInterface
     public function unset(string $key): void
     {
         unset($_SESSION[$key]);
+    }
+
+    public function setFlash(string $type, array $data): void
+    {
+        foreach ($data as $key => $value) {
+            $this->set([$type, [$key => $value]]);
+        }
     }
 
     /**
