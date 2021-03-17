@@ -18,6 +18,7 @@ use Rudra\Container\Traits\FacadeTrait;
  * @method static void unset(string $key)
  * @method static void stop()
  * @method static void clear()
+ * @method static void setFlash(string $type, array $data)
  *
  * @see \Rudra\Container\Session
  */
