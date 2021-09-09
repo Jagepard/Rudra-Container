@@ -18,13 +18,11 @@ class Files extends Container
 
     public function isLoaded(string $value, string $formName = "upload"): bool
     {
-        return isset($this->data[$formName]["name"][$value])
-            ? ($this->data[$formName]["name"][$value] !== '')
-            : false;
+        return isset($this->data[$formName]["name"][$value]) && $this->data[$formName]["name"][$value] !== '';
     }
 
     public function isFileType(string $key, string $value): bool
     {
-        return ($this->data["type"][$key] == $value) ? true : false;
+        return $this->data["type"][$key] == $value;
     }
 }
