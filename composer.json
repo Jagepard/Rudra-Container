@@ -28,7 +28,10 @@
     "autoload"          : {
         "psr-4" : {
             "Rudra\\Container\\" : "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev" : {
         "psr-4": {
