@@ -7,7 +7,7 @@ if (!function_exists('data')) {
      * @param  $data
      * @return string
      */
-    function data($data = null): string
+    function data($data = null)
     {
         if (is_array($data)) {
             Rudra::data()->set($data);
