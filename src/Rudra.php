@@ -9,8 +9,11 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Traits\{InstantiationsTrait};
-use Rudra\Container\Interfaces\{RequestInterface, RudraInterface, ContainerInterface, ResponseInterface};
+use Rudra\Container\Interfaces\RudraInterface;
+use Rudra\Container\Interfaces\RequestInterface;
+use Rudra\Container\Interfaces\ResponseInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Container\Traits\InstantiationsTrait;
 
 class Rudra implements RudraInterface, ContainerInterface
 {
@@ -40,6 +43,13 @@ class Rudra implements RudraInterface, ContainerInterface
         return $this->get("config");
     }
 
+    public function data(array $data = []): ContainerInterface
+    {
+        if (!$this->has("data")) $this->set(["data", new Container($data)]);
+
+        return $this->get("data");
+    }
+    
     public function request(): RequestInterface
     {
         return $this->containerize(Request::class);
