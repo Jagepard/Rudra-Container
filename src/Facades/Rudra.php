@@ -9,13 +9,18 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\{Cookie, Session};
-use Rudra\Container\Interfaces\{RequestInterface, ResponseInterface, ContainerInterface, RudraInterface};
+use Rudra\Container\Cookie;
+use Rudra\Container\Session;
+use Rudra\Container\Interfaces\RudraInterface;
+use Rudra\Container\Interfaces\RequestInterface;
+use Rudra\Container\Interfaces\ResponseInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
 
 /**
  * @method static ContainerInterface binding(array $contracts = [])
  * @method static ContainerInterface services(array $services = [])
  * @method static ContainerInterface config(array $config = [])
+ * @method static ContainerInterface data($data = null)
  * @method static RequestInterface request()
  * @method static ResponseInterface response()
  * @method static Cookie cookie()

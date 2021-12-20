@@ -9,11 +9,9 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\{
-    Interfaces\ContainerInterface,
-    Interfaces\RequestInterface,
-    Traits\InstantiationsTrait
-};
+use Rudra\Container\Traits\InstantiationsTrait;
+use Rudra\Container\Interfaces\RequestInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
 
 class Request implements RequestInterface
 {
