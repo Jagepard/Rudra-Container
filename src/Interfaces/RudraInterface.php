@@ -7,7 +7,8 @@
 
 namespace Rudra\Container\Interfaces;
 
-use Rudra\Container\{Cookie, Session};
+use Rudra\Container\Cookie;
+use Rudra\Container\Session;
 
 interface RudraInterface
 {
