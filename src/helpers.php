@@ -18,6 +18,6 @@ if (!function_exists('data')) {
             return Rudra::data()->get();
         }
 
-        return Rudra::data()->get();
+        return Rudra::data()->get($data);
     }
 }
