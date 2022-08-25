@@ -171,10 +171,18 @@ class Rudra implements RudraInterface, ContainerInterface
              | so that the container automatically created the necessary object and substituted as an argument,
              | we need to bind the interface with the implementation.
              */
-            if (isset($value->getClass()->name) && $this->binding()->has($value->getClass()->name)) {
-                $className = $this->binding()->get($value->getClass()->name);
-                $paramsIoC[] = (is_object($className)) ? $className : new $className;
-                continue;
+            if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+                if (null !== $value->getType()->getName() && $this->binding()->has($value->getType()->getName())) {
+                    $className = $this->binding()->get($value->getType()->getName());
+                    $paramsIoC[] = (is_object($className)) ? $className : new $className;
+                    continue;
+                }
+            } else {
+                if (isset($value->getClass()->name) && $this->binding()->has($value->getClass()->name)) {
+                    $className = $this->binding()->get($value->getClass()->name);
+                    $paramsIoC[] = (is_object($className)) ? $className : new $className;
+                    continue;
+                }
             }
 
             /*
