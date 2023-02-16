@@ -24,30 +24,22 @@ class Rudra implements RudraInterface, ContainerInterface
 
     public function binding(array $contracts = []): ContainerInterface
     {
-        if (!$this->has("binding")) $this->set(["binding", new Container($contracts)]);
-
-        return $this->get("binding");
+        return $this->instantiate("binding", Container::class, $contracts);
     }
 
     public function services(array $services = []): ContainerInterface
     {
-        if (!$this->has("services")) $this->set(["services", new Container($services)]);
-
-        return $this->get("services");
+        return $this->instantiate("services", Container::class, $services);
     }
     
     public function config(array $config = []): ContainerInterface
     {
-        if (!$this->has("config")) $this->set(["config", new Container($config)]);
-
-        return $this->get("config");
+        return $this->instantiate("config", Container::class, $config);
     }
 
     public function data(array $data = []): ContainerInterface
     {
-        if (!$this->has("data")) $this->set(["data", new Container($data)]);
-
-        return $this->get("data");
+        return $this->instantiate("data", Container::class, $data);
     }
     
     public function request(): RequestInterface
@@ -100,7 +92,11 @@ class Rudra implements RudraInterface, ContainerInterface
     {
         if (isset($key) && !$this->has($key)) {
             if (!$this->services()->has($key)) {
-                throw new \InvalidArgumentException("Service '$key' is not installed");
+                if (class_exists($key)) {
+                    $this->services()->set([$key => $key]);
+                } else {
+                    throw new \InvalidArgumentException("Service '$key' is not installed");
+                }
             }
 
             $this->set([$key, $this->services()->get($key)]);
