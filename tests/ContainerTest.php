@@ -46,9 +46,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Container::class, $this->rudra->binding());
     }
 
-    public function testGet(): void
+    public function testGetEmpty(): void
     {
-        $this->assertTrue(count(Rudra::get()) > 0);
+        $this->assertTrue(count(Rudra::get()) === 0);
     }
 
     public function testGetInvalidArgumentException(): void
@@ -63,6 +63,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("CWP"));
         $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("CWDP"));
         $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("CWD"));
+        $this->assertTrue(count(Rudra::get()) > 0);
     }
 
     public function testSetRudraContainersTrait()
@@ -238,11 +239,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testCookieData(): void
     {
         Cookie::set(["key", "value"]);
-        var_dump(Cookie::get());
         $this->assertTrue(is_array(Cookie::get()));
-//        $this->assertEquals("value", Cookie::get("key"));
-//        $this->assertTrue(Cookie::has("key"));
-//        $this->assertFalse(Cookie::has("false"));
+
+        // $this->assertEquals("value", Cookie::get("key"));
+        // $this->assertTrue(Cookie::has("key"));
+        // $this->assertFalse(Cookie::has("false"));
     }
 
     public function testCookieDataGetWrongKey(): void
