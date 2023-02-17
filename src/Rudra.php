@@ -20,46 +20,46 @@ class Rudra implements RudraInterface, ContainerInterface
     use InstantiationsTrait;
 
     public static ?RudraInterface $rudra = null;
-    private array $data = [];
+    private array $services = [];
 
     public function binding(array $contracts = []): ContainerInterface
     {
-        return $this->instantiate("binding", Container::class, $contracts);
+        return $this->containerize("binding", Container::class, $contracts);
     }
 
     public function services(array $services = []): ContainerInterface
     {
-        return $this->instantiate("services", Container::class, $services);
+        return $this->containerize("services", Container::class, $services);
     }
     
     public function config(array $config = []): ContainerInterface
     {
-        return $this->instantiate("config", Container::class, $config);
+        return $this->containerize("config", Container::class, $config);
     }
 
     public function data(array $data = []): ContainerInterface
     {
-        return $this->instantiate("data", Container::class, $data);
+        return $this->containerize("data", Container::class, $data);
     }
     
     public function request(): RequestInterface
     {
-        return $this->containerize(Request::class);
+        return $this->serviceCreation(Request::class);
     }
 
     public function response(): ResponseInterface
     {
-        return $this->containerize(Response::class);
+        return $this->serviceCreation(Response::class);
     }
 
     public function cookie(): Cookie
     {
-        return $this->containerize(Cookie::class);
+        return $this->serviceCreation(Cookie::class);
     }
 
     public function session(): Session
     {
-        return $this->containerize(Session::class);
+        return $this->serviceCreation(Session::class);
     }
 
     /*
@@ -103,10 +103,10 @@ class Rudra implements RudraInterface, ContainerInterface
         }
 
         if (empty($key)) {
-            return $this->data;
+            return $this->services;
         }
 
-        return ($this->data[$key] instanceof \Closure) ? $this->data[$key]() : $this->data[$key];
+        return ($this->services[$key] instanceof \Closure) ? $this->services[$key]() : $this->services[$key];
     }
 
     public function set(array $data): void
@@ -128,7 +128,7 @@ class Rudra implements RudraInterface, ContainerInterface
 
     public function has(string $key): bool
     {
-        return array_key_exists($key, $this->data);
+        return array_key_exists($key, $this->services);
     }
 
     private function setObject($object, $key): void
@@ -138,7 +138,7 @@ class Rudra implements RudraInterface, ContainerInterface
 
     private function mergeData(string $key, $object)
     {
-        $this->data = array_merge([$key => $object], $this->data);
+        $this->services = array_merge([$key => $object], $this->services);
     }
 
     private function iOc(string $key, $object, $params = null): void

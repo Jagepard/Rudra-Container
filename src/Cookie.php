@@ -50,8 +50,10 @@ class Cookie implements ContainerInterface
             throw new \InvalidArgumentException("The array contains the wrong number of elements");
         }
 
-        if (!is_array($data[1])) setcookie($data[0], $data[1]);
-
-        setcookie($data[0], $data[1][0], $data[1][1]);
+        if (!is_array($data[1])) {
+            setcookie($data[0], $data[1]);
+        } else {
+            setcookie($data[0], $data[1][0], $data[1][1]);
+        }
     }
 }
