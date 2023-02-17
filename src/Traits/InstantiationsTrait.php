@@ -9,21 +9,21 @@ namespace Rudra\Container\Traits;
 
 trait InstantiationsTrait
 {
-    private array $instances = [];
+    private array $containers = [];
 
-    private function instantiate(string $name, string $instance, $data = [])
+    private function containerize(string $name, string $instance, $data = [])
     {
-        if (!array_key_exists($name, $this->instances)) {
-            $this->instances[$name] = new $instance($data);
+        if (!array_key_exists($name, $this->containers)) {
+            $this->containers[$name] = new $instance($data);
         }
 
-        return $this->instances[$name];
+        return $this->containers[$name];
     }
 
-    private function containerize(string $name, string $instance = null, $data = [])
+    private function serviceCreation(string $name, string $instance = null, $data = [])
     {
         $instance ??= $name;
-        if (!array_key_exists($name, $this->data)) {
+        if (!array_key_exists($name, $this->services)) {
             $this->set([$name, [$instance, $data]]);
         }
 
