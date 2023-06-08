@@ -1,164 +1,247 @@
 ## Table of contents
+- [Rudra\Container\Container](#rudra_container_container)
+- [Rudra\Container\Cookie](#rudra_container_cookie)
+- [Rudra\Container\Facades\Cookie](#rudra_container_facades_cookie)
+- [Rudra\Container\Facades\Request](#rudra_container_facades_request)
+- [Rudra\Container\Facades\Response](#rudra_container_facades_response)
+- [Rudra\Container\Facades\Rudra](#rudra_container_facades_rudra)
+- [Rudra\Container\Facades\Session](#rudra_container_facades_session)
+- [Rudra\Container\Files](#rudra_container_files)
+- [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
+- [Rudra\Container\Interfaces\RequestInterface](#rudra_container_interfaces_requestinterface)
+- [Rudra\Container\Interfaces\ResponseInterface](#rudra_container_interfaces_responseinterface)
+- [Rudra\Container\Interfaces\RudraInterface](#rudra_container_interfaces_rudrainterface)
+- [Rudra\Container\Request](#rudra_container_request)
+- [Rudra\Container\Response](#rudra_container_response)
+- [Rudra\Container\Rudra](#rudra_container_rudra)
+- [Rudra\Container\Session](#rudra_container_session)
+- [Rudra\Container\Traits\FacadeTrait](#rudra_container_traits_facadetrait)
+- [Rudra\Container\Traits\InstantiationsTrait](#rudra_container_traits_instantiationstrait)
+- [Rudra\Container\Traits\SetRudraContainersTrait](#rudra_container_traits_setrudracontainerstrait)
+<hr>
 
-- [\Rudra\Container\Files](#class-rudracontainerfiles)
-- [\Rudra\Container\Objects](#class-rudracontainerobjects)
-- [\Rudra\Container\Cookie](#class-rudracontainercookie)
-- [\Rudra\Container\Response](#class-rudracontainerresponse)
-- [\Rudra\Container\Session](#class-rudracontainersession)
-- [\Rudra\Container\Container](#class-rudracontainercontainer)
-- [\Rudra\Container\Request](#class-rudracontainerrequest)
-- [\Rudra\Container\Application](#class-rudracontainerapplication)
-- [\Rudra\Container\Interfaces\ResponseInterface (interface)](#interface-rudracontainerinterfacesresponseinterface)
-- [\Rudra\Container\Interfaces\ApplicationInterface (interface)](#interface-rudracontainerinterfacesapplicationinterface)
-- [\Rudra\Container\Interfaces\ContainerInterface (interface)](#interface-rudracontainerinterfacescontainerinterface)
-- [\Rudra\Container\Interfaces\RequestInterface (interface)](#interface-rudracontainerinterfacesrequestinterface)
+<a id="rudra_container_container"></a>
 
-<hr /><a id="class-rudracontainerfiles"></a>
-### Class: \Rudra\Container\Files
-
+### Class: Rudra\Container\Container
+##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>getLoaded(</strong><em>\string</em> <strong>$key</strong>, <em>\string</em> <strong>$fieldName</strong>, <em>\string</em> <strong>$formName=`'upload'`</strong>)</strong> : <em>string</em> |
-| public | <strong>isFileType(</strong><em>\string</em> <strong>$key</strong>, <em>\string</em> <strong>$value</strong>)</strong> : <em>bool</em> |
-| public | <strong>isLoaded(</strong><em>\string</em> <strong>$value</strong>, <em>\string</em> <strong>$formName=`'upload'`</strong>)</strong> : <em>bool</em> |
+|public|<em><strong>__construct</strong>( array $data )</em><br>|
+|public|<em><strong>get</strong>( ?string $key )</em><br>|
+|public|<em><strong>set</strong>( array $data ): void</em><br>|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>|
 
-*This class extends [\Rudra\Container\Container](#class-rudracontainercontainer)*
 
-*This class implements [\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)*
+<a id="rudra_container_cookie"></a>
 
-<hr /><a id="class-rudracontainerobjects"></a>
-### Class: \Rudra\Container\Objects
-
+### Class: Rudra\Container\Cookie
+##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>__construct(</strong><em>mixed/[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> <strong>$binding</strong>)</strong> : <em>void</em><br /><em>Objects constructor.</em> |
-| public | <strong>new(</strong><em>mixed</em> <strong>$object</strong>, <em>null</em> <strong>$params=null</strong>)</strong> : <em>object</em> |
-| public | <strong>set(</strong><em>array</em> <strong>$data</strong>)</strong> : <em>void</em> |
+|public|<em><strong>get</strong>( ?string $key )</em><br>|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>|
+|public|<em><strong>unset</strong>( string $key ): void</em><br>|
+|public|<em><strong>set</strong>( array $data ): void</em><br>|
 
-*This class extends [\Rudra\Container\Container](#class-rudracontainercontainer)*
 
-*This class implements [\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)*
+<a id="rudra_container_facades_cookie"></a>
 
-<hr /><a id="class-rudracontainercookie"></a>
-### Class: \Rudra\Container\Cookie
-
+### Class: Rudra\Container\Facades\Cookie
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>get(</strong><em>\string</em> <strong>$key=null</strong>)</strong> : <em>array/mixed</em> |
-| public | <strong>has(</strong><em>\string</em> <strong>$key</strong>)</strong> : <em>bool</em> |
-| public | <strong>set(</strong><em>array</em> <strong>$data</strong>)</strong> : <em>void</em> |
-| public | <strong>unset(</strong><em>\string</em> <strong>$key</strong>)</strong> : <em>void</em> |
+|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
 
-*This class implements [\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)*
 
-<hr /><a id="class-rudracontainerresponse"></a>
-### Class: \Rudra\Container\Response
+<a id="rudra_container_facades_request"></a>
 
+### Class: Rudra\Container\Facades\Request
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>json(</strong><em>array</em> <strong>$data</strong>)</strong> : <em>void</em> |
+|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
 
-*This class implements [\Rudra\Container\Interfaces\ResponseInterface](#interface-rudracontainerinterfacesresponseinterface)*
 
-<hr /><a id="class-rudracontainersession"></a>
-### Class: \Rudra\Container\Session
+<a id="rudra_container_facades_response"></a>
 
+### Class: Rudra\Container\Facades\Response
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>clear()</strong> : <em>void</em> |
-| public | <strong>get(</strong><em>\string</em> <strong>$key=null</strong>)</strong> : <em>mixed</em> |
-| public | <strong>has(</strong><em>\string</em> <strong>$key</strong>)</strong> : <em>bool</em> |
-| public | <strong>set(</strong><em>array</em> <strong>$data</strong>)</strong> : <em>void</em> |
-| public | <strong>start()</strong> : <em>void</em> |
-| public | <strong>stop()</strong> : <em>void</em> |
-| public | <strong>unset(</strong><em>\string</em> <strong>$key</strong>)</strong> : <em>void</em> |
+|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
 
-*This class implements [\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)*
 
-<hr /><a id="class-rudracontainercontainer"></a>
-### Class: \Rudra\Container\Container
+<a id="rudra_container_facades_rudra"></a>
 
+### Class: Rudra\Container\Facades\Rudra
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>get(</strong><em>\string</em> <strong>$key=null</strong>)</strong> : <em>array</em> |
-| public | <strong>has(</strong><em>\string</em> <strong>$key</strong>)</strong> : <em>bool</em> |
-| public | <strong>set(</strong><em>array</em> <strong>$data</strong>)</strong> : <em>void</em> |
+|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
 
-*This class implements [\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)*
 
-<hr /><a id="class-rudracontainerrequest"></a>
-### Class: \Rudra\Container\Request
+<a id="rudra_container_facades_session"></a>
 
+### Class: Rudra\Container\Facades\Session
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>delete()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>files()</strong> : <em>[\Rudra\Container\Files](#class-rudracontainerfiles)</em> |
-| public | <strong>get()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>patch()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>post()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>put()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>server()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
+|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
 
-*This class implements [\Rudra\Container\Interfaces\RequestInterface](#interface-rudracontainerinterfacesrequestinterface)*
 
-<hr /><a id="class-rudracontainerapplication"></a>
-### Class: \Rudra\Container\Application
+<a id="rudra_container_files"></a>
 
+### Class: Rudra\Container\Files
+##### extends [Rudra\Container\Container](#rudra_container_container)
+##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>binding()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>config()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>cookie()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>objects()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>request()</strong> : <em>[\Rudra\Container\Request](#class-rudracontainerrequest)Interface</em> |
-| public | <strong>response()</strong> : <em>[\Rudra\Container\Response](#class-rudracontainerresponse)Interface</em> |
-| public static | <strong>run()</strong> : <em>[\Rudra\Container\Application](#class-rudracontainerapplication)Interface</em> |
-| public | <strong>session()</strong> : <em>[\Rudra\Container\Container](#class-rudracontainercontainer)Interface</em> |
-| public | <strong>setServices(</strong><em>array</em> <strong>$services</strong>)</strong> : <em>void</em> |
+|public|<em><strong>getLoaded</strong>( string $key  string $fieldName  string $formName ): string</em><br>|
+|public|<em><strong>isLoaded</strong>( string $value  string $formName ): bool</em><br>|
+|public|<em><strong>isFileType</strong>( string $key  string $value ): bool</em><br>|
+|public|<em><strong>__construct</strong>( array $data )</em><br>|
+|public|<em><strong>get</strong>( ?string $key )</em><br>|
+|public|<em><strong>set</strong>( array $data ): void</em><br>|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>|
 
-*This class implements [\Rudra\Container\Interfaces\ApplicationInterface](#interface-rudracontainerinterfacesapplicationinterface)*
 
-<hr /><a id="interface-rudracontainerinterfacesresponseinterface"></a>
-### Interface: \Rudra\Container\Interfaces\ResponseInterface
+<a id="rudra_container_interfaces_containerinterface"></a>
 
+### Class: Rudra\Container\Interfaces\ContainerInterface
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>json(</strong><em>array</em> <strong>$data</strong>)</strong> : <em>void</em> |
+|abstract public|<em><strong>get</strong>( ?string $key )</em><br>|
+|abstract public|<em><strong>set</strong>( array $data ): void</em><br>|
+|abstract public|<em><strong>has</strong>( string $key ): bool</em><br>|
 
-<hr /><a id="interface-rudracontainerinterfacesapplicationinterface"></a>
-### Interface: \Rudra\Container\Interfaces\ApplicationInterface
 
+<a id="rudra_container_interfaces_requestinterface"></a>
+
+### Class: Rudra\Container\Interfaces\RequestInterface
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>binding()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>config()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>cookie()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>objects()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>request()</strong> : <em>[\Rudra\Container\Interfaces\RequestInterface](#interface-rudracontainerinterfacesrequestinterface)</em> |
-| public | <strong>response()</strong> : <em>[\Rudra\Container\Interfaces\ResponseInterface](#interface-rudracontainerinterfacesresponseinterface)</em> |
-| public static | <strong>run()</strong> : <em>[\Rudra\Container\Interfaces\ApplicationInterface](#interface-rudracontainerinterfacesapplicationinterface)</em> |
-| public | <strong>session()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>setServices(</strong><em>mixed/array</em> <strong>$services</strong>)</strong> : <em>void</em> |
+|abstract public|<em><strong>get</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>post</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>put</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>patch</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>delete</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>server</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>files</strong>(): Rudra\Container\Files</em><br>|
 
-<hr /><a id="interface-rudracontainerinterfacescontainerinterface"></a>
-### Interface: \Rudra\Container\Interfaces\ContainerInterface
 
+<a id="rudra_container_interfaces_responseinterface"></a>
+
+### Class: Rudra\Container\Interfaces\ResponseInterface
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>get(</strong><em>\string</em> <strong>$key=null</strong>)</strong> : <em>mixed</em> |
-| public | <strong>has(</strong><em>\string</em> <strong>$key</strong>)</strong> : <em>bool</em> |
-| public | <strong>set(</strong><em>array</em> <strong>$data</strong>)</strong> : <em>void</em> |
+|abstract public|<em><strong>json</strong>( array $data ): void</em><br>|
 
-<hr /><a id="interface-rudracontainerinterfacesrequestinterface"></a>
-### Interface: \Rudra\Container\Interfaces\RequestInterface
 
+<a id="rudra_container_interfaces_rudrainterface"></a>
+
+### Class: Rudra\Container\Interfaces\RudraInterface
 | Visibility | Function |
 |:-----------|:---------|
-| public | <strong>delete()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>files()</strong> : <em>[\Rudra\Container\Files](#class-rudracontainerfiles)</em> |
-| public | <strong>get()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>patch()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>post()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>put()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
-| public | <strong>server()</strong> : <em>[\Rudra\Container\Interfaces\ContainerInterface](#interface-rudracontainerinterfacescontainerinterface)</em> |
+|abstract public|<em><strong>config</strong>( array $config ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>services</strong>( array $services ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>binding</strong>( array $contracts ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|abstract public|<em><strong>request</strong>(): Rudra\Container\Interfaces\RequestInterface</em><br>|
+|abstract public|<em><strong>response</strong>(): Rudra\Container\Interfaces\ResponseInterface</em><br>|
+|abstract public static|<em><strong>run</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>|
+|abstract public|<em><strong>cookie</strong>(): Rudra\Container\Cookie</em><br>|
+|abstract public|<em><strong>session</strong>(): Rudra\Container\Session</em><br>|
 
+
+<a id="rudra_container_request"></a>
+
+### Class: Rudra\Container\Request
+##### implements [Rudra\Container\Interfaces\RequestInterface](#rudra_container_interfaces_requestinterface)
+| Visibility | Function |
+|:-----------|:---------|
+|public|<em><strong>get</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>post</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>put</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>patch</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>delete</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>server</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>files</strong>(): Rudra\Container\Files</em><br>|
+|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>|
+|private|<em><strong>serviceCreation</strong>( string $name  ?string $instance   $data )</em><br>|
+
+
+<a id="rudra_container_response"></a>
+
+### Class: Rudra\Container\Response
+##### implements [Rudra\Container\Interfaces\ResponseInterface](#rudra_container_interfaces_responseinterface)
+| Visibility | Function |
+|:-----------|:---------|
+|public|<em><strong>json</strong>( array $data ): void</em><br>|
+|private|<em><strong>getJson</strong>( array $data ): string</em><br>|
+
+
+<a id="rudra_container_rudra"></a>
+
+### Class: Rudra\Container\Rudra
+##### implements [Rudra\Container\Interfaces\RudraInterface](#rudra_container_interfaces_rudrainterface)
+##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
+| Visibility | Function |
+|:-----------|:---------|
+|public|<em><strong>binding</strong>( array $contracts ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>services</strong>( array $services ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>config</strong>( array $config ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>data</strong>( array $data ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
+|public|<em><strong>request</strong>(): Rudra\Container\Interfaces\RequestInterface</em><br>|
+|public|<em><strong>response</strong>(): Rudra\Container\Interfaces\ResponseInterface</em><br>|
+|public|<em><strong>cookie</strong>(): Rudra\Container\Cookie</em><br>|
+|public|<em><strong>session</strong>(): Rudra\Container\Session</em><br>|
+|public|<em><strong>new</strong>(  $object   $params )</em><br>|
+|public static|<em><strong>run</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>|
+|public|<em><strong>get</strong>( ?string $key )</em><br>|
+|public|<em><strong>set</strong>( array $data ): void</em><br>|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>|
+|private|<em><strong>setObject</strong>(  $object   $key ): void</em><br>|
+|private|<em><strong>mergeData</strong>( string $key   $object )</em><br>|
+|private|<em><strong>iOc</strong>( string $key   $object   $params ): void</em><br>|
+|private|<em><strong>getParamsIoC</strong>( ReflectionMethod $constructor   $params ): array</em><br>|
+|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>|
+|private|<em><strong>serviceCreation</strong>( string $name  ?string $instance   $data )</em><br>|
+
+
+<a id="rudra_container_session"></a>
+
+### Class: Rudra\Container\Session
+##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
+| Visibility | Function |
+|:-----------|:---------|
+|public|<em><strong>get</strong>( ?string $key )</em><br>|
+|public|<em><strong>set</strong>( array $data ): void</em><br>|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>|
+|public|<em><strong>unset</strong>( string $key ): void</em><br>|
+|public|<em><strong>setFlash</strong>( string $type  array $data ): void</em><br>|
+|public|<em><strong>start</strong>(): void</em><br>|
+|public|<em><strong>stop</strong>(): void</em><br>|
+|public|<em><strong>clear</strong>(): void</em><br>|
+
+
+<a id="rudra_container_traits_facadetrait"></a>
+
+### Class: Rudra\Container\Traits\FacadeTrait
+| Visibility | Function |
+|:-----------|:---------|
+|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
+
+
+<a id="rudra_container_traits_instantiationstrait"></a>
+
+### Class: Rudra\Container\Traits\InstantiationsTrait
+| Visibility | Function |
+|:-----------|:---------|
+|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>|
+|private|<em><strong>serviceCreation</strong>( string $name  ?string $instance   $data )</em><br>|
+
+
+<a id="rudra_container_traits_setrudracontainerstrait"></a>
+
+### Class: Rudra\Container\Traits\SetRudraContainersTrait
+| Visibility | Function |
+|:-----------|:---------|
+|public|<em><strong>__construct</strong>( Rudra\Container\Interfaces\RudraInterface $rudra )</em><br>|
+|public|<em><strong>rudra</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>|
+<hr>
+
+###### created with [Rudra-Documentation-Collector](#https://github.com/Jagepard/Rudra-Documentation-Collector)
