@@ -119,11 +119,11 @@ class Rudra implements RudraInterface, ContainerInterface
                 return;
             }
 
-            $this->setObject($object[0], $key);
+            $this->setObject($key, $object[0]);
             return;
         }
 
-        $this->setObject($object, $key);
+        $this->setObject($key, $object);
     }
 
     public function has(string $key): bool
@@ -131,7 +131,7 @@ class Rudra implements RudraInterface, ContainerInterface
         return array_key_exists($key, $this->services);
     }
 
-    private function setObject($object, $key): void
+    private function setObject($key, $object): void
     {
         (is_object($object)) ? $this->mergeData($key, $object) : $this->iOc($key, $object);
     }

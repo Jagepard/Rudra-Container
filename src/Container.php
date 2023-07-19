@@ -15,11 +15,26 @@ class Container implements ContainerInterface
 {
     protected array $data = [];
 
+    /**
+     * @param  array $data
+     * 
+     * Устанавливает данные
+     * --------------------
+     * Sets data
+     */
     public function __construct(array $data)
     {
         $this->data = $data;
     }
 
+    /**
+     * @param  string|null $key
+     * @return void
+     * 
+     * Получает элемент по ключу или весь массив данных
+     * ------------------------------------------------
+     * Gets an element by key or the entire array of data
+     */
     public function get(string $key = null)
     {
         if (empty($key)) {
@@ -33,11 +48,26 @@ class Container implements ContainerInterface
         return $this->data[$key];
     }
 
+    /**
+     * @param  array $data
+     * 
+     * Устанавливает данные
+     * --------------------
+     * Sets data
+     */
     public function set(array $data): void
     {
         $this->data = array_merge($this->data, $data);
     }
 
+    /**
+     * @param  string  $key
+     * @return boolean
+     * 
+     * Проверяет наличие данных по ключу
+     * ---------------------------------
+     * Checks for the existence of data by key
+     */
     public function has(string $key): bool
     {
         return array_key_exists($key, $this->data);
