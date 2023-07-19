@@ -11,6 +11,16 @@ trait InstantiationsTrait
 {
     private array $containers = [];
 
+    /**
+     * @param  string $name
+     * @param  string $instance
+     * @param  array  $data
+     * @return void
+     * 
+     * Creates a container instance
+     * ----------------------------
+     * Создает экземпляр контейнера
+     */
     private function containerize(string $name, string $instance, $data = [])
     {
         if (!array_key_exists($name, $this->containers)) {
