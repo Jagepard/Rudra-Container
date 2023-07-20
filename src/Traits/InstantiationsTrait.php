@@ -10,6 +10,7 @@ namespace Rudra\Container\Traits;
 trait InstantiationsTrait
 {
     private array $containers = [];
+    private array $services   = [];
 
     /**
      * @param  string $name
@@ -30,7 +31,7 @@ trait InstantiationsTrait
         return $this->containers[$name];
     }
 
-    private function serviceCreation(string $name, string $instance = null, $data = [])
+    private function init(string $name, string $instance = null, $data = [])
     {
         $instance ??= $name;
         if (!array_key_exists($name, $this->services)) {

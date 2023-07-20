@@ -18,6 +18,7 @@ trait FacadeTrait
 
         if (!Rudra::has($className)) {
             Rudra::set([$className, [$className]]);
+            Rudra::serviceList()->set([$className => $className]);
         }
 
         return Rudra::get($className)->$method(...$parameters);

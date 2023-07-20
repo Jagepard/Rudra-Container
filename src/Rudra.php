@@ -20,23 +20,55 @@ class Rudra implements RudraInterface, ContainerInterface
     use InstantiationsTrait;
 
     public static ?RudraInterface $rudra = null;
-    private array $services = [];
 
+    /**
+     * @param  array              $contracts
+     * @return ContainerInterface
+     * 
+     * Creates a container to associate interfaces with implementations
+     * ----------------------------------------------------------------
+     * Создает контейнер для связи интерфейсов с реализациями
+     */
     public function binding(array $contracts = []): ContainerInterface
     {
         return $this->containerize("binding", Container::class, $contracts);
     }
 
-    public function services(array $services = []): ContainerInterface
+    /**
+     * @param  array              $services
+     * @return ContainerInterface
+     * 
+     * Creates a container with a list of services
+     * -------------------------------------------
+     * Создает контейнер со списком серверов
+     * 
+     */
+    public function serviceList(array $services = []): ContainerInterface
     {
         return $this->containerize("services", Container::class, $services);
     }
     
+    /**
+     * @param  array              $config
+     * @return ContainerInterface
+     * 
+     * Creates a configuration container
+     * ---------------------------------
+     * Создает контейнер конфигураций
+     */
     public function config(array $config = []): ContainerInterface
     {
         return $this->containerize("config", Container::class, $config);
     }
 
+    /**
+     * @param  array              $data
+     * @return ContainerInterface
+     * 
+     * Creates a container for storing data
+     * ------------------------------------
+     * Создает контейнер для хранения данных
+     */
     public function data(array $data = []): ContainerInterface
     {
         return $this->containerize("data", Container::class, $data);
@@ -44,22 +76,22 @@ class Rudra implements RudraInterface, ContainerInterface
     
     public function request(): RequestInterface
     {
-        return $this->serviceCreation(Request::class);
+        return $this->init(Request::class);
     }
 
     public function response(): ResponseInterface
     {
-        return $this->serviceCreation(Response::class);
+        return $this->init(Response::class);
     }
 
     public function cookie(): Cookie
     {
-        return $this->serviceCreation(Cookie::class);
+        return $this->init(Cookie::class);
     }
 
     public function session(): Session
     {
-        return $this->serviceCreation(Session::class);
+        return $this->init(Session::class);
     }
 
     /*
@@ -91,15 +123,15 @@ class Rudra implements RudraInterface, ContainerInterface
     public function get(string $key = null)
     {
         if (isset($key) && !$this->has($key)) {
-            if (!$this->services()->has($key)) {
+            if (!$this->serviceList()->has($key)) {
                 if (class_exists($key)) {
-                    $this->services()->set([$key => $key]);
+                    $this->serviceList()->set([$key => $key]);
                 } else {
                     throw new \InvalidArgumentException("Service '$key' is not installed");
                 }
             }
 
-            $this->set([$key, $this->services()->get($key)]);
+            $this->set([$key, $this->serviceList()->get($key)]);
         }
 
         if (empty($key)) {
