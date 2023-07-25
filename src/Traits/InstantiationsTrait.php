@@ -31,6 +31,16 @@ trait InstantiationsTrait
         return $this->containers[$name];
     }
 
+    /**
+     * @param  string      $name
+     * @param  string|null $instance
+     * @param  array       $data
+     * @return void
+     * 
+     * Initializes the service
+     * -----------------------
+     * Иницианализирует сервис
+     */
     private function init(string $name, string $instance = null, $data = [])
     {
         $instance ??= $name;
