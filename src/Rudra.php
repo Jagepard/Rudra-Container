@@ -74,28 +74,62 @@ class Rudra implements RudraInterface, ContainerInterface
         return $this->containerize("data", Container::class, $data);
     }
     
+    /**
+     * @return RequestInterface
+     * 
+     * Initializes the service
+     * -----------------------
+     * Иницианализирует сервис
+     */
     public function request(): RequestInterface
     {
         return $this->init(Request::class);
     }
 
+    /**
+     * @return ResponseInterface
+     * 
+     * Initializes the service
+     * -----------------------
+     * Иницианализирует сервис
+     */
     public function response(): ResponseInterface
     {
         return $this->init(Response::class);
     }
 
+    /**
+     * @return Cookie
+     * 
+     * Initializes the service
+     * -----------------------
+     * Иницианализирует сервис
+     */
     public function cookie(): Cookie
     {
         return $this->init(Cookie::class);
     }
 
+    /**
+     * @return Session
+     * 
+     * Initializes the service
+     * -----------------------
+     * Иницианализирует сервис
+     */
     public function session(): Session
     {
         return $this->init(Session::class);
     }
 
-    /*
-     | Creates an object without adding to the container
+    /**
+     * @param  [type] $object
+     * @param  [type] $params
+     * @return void
+     * 
+     * Creates an object without adding to the container
+     * -------------------------------------------------
+     * Создает объект без добавления в контейнер
      */
     public function new($object, $params = null)
     {
