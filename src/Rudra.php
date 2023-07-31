@@ -22,12 +22,12 @@ class Rudra implements RudraInterface, ContainerInterface
     public static ?RudraInterface $rudra = null;
 
     /**
-     * @param  array              $contracts
-     * @return ContainerInterface
-     * 
      * Creates a container to associate interfaces with implementations
      * ----------------------------------------------------------------
      * Создает контейнер для связи интерфейсов с реализациями
+     * 
+     * @param  array              $contracts
+     * @return ContainerInterface
      */
     public function binding(array $contracts = []): ContainerInterface
     {
@@ -35,13 +35,12 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @param  array              $services
-     * @return ContainerInterface
-     * 
      * Creates a container with a list of services
      * -------------------------------------------
      * Создает контейнер со списком серверов
      * 
+     * @param  array              $services
+     * @return ContainerInterface
      */
     public function serviceList(array $services = []): ContainerInterface
     {
@@ -49,12 +48,12 @@ class Rudra implements RudraInterface, ContainerInterface
     }
     
     /**
-     * @param  array              $config
-     * @return ContainerInterface
-     * 
      * Creates a configuration container
      * ---------------------------------
      * Создает контейнер конфигураций
+     * 
+     * @param  array              $config
+     * @return ContainerInterface
      */
     public function config(array $config = []): ContainerInterface
     {
@@ -62,12 +61,12 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
+     * Creates a configuration container
+     * ---------------------------------
+     * Создает контейнер конфигураций
+     * 
      * @param  array              $data
      * @return ContainerInterface
-     * 
-     * Creates a container for storing data
-     * ------------------------------------
-     * Создает контейнер для хранения данных
      */
     public function data(array $data = []): ContainerInterface
     {
@@ -75,11 +74,11 @@ class Rudra implements RudraInterface, ContainerInterface
     }
     
     /**
-     * @return RequestInterface
+     * Initializes the service for the HTTP / 1.1 Common Method Kit
+     * -----------------------------------------------
+     * Инициализирует сервис для HTTP/1.1 Common Method Kit
      * 
-     * Initializes the service
-     * -----------------------
-     * Иницианализирует сервис
+     * @return RequestInterface
      */
     public function request(): RequestInterface
     {
@@ -87,11 +86,11 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @return ResponseInterface
+     * Initializes the service for different types of responses
+     * ------------------------------------------------
+     * Инициализирует сервис для разных типов ответов
      * 
-     * Initializes the service
-     * -----------------------
-     * Иницианализирует сервис
+     * @return ResponseInterface
      */
     public function response(): ResponseInterface
     {
@@ -99,11 +98,11 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @return Cookie
+     * Initializes the cookie service
+     * -------------------------------------------
+     * Инициализирует сервис для работы с cookie
      * 
-     * Initializes the service
-     * -----------------------
-     * Иницианализирует сервис
+     * @return Cookie
      */
     public function cookie(): Cookie
     {
@@ -111,11 +110,11 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @return Session
+     * Initializes the service for working with sessions
+     * -------------------------------------------------
+     * Инициализирует сервис для работы с сессиями
      * 
-     * Initializes the service
-     * -----------------------
-     * Иницианализирует сервис
+     * @return Session
      */
     public function session(): Session
     {
@@ -123,15 +122,15 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @param  [type] $object
-     * @param  [type] $params
-     * @return void
-     * 
      * Creates an object without adding to the container
      * -------------------------------------------------
      * Создает объект без добавления в контейнер
+     * 
+     * @param  string     $object
+     * @param  array|null $params
+     * @return object
      */
-    public function new($object, $params = null)
+    public function new(string $object, ?array $params = null): object
     {
         $reflection = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
@@ -145,6 +144,13 @@ class Rudra implements RudraInterface, ContainerInterface
         return new $object();
     }
 
+    /**
+     * Creates the main application singleton
+     * --------------------------------------
+     * Создает основной синглтон приложения
+     * 
+     * @return RudraInterface
+     */
     public static function run(): RudraInterface
     {
         if (!static::$rudra instanceof static) {
@@ -154,6 +160,14 @@ class Rudra implements RudraInterface, ContainerInterface
         return static::$rudra;
     }
 
+    /**
+     * Gets a service by key, or an array of services if no key is specified
+     * ---------------------------------------------------------------------
+     * Получает сервис по ключу или массив сервисов, если ключ не указан
+     * 
+     * @param  string|null $key
+     * @return void
+     */
     public function get(string $key = null)
     {
         if (isset($key) && !$this->has($key)) {
@@ -175,6 +189,14 @@ class Rudra implements RudraInterface, ContainerInterface
         return ($this->services[$key] instanceof \Closure) ? $this->services[$key]() : $this->services[$key];
     }
 
+    /**
+     * Adds a service to an application
+     * --------------------------------
+     * Добавляет сервис в приложение
+     * 
+     * @param  array $data
+     * @return void
+     */
     public function set(array $data): void
     {
         list($key, $object) = $data;
@@ -192,22 +214,59 @@ class Rudra implements RudraInterface, ContainerInterface
         $this->setObject($key, $object);
     }
 
+    /**
+     * Checks for the existence of a service
+     * -------------------------------------
+     * Проверяет наличие сервиса
+     * 
+     * @param  string  $key
+     * @return boolean
+     */
     public function has(string $key): bool
     {
         return array_key_exists($key, $this->services);
     }
 
-    private function setObject($key, $object): void
+    /**
+     * Sets an object
+     * --------------
+     * Устанавливает объект
+     *
+     * @param  string        $key
+     * @param  string|object $object
+     * @return void
+     */
+    private function setObject(string $key, string|object $object): void
     {
         (is_object($object)) ? $this->mergeData($key, $object) : $this->iOc($key, $object);
     }
 
-    private function mergeData(string $key, $object)
+    /**
+     * Combines data
+     * -------------
+     * Объединяет данные
+     *
+     * @param  string $key
+     * @param  object $object
+     * @return void
+     */
+    private function mergeData(string $key, object $object): void
     {
         $this->services = array_merge([$key => $object], $this->services);
     }
 
-    private function iOc(string $key, $object, $params = null): void
+
+    /**
+     * Creates an object using inversion of control
+     * --------------------------------------------
+     * Создает объект при помощи инверсии контроля
+     *
+     * @param  string     $key
+     * @param  string     $object
+     * @param  array|null $params
+     * @return void
+     */
+    private function iOc(string $key, string $object, ?array $params = null): void
     {
         $reflection = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
@@ -221,7 +280,16 @@ class Rudra implements RudraInterface, ContainerInterface
         $this->mergeData($key, new $object());
     }
 
-    private function getParamsIoC(\ReflectionMethod $constructor, $params): array
+    /**
+     * Gets parameters using inversion of control
+     * ------------------------------------------
+     * Получает параметры при помощи инверсии контроля
+     *
+     * @param  \ReflectionMethod $constructor
+     * @param  array             $params
+     * @return array
+     */
+    private function getParamsIoC(\ReflectionMethod $constructor, ?array $params): array
     {
         $i = 0;
         $paramsIoC = [];
