@@ -15,11 +15,21 @@ trait SetRudraContainersTrait
 {
     private RudraInterface $rudra;
 
+    /**
+     * Undocumented function
+     *
+     * @param  RudraInterface $rudra
+     */
     public function __construct(RudraInterface $rudra)
     {
         $this->rudra = $rudra;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return RudraInterface
+     */
     public function rudra(): RudraInterface
     {
         return $this->rudra;
