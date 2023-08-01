@@ -13,14 +13,14 @@ trait InstantiationsTrait
     private array $services   = [];
 
     /**
+     * Creates a container instance
+     * ----------------------------
+     * Создает экземпляр контейнера
+     * 
      * @param  string $name
      * @param  string $instance
      * @param  array  $data
      * @return void
-     * 
-     * Creates a container instance
-     * ----------------------------
-     * Создает экземпляр контейнера
      */
     private function containerize(string $name, string $instance, $data = [])
     {
@@ -32,14 +32,14 @@ trait InstantiationsTrait
     }
 
     /**
+     * Initializes the service
+     * -----------------------
+     * Иницианализирует сервис
+     * 
      * @param  string      $name
      * @param  string|null $instance
      * @param  array       $data
      * @return void
-     * 
-     * Initializes the service
-     * -----------------------
-     * Иницианализирует сервис
      */
     private function init(string $name, string $instance = null, $data = [])
     {

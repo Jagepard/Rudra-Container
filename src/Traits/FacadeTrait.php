@@ -11,7 +11,16 @@ use Rudra\Container\Facades\Rudra;
 
 trait FacadeTrait
 {
-    public static function __callStatic($method, $parameters = [])
+    /**
+     * Calls class methods statically
+     * ------------------------------
+     * Вызывает методы класса статически
+     *
+     * @param  string $method
+     * @param  array  $parameters
+     * @return void
+     */
+    public static function __callStatic(string $method, array $parameters = [])
     {
         $className = str_replace("Facade", "", static::class);
         if (!class_exists($className)) $className = str_replace("\s", "", $className);
