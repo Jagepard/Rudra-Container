@@ -16,7 +16,9 @@ trait SetRudraContainersTrait
     private RudraInterface $rudra;
 
     /**
-     * Undocumented function
+     * Takes RudraInterface as an argument
+     * -----------------------------------
+     * Принимает в качестве аргумента RudraInterface
      *
      * @param  RudraInterface $rudra
      */
@@ -26,7 +28,9 @@ trait SetRudraContainersTrait
     }
 
     /**
-     * Undocumented function
+     * Gets access to the application
+     * ------------------------------
+     * Получает доступ к приложению
      *
      * @return RudraInterface
      */
