@@ -16,11 +16,11 @@ class Container implements ContainerInterface
     protected array $data = [];
 
     /**
-     * @param  array $data
-     * 
-     * Устанавливает данные
-     * --------------------
      * Sets data
+     * ---------
+     * Устанавливает данные
+     * 
+     * @param  array $data
      */
     public function __construct(array $data)
     {
@@ -28,12 +28,12 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Gets an element by key or the entire array of data
+     * --------------------------------------------------
+     * Получает элемент по ключу или весь массив данных
+     * 
      * @param  string|null $key
      * @return void
-     * 
-     * Получает элемент по ключу или весь массив данных
-     * ------------------------------------------------
-     * Gets an element by key or the entire array of data
      */
     public function get(string $key = null)
     {
@@ -49,11 +49,11 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @param  array $data
-     * 
-     * Устанавливает данные
-     * --------------------
      * Sets data
+     * ---------
+     * Устанавливает данные
+     * 
+     * @param  array $data
      */
     public function set(array $data): void
     {
@@ -61,12 +61,12 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Checks for the existence of data by key
+     * ---------------------------------------
+     * Проверяет наличие данных по ключу
+     * 
      * @param  string  $key
      * @return boolean
-     * 
-     * Проверяет наличие данных по ключу
-     * ---------------------------------
-     * Checks for the existence of data by key
      */
     public function has(string $key): bool
     {
