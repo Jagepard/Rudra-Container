@@ -13,6 +13,14 @@ use Rudra\Container\Interfaces\ContainerInterface;
 
 class Cookie implements ContainerInterface
 {
+    /**
+     * Gets an element by key or the entire array of data
+     * --------------------------------------------------
+     * Получает элемент по ключу или весь массив данных
+     *
+     * @param  string|null $key
+     * @return void
+     */
     public function get(string $key = null)
     {
         if (empty($key)) {
@@ -26,12 +34,27 @@ class Cookie implements ContainerInterface
         return $_COOKIE[$key];
     }
 
+    /**
+     * Checks for the existence of data by key
+     * ---------------------------------------
+     * Проверяет наличие данных по ключу
+     *
+     * @param  string  $key
+     * @return boolean
+     */
     public function has(string $key): bool
     {
         return isset($_COOKIE[$key]);
     }
 
     /**
+     * Unset a given variable
+     * ----------------------
+     * Удаляет переменную
+     * 
+     * @param  string $key
+     * @return void
+     * 
      * @codeCoverageIgnore
      */
     public function unset(string $key): void
@@ -44,6 +67,14 @@ class Cookie implements ContainerInterface
         setcookie($key, '', -1, '/');
     }
 
+    /**
+     * Sets data
+     * ---------
+     * Устанавливает данные
+     *
+     * @param  array $data
+     * @return void
+     */
     public function set(array $data): void
     {
         if (count($data) !== 2) {
