@@ -4,6 +4,10 @@ use Rudra\Container\Facades\Rudra;
 
 if (!function_exists('data')) {
     /**
+     * Accesses the data container
+     * ---------------------------
+     * Получает доступ к контейнеру данных
+     * 
      * @param  $data
      * @return string
      */

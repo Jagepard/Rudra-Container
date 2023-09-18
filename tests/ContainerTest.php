@@ -258,6 +258,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         Cookie::set([]);
     }
 
+    /**
+     * @deprecated
+     */
     public function testFilesData(): void
     {
         Request::files()->set(

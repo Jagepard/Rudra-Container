@@ -13,6 +13,13 @@ use Rudra\Container\Interfaces\ContainerInterface;
 
 class Session implements ContainerInterface
 {
+    /**
+     * Gets an element by key or the entire array of data
+     * --------------------------------------------------
+     * Получает элемент по ключу или весь массив данных
+     *
+     * @param  string|null $key
+     */
     public function get(string $key = null)
     {
         if (empty($key)) {
