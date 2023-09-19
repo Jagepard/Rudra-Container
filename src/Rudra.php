@@ -61,9 +61,9 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * Creates a configuration container
+     * Creates a common data container
      * ---------------------------------
-     * Создает контейнер конфигураций
+     * Создает общий контейнер данных
      * 
      * @param  array              $data
      * @return ContainerInterface
