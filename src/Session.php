@@ -33,6 +33,13 @@ class Session implements ContainerInterface
         return $_SESSION[$key];
     }
 
+    /**
+     * Sets session data
+     * -----------------
+     * Устанавливает данные сессии
+     * 
+     * @param  array $data
+     */
     public function set(array $data): void
     {
         if (count($data) !== 2) {
@@ -46,11 +53,27 @@ class Session implements ContainerInterface
         }
     }
 
+    /**
+     * Checks for the existence of data by key
+     * ---------------------------------------
+     * Проверяет наличие данных по ключу
+     * 
+     * @param  string  $key
+     * @return boolean
+     */
     public function has(string $key): bool
     {
         return isset($_SESSION[$key]);
     }
 
+    /**
+     * Unset a given variable from array
+     * ---------------------------------
+     * Удаляет переменную из массива
+     *
+     * @param  string $key
+     * @return void
+     */
     public function unset(string $key): void
     {
         unset($_SESSION[$key]);
@@ -64,6 +87,12 @@ class Session implements ContainerInterface
     }
 
     /**
+     * Start new or resume existing session
+     * ------------------------------------
+     * Стартует новую сессию, либо возобновляет существующую
+     *
+     * @return void
+     * 
      * @codeCoverageIgnore
      */
     public function start(): void
@@ -72,6 +101,12 @@ class Session implements ContainerInterface
     }
 
     /**
+     * Destroys all data registered to a session
+     * -----------------------------------------
+     * Уничтожает все данные сессии 
+     *
+     * @return void
+     * 
      * @codeCoverageIgnore
      */
     public function stop(): void
@@ -79,6 +114,13 @@ class Session implements ContainerInterface
         session_destroy();
     }
 
+    /**
+     * Clears the $_SESSION array
+     * --------------------------
+     * Очищает массив $_SESSION
+     *
+     * @return void
+     */
     public function clear(): void
     {
         $_SESSION = [];
