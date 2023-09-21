@@ -26,10 +26,10 @@
 ##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
 | Visibility | Function |
 |:-----------|:---------|
-|public|<em><strong>__construct</strong>( array $data )</em><br>|
-|public|<em><strong>get</strong>( ?string $key )</em><br>|
-|public|<em><strong>set</strong>( array $data ): void</em><br>|
-|public|<em><strong>has</strong>( string $key ): bool</em><br>|
+|public|<em><strong>__construct</strong>( array $data )</em><br>Sets data<br>Устанавливает данные|
+|public|<em><strong>get</strong>( ?string $key )</em><br>Gets an element by key or the entire array of data<br>Получает элемент по ключу или весь массив данных|
+|public|<em><strong>set</strong>( array $data ): void</em><br>Sets data<br>Устанавливает данные|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>Checks for the existence of data by key<br>Проверяет наличие данных по ключу|
 
 
 <a id="rudra_container_cookie"></a>
@@ -38,10 +38,10 @@
 ##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
 | Visibility | Function |
 |:-----------|:---------|
-|public|<em><strong>get</strong>( ?string $key )</em><br>|
-|public|<em><strong>has</strong>( string $key ): bool</em><br>|
-|public|<em><strong>unset</strong>( string $key ): void</em><br>|
-|public|<em><strong>set</strong>( array $data ): void</em><br>|
+|public|<em><strong>get</strong>( ?string $key )</em><br>Gets an element by key or the entire array of data<br>Получает элемент по ключу или весь массив данных|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>Checks for the existence of data by key<br>Проверяет наличие данных по ключу|
+|public|<em><strong>unset</strong>( string $key ): void</em><br>Unset a given variable<br>Удаляет переменную|
+|public|<em><strong>set</strong>( array $data ): void</em><br>Sets data<br>Устанавливает данные|
 
 
 <a id="rudra_container_facades_cookie"></a>
@@ -49,7 +49,7 @@
 ### Class: Rudra\Container\Facades\Cookie
 | Visibility | Function |
 |:-----------|:---------|
-|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
+|public static|<em><strong>__callStatic</strong>( string $method  array $parameters )</em><br>Calls class methods statically<br>Вызывает методы класса статически|
 
 
 <a id="rudra_container_facades_request"></a>
@@ -57,7 +57,7 @@
 ### Class: Rudra\Container\Facades\Request
 | Visibility | Function |
 |:-----------|:---------|
-|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
+|public static|<em><strong>__callStatic</strong>( string $method  array $parameters )</em><br>Calls class methods statically<br>Вызывает методы класса статически|
 
 
 <a id="rudra_container_facades_response"></a>
@@ -65,7 +65,7 @@
 ### Class: Rudra\Container\Facades\Response
 | Visibility | Function |
 |:-----------|:---------|
-|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
+|public static|<em><strong>__callStatic</strong>( string $method  array $parameters )</em><br>Calls class methods statically<br>Вызывает методы класса статически|
 
 
 <a id="rudra_container_facades_rudra"></a>
@@ -81,7 +81,7 @@
 ### Class: Rudra\Container\Facades\Session
 | Visibility | Function |
 |:-----------|:---------|
-|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
+|public static|<em><strong>__callStatic</strong>( string $method  array $parameters )</em><br>Calls class methods statically<br>Вызывает методы класса статически|
 
 
 <a id="rudra_container_files"></a>
@@ -94,10 +94,10 @@
 |public|<em><strong>getLoaded</strong>( string $key  string $fieldName  string $formName ): string</em><br>|
 |public|<em><strong>isLoaded</strong>( string $value  string $formName ): bool</em><br>|
 |public|<em><strong>isFileType</strong>( string $key  string $value ): bool</em><br>|
-|public|<em><strong>__construct</strong>( array $data )</em><br>|
-|public|<em><strong>get</strong>( ?string $key )</em><br>|
-|public|<em><strong>set</strong>( array $data ): void</em><br>|
-|public|<em><strong>has</strong>( string $key ): bool</em><br>|
+|public|<em><strong>__construct</strong>( array $data )</em><br>Sets data<br>Устанавливает данные|
+|public|<em><strong>get</strong>( ?string $key )</em><br>Gets an element by key or the entire array of data<br>Получает элемент по ключу или весь массив данных|
+|public|<em><strong>set</strong>( array $data ): void</em><br>Sets data<br>Устанавливает данные|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>Checks for the existence of data by key<br>Проверяет наличие данных по ключу|
 
 
 <a id="rudra_container_interfaces_containerinterface"></a>
@@ -105,9 +105,9 @@
 ### Class: Rudra\Container\Interfaces\ContainerInterface
 | Visibility | Function |
 |:-----------|:---------|
-|abstract public|<em><strong>get</strong>( ?string $key )</em><br>|
-|abstract public|<em><strong>set</strong>( array $data ): void</em><br>|
-|abstract public|<em><strong>has</strong>( string $key ): bool</em><br>|
+|abstract public|<em><strong>get</strong>( ?string $key )</em><br>Gets the container element<br>Получает элемент контейнера|
+|abstract public|<em><strong>set</strong>( array $data ): void</em><br>Adds data to the container<br>Добавляет данные в контейнер|
+|abstract public|<em><strong>has</strong>( string $key ): bool</em><br>Checks if the element is in the container<br>Проверяет наличие элемента в контейнере|
 
 
 <a id="rudra_container_interfaces_requestinterface"></a>
@@ -115,13 +115,13 @@
 ### Class: Rudra\Container\Interfaces\RequestInterface
 | Visibility | Function |
 |:-----------|:---------|
-|abstract public|<em><strong>get</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>post</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>put</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>patch</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>delete</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>server</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>files</strong>(): Rudra\Container\Files</em><br>|
+|abstract public|<em><strong>get</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP GET variables<br>Создает контейнер для переменных HTTP GET|
+|abstract public|<em><strong>post</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP POST variables<br>Создает контейнер для переменных HTTP POST|
+|abstract public|<em><strong>put</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP PUT variables<br>Создает контейнер для переменных HTTP PUT|
+|abstract public|<em><strong>patch</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP PATCH variables<br>Создает контейнер для переменных HTTP PATCH|
+|abstract public|<em><strong>delete</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP DELETE variables<br>Создает контейнер для переменных HTTP DELETE|
+|abstract public|<em><strong>server</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for server and execution environment information<br>Создает контейнер для информации о сервере и среде исполнения|
+|abstract public|<em><strong>files</strong>(): Rudra\Container\Files</em><br>Creates a container for HTTP File Upload variables<br>Создает контейнер для переменных файлов, загруженных по HTTP|
 
 
 <a id="rudra_container_interfaces_responseinterface"></a>
@@ -129,7 +129,7 @@
 ### Class: Rudra\Container\Interfaces\ResponseInterface
 | Visibility | Function |
 |:-----------|:---------|
-|abstract public|<em><strong>json</strong>( array $data ): void</em><br>|
+|abstract public|<em><strong>json</strong>( array $data ): void</em><br>Displays data in JSON format<br>Отображает данные в формате JSON.|
 
 
 <a id="rudra_container_interfaces_rudrainterface"></a>
@@ -137,14 +137,14 @@
 ### Class: Rudra\Container\Interfaces\RudraInterface
 | Visibility | Function |
 |:-----------|:---------|
-|abstract public|<em><strong>config</strong>( array $config ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>services</strong>( array $services ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>binding</strong>( array $contracts ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|abstract public|<em><strong>request</strong>(): Rudra\Container\Interfaces\RequestInterface</em><br>|
-|abstract public|<em><strong>response</strong>(): Rudra\Container\Interfaces\ResponseInterface</em><br>|
-|abstract public static|<em><strong>run</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>|
-|abstract public|<em><strong>cookie</strong>(): Rudra\Container\Cookie</em><br>|
-|abstract public|<em><strong>session</strong>(): Rudra\Container\Session</em><br>|
+|abstract public|<em><strong>config</strong>( array $config ): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a configuration container<br>Создает контейнер конфигураций|
+|abstract public|<em><strong>serviceList</strong>( array $services ): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container with a list of services<br>Создает контейнер со списком серверов|
+|abstract public|<em><strong>binding</strong>( array $contracts ): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container to associate interfaces with implementations<br>Создает контейнер для связи интерфейсов с реализациями|
+|abstract public|<em><strong>request</strong>(): Rudra\Container\Interfaces\RequestInterface</em><br>Containers for the HTTP / 1.1 Common Method Kit<br>Контейнеры для HTTP/1.1 Common Method Kit|
+|abstract public|<em><strong>response</strong>(): Rudra\Container\Interfaces\ResponseInterface</em><br>Initializes the service for different types of responses<br>Инициализирует сервис для разных типов ответов|
+|abstract public static|<em><strong>run</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>Creates the main application singleton<br>Создает основной синглтон приложения|
+|abstract public|<em><strong>cookie</strong>(): Rudra\Container\Cookie</em><br>Initializes the cookie service<br>Инициализирует сервис для работы с cookie|
+|abstract public|<em><strong>session</strong>(): Rudra\Container\Session</em><br>Initializes the service for working with sessions<br>Инициализирует сервис для работы с сессиями|
 
 
 <a id="rudra_container_request"></a>
@@ -153,15 +153,15 @@
 ##### implements [Rudra\Container\Interfaces\RequestInterface](#rudra_container_interfaces_requestinterface)
 | Visibility | Function |
 |:-----------|:---------|
-|public|<em><strong>get</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>post</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>put</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>patch</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>delete</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>server</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>files</strong>(): Rudra\Container\Files</em><br>|
-|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>|
-|private|<em><strong>serviceCreation</strong>( string $name  ?string $instance   $data )</em><br>|
+|public|<em><strong>get</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP GET variables<br>Создает контейнер для переменных HTTP GET|
+|public|<em><strong>post</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP POST variables<br>Создает контейнер для переменных HTTP POST|
+|public|<em><strong>put</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP PUT variables<br>Создает контейнер для переменных HTTP PUT|
+|public|<em><strong>patch</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP PATCH variables<br>Создает контейнер для переменных HTTP PATCH|
+|public|<em><strong>delete</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for HTTP DELETE variables<br>Создает контейнер для переменных HTTP DELETE|
+|public|<em><strong>server</strong>(): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container for server and execution environment information<br>Создает контейнер для информации о сервере и среде исполнения|
+|public|<em><strong>files</strong>(): Rudra\Container\Files</em><br>Creates a container for HTTP File Upload variables<br>Создает контейнер для переменных файлов, загруженных по HTTP|
+|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>Creates a container instance<br>Создает экземпляр контейнера|
+|private|<em><strong>init</strong>( string $name  ?string $instance   $data )</em><br>Initializes the service<br>Иницианализирует сервис|
 
 
 <a id="rudra_container_response"></a>
@@ -170,8 +170,8 @@
 ##### implements [Rudra\Container\Interfaces\ResponseInterface](#rudra_container_interfaces_responseinterface)
 | Visibility | Function |
 |:-----------|:---------|
-|public|<em><strong>json</strong>( array $data ): void</em><br>|
-|private|<em><strong>getJson</strong>( array $data ): string</em><br>|
+|public|<em><strong>json</strong>( array $data ): void</em><br>Displays data in JSON format<br>Отображает данные в формате JSON.|
+|private|<em><strong>getJson</strong>( array $data ): string</em><br>Returns the JSON representation of a value<br>Возвращает JSONпредставление данных|
 
 
 <a id="rudra_container_rudra"></a>
@@ -181,25 +181,25 @@
 ##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
 | Visibility | Function |
 |:-----------|:---------|
-|public|<em><strong>binding</strong>( array $contracts ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>services</strong>( array $services ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>config</strong>( array $config ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>data</strong>( array $data ): Rudra\Container\Interfaces\ContainerInterface</em><br>|
-|public|<em><strong>request</strong>(): Rudra\Container\Interfaces\RequestInterface</em><br>|
-|public|<em><strong>response</strong>(): Rudra\Container\Interfaces\ResponseInterface</em><br>|
-|public|<em><strong>cookie</strong>(): Rudra\Container\Cookie</em><br>|
-|public|<em><strong>session</strong>(): Rudra\Container\Session</em><br>|
-|public|<em><strong>new</strong>(  $object   $params )</em><br>|
-|public static|<em><strong>run</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>|
-|public|<em><strong>get</strong>( ?string $key )</em><br>|
-|public|<em><strong>set</strong>( array $data ): void</em><br>|
-|public|<em><strong>has</strong>( string $key ): bool</em><br>|
-|private|<em><strong>setObject</strong>(  $object   $key ): void</em><br>|
-|private|<em><strong>mergeData</strong>( string $key   $object )</em><br>|
-|private|<em><strong>iOc</strong>( string $key   $object   $params ): void</em><br>|
-|private|<em><strong>getParamsIoC</strong>( ReflectionMethod $constructor   $params ): array</em><br>|
-|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>|
-|private|<em><strong>serviceCreation</strong>( string $name  ?string $instance   $data )</em><br>|
+|public|<em><strong>binding</strong>( array $contracts ): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container to associate interfaces with implementations<br>Создает контейнер для связи интерфейсов с реализациями|
+|public|<em><strong>serviceList</strong>( array $services ): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a container with a list of services<br>Создает контейнер со списком серверов|
+|public|<em><strong>config</strong>( array $config ): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a configuration container<br>Создает контейнер конфигураций|
+|public|<em><strong>data</strong>( array $data ): Rudra\Container\Interfaces\ContainerInterface</em><br>Creates a common data container<br>Создает общий контейнер данных|
+|public|<em><strong>request</strong>(): Rudra\Container\Interfaces\RequestInterface</em><br>Initializes the service for the HTTP / 1.1 Common Method Kit<br>Инициализирует сервис для HTTP/1.1 Common Method Kit|
+|public|<em><strong>response</strong>(): Rudra\Container\Interfaces\ResponseInterface</em><br>Initializes the service for different types of responses<br>Инициализирует сервис для разных типов ответов|
+|public|<em><strong>cookie</strong>(): Rudra\Container\Cookie</em><br>Initializes the cookie service<br>Инициализирует сервис для работы с cookie|
+|public|<em><strong>session</strong>(): Rudra\Container\Session</em><br>Initializes the service for working with sessions<br>Инициализирует сервис для работы с сессиями|
+|public|<em><strong>new</strong>( string $object  ?array $params ): object</em><br>Creates an object without adding to the container<br>Создает объект без добавления в контейнер|
+|public static|<em><strong>run</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>Creates the main application singleton<br>Создает основной синглтон приложения|
+|public|<em><strong>get</strong>( ?string $key )</em><br>Gets a service by key, or an array of services if no key is specified<br>Получает сервис по ключу или массив сервисов, если ключ не указан|
+|public|<em><strong>set</strong>( array $data ): void</em><br>Adds a service to an application<br>Добавляет сервис в приложение|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>Checks for the existence of a service<br>Проверяет наличие сервиса|
+|private|<em><strong>setObject</strong>( string $key  object|string $object ): void</em><br>Sets an object<br>Устанавливает объект|
+|private|<em><strong>mergeData</strong>( string $key  object $object ): void</em><br>Combines data<br>Объединяет данные|
+|private|<em><strong>iOc</strong>( string $key  string $object  ?array $params ): void</em><br>Creates an object using inversion of control<br>Создает объект при помощи инверсии контроля|
+|private|<em><strong>getParamsIoC</strong>( ReflectionMethod $constructor  ?array $params ): array</em><br>Gets parameters using inversion of control<br>Получает параметры при помощи инверсии контроля|
+|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>Creates a container instance<br>Создает экземпляр контейнера|
+|private|<em><strong>init</strong>( string $name  ?string $instance   $data )</em><br>Initializes the service<br>Иницианализирует сервис|
 
 
 <a id="rudra_container_session"></a>
@@ -208,14 +208,14 @@
 ##### implements [Rudra\Container\Interfaces\ContainerInterface](#rudra_container_interfaces_containerinterface)
 | Visibility | Function |
 |:-----------|:---------|
-|public|<em><strong>get</strong>( ?string $key )</em><br>|
-|public|<em><strong>set</strong>( array $data ): void</em><br>|
-|public|<em><strong>has</strong>( string $key ): bool</em><br>|
-|public|<em><strong>unset</strong>( string $key ): void</em><br>|
+|public|<em><strong>get</strong>( ?string $key )</em><br>Gets an element by key or the entire array of data<br>Получает элемент по ключу или весь массив данных|
+|public|<em><strong>set</strong>( array $data ): void</em><br>Sets session data<br>Устанавливает данные сессии|
+|public|<em><strong>has</strong>( string $key ): bool</em><br>Checks for the existence of data by key<br>Проверяет наличие данных по ключу|
+|public|<em><strong>unset</strong>( string $key ): void</em><br>Unset a given variable from array<br>Удаляет переменную из массива|
 |public|<em><strong>setFlash</strong>( string $type  array $data ): void</em><br>|
-|public|<em><strong>start</strong>(): void</em><br>|
-|public|<em><strong>stop</strong>(): void</em><br>|
-|public|<em><strong>clear</strong>(): void</em><br>|
+|public|<em><strong>start</strong>(): void</em><br>Start new or resume existing session<br>Стартует новую сессию, либо возобновляет существующую|
+|public|<em><strong>stop</strong>(): void</em><br>Destroys all data registered to a session<br>Уничтожает все данные сессии |
+|public|<em><strong>clear</strong>(): void</em><br>Clears the $_SESSION array<br>Очищает массив $_SESSION|
 
 
 <a id="rudra_container_traits_facadetrait"></a>
@@ -223,7 +223,7 @@
 ### Class: Rudra\Container\Traits\FacadeTrait
 | Visibility | Function |
 |:-----------|:---------|
-|public static|<em><strong>__callStatic</strong>(  $method   $parameters )</em><br>|
+|public static|<em><strong>__callStatic</strong>( string $method  array $parameters )</em><br>Calls class methods statically<br>Вызывает методы класса статически|
 
 
 <a id="rudra_container_traits_instantiationstrait"></a>
@@ -231,8 +231,8 @@
 ### Class: Rudra\Container\Traits\InstantiationsTrait
 | Visibility | Function |
 |:-----------|:---------|
-|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>|
-|private|<em><strong>serviceCreation</strong>( string $name  ?string $instance   $data )</em><br>|
+|private|<em><strong>containerize</strong>( string $name  string $instance   $data )</em><br>Creates a container instance<br>Создает экземпляр контейнера|
+|private|<em><strong>init</strong>( string $name  ?string $instance   $data )</em><br>Initializes the service<br>Иницианализирует сервис|
 
 
 <a id="rudra_container_traits_setrudracontainerstrait"></a>
@@ -240,8 +240,8 @@
 ### Class: Rudra\Container\Traits\SetRudraContainersTrait
 | Visibility | Function |
 |:-----------|:---------|
-|public|<em><strong>__construct</strong>( Rudra\Container\Interfaces\RudraInterface $rudra )</em><br>|
-|public|<em><strong>rudra</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>|
+|public|<em><strong>__construct</strong>( Rudra\Container\Interfaces\RudraInterface $rudra )</em><br>Takes RudraInterface as an argument<br>Принимает в качестве аргумента RudraInterface|
+|public|<em><strong>rudra</strong>(): Rudra\Container\Interfaces\RudraInterface</em><br>Gets access to the application<br>Получает доступ к приложению|
 <hr>
 
 ###### created with [Rudra-Documentation-Collector](#https://github.com/Jagepard/Rudra-Documentation-Collector)
