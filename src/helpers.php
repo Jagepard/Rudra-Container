@@ -25,3 +25,25 @@ if (!function_exists('data')) {
         return Rudra::data()->get($data);
     }
 }
+
+if (!function_exists('config')) {
+    /**
+     * @param  string $key
+     * @param  string $subKey
+     * @return void
+     */
+    function config(string $key, string $subKey)
+    {
+        if (isset($key)) {
+            if (isset($subKey)) {
+                if (isset(Rudra::config()->get($key)[$subKey])) {
+                    return Rudra::config()->get($key)[$subKey];
+                }
+            }
+
+            return Rudra::config()->get($key);
+        }
+
+        return false;
+    }
+}
