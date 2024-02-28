@@ -31,7 +31,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $this->rudra = Rudra::run();
         Rudra::binding([RudraInterface::class => Rudra::run()]);
-        Rudra::serviceList([
+        Rudra::services([
                     "CWC" => ClassWithoutConstructor::class,
                     "CWP" => ClassWithoutParameters::class,
                     "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
