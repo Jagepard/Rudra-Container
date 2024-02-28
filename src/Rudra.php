@@ -10,10 +10,10 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Rudra\Container\Interfaces\RudraInterface;
+use Rudra\Container\Traits\InstantiationsTrait;
 use Rudra\Container\Interfaces\RequestInterface;
 use Rudra\Container\Interfaces\ResponseInterface;
 use Rudra\Container\Interfaces\ContainerInterface;
-use Rudra\Container\Traits\InstantiationsTrait;
 
 class Rudra implements RudraInterface, ContainerInterface
 {
@@ -42,7 +42,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * @param  array              $services
      * @return ContainerInterface
      */
-    public function serviceList(array $services = []): ContainerInterface
+    public function services(array $services = []): ContainerInterface
     {
         return $this->containerize("services", Container::class, $services);
     }
@@ -171,15 +171,15 @@ class Rudra implements RudraInterface, ContainerInterface
     public function get(string $key = null)
     {
         if (isset($key) && !$this->has($key)) {
-            if (!$this->serviceList()->has($key)) {
+            if (!$this->services()->has($key)) {
                 if (class_exists($key)) {
-                    $this->serviceList()->set([$key => $key]);
+                    $this->services()->set([$key => $key]);
                 } else {
                     throw new \InvalidArgumentException("Service '$key' is not installed");
                 }
             }
 
-            $this->set([$key, $this->serviceList()->get($key)]);
+            $this->set([$key, $this->services()->get($key)]);
         }
 
         if (empty($key)) {
@@ -255,7 +255,6 @@ class Rudra implements RudraInterface, ContainerInterface
         $this->services = array_merge([$key => $object], $this->services);
     }
 
-
     /**
      * Creates an object using inversion of control
      * --------------------------------------------
@@ -268,7 +267,7 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function iOc(string $key, string $object, ?array $params = null): void
     {
-        $reflection = new \ReflectionClass($object);
+        $reflection  = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor && $constructor->getNumberOfParameters()) {
