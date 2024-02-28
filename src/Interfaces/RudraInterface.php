@@ -30,7 +30,7 @@ interface RudraInterface
      * @param  array              $services
      * @return ContainerInterface
      */
-    public function serviceList(array $services = []): ContainerInterface;
+    public function services(array $services = []): ContainerInterface;
 
     /**
      * Creates a container to associate interfaces with implementations
