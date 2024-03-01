@@ -18,7 +18,7 @@ use Rudra\Container\Interfaces\ContainerInterface;
 
 /**
  * @method static ContainerInterface binding(array $contracts = [])
- * @method static ContainerInterface serviceList(array $services = [])
+ * @method static ContainerInterface services(array $services = [])
  * @method static ContainerInterface config(array $config = [])
  * @method static ContainerInterface data($data = null)
  * @method static RequestInterface request()
