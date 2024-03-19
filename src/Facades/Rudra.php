@@ -9,33 +9,41 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\Cookie;
-use Rudra\Container\Session;
-use Rudra\Container\Interfaces\RudraInterface;
-use Rudra\Container\Interfaces\RequestInterface;
-use Rudra\Container\Interfaces\ResponseInterface;
-use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Container\{
+    Cookie,
+    Session,
+    Interfaces\RudraInterface,
+    Interfaces\RequestInterface,
+    Interfaces\ResponseInterface,
+    Interfaces\ContainerInterface
+};
 
 /**
- * @method static ContainerInterface binding(array $contracts = [])
- * @method static ContainerInterface services(array $services = [])
- * @method static ContainerInterface config(array $config = [])
- * @method static ContainerInterface data($data = null)
- * @method static RequestInterface request()
- * @method static ResponseInterface response()
  * @method static Cookie cookie()
  * @method static Session session()
- * @method static new($object, $params = null)
  * @method static RudraInterface run()
- * @method static get(string $key = null)
  * @method static void set(array $data)
  * @method static bool has(string $key)
+ * @method static RequestInterface request()
+ * @method static ResponseInterface response()
+ * @method static mixed get(string $key = null)
+ * @method static object new($object, $params = null)
+ * @method static ContainerInterface data($data = null)
+ * @method static ContainerInterface config(array $config = [])
+ * @method static ContainerInterface binding(array $contracts = [])
+ * @method static ContainerInterface services(array $services = [])
  *
  * @see \Rudra\Container\Rudra
  */
 final class Rudra
 {
-    public static function __callStatic($method, $parameters = [])
+    /**
+     * @param $method
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public static function __callStatic($method, array $parameters = [])
     {
         return \Rudra\Container\Rudra::run()->$method(...$parameters);
     }

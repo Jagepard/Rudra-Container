@@ -18,9 +18,9 @@ trait FacadeTrait
      *
      * @param  string $method
      * @param  array  $parameters
-     * @return void
+     * @return mixed
      */
-    public static function __callStatic(string $method, array $parameters = [])
+    public static function __callStatic(string $method, array $parameters = []): mixed
     {
         $className = str_replace("Facade", "", static::class);
         if (!class_exists($className)) $className = str_replace("\s", "", $className);

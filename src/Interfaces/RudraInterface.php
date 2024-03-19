@@ -17,7 +17,7 @@ interface RudraInterface
      * ---------------------------------
      * Создает контейнер конфигураций
      * 
-     * @param  array              $config
+     * @param  array $config
      * @return ContainerInterface
      */
     public function config(array $config = []): ContainerInterface;
@@ -27,7 +27,7 @@ interface RudraInterface
      * -------------------------------------------
      * Создает контейнер со списком серверов
      * 
-     * @param  array              $services
+     * @param  array $services
      * @return ContainerInterface
      */
     public function services(array $services = []): ContainerInterface;
@@ -37,7 +37,7 @@ interface RudraInterface
      * ----------------------------------------------------------------
      * Создает контейнер для связи интерфейсов с реализациями
      * 
-     * @param  array              $contracts
+     * @param  array $contracts
      * @return ContainerInterface
      */
     public function binding(array $contracts = []): ContainerInterface;

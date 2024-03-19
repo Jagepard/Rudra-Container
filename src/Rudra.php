@@ -9,11 +9,18 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\RudraInterface;
-use Rudra\Container\Traits\InstantiationsTrait;
-use Rudra\Container\Interfaces\RequestInterface;
-use Rudra\Container\Interfaces\ResponseInterface;
-use Rudra\Container\Interfaces\ContainerInterface;
+use Closure;
+use Rudra\Container\{
+    Interfaces\RudraInterface,
+    Traits\InstantiationsTrait,
+    Interfaces\RequestInterface,
+    Interfaces\ResponseInterface,
+    Interfaces\ContainerInterface
+};
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionException;
+use InvalidArgumentException;
 
 class Rudra implements RudraInterface, ContainerInterface
 {
@@ -72,13 +79,14 @@ class Rudra implements RudraInterface, ContainerInterface
     {
         return $this->containerize("data", Container::class, $data);
     }
-    
+
     /**
      * Initializes the service for the HTTP / 1.1 Common Method Kit
      * -----------------------------------------------
      * Инициализирует сервис для HTTP/1.1 Common Method Kit
-     * 
+     *
      * @return RequestInterface
+     * @throws ReflectionException
      */
     public function request(): RequestInterface
     {
@@ -89,8 +97,9 @@ class Rudra implements RudraInterface, ContainerInterface
      * Initializes the service for different types of responses
      * ------------------------------------------------
      * Инициализирует сервис для разных типов ответов
-     * 
+     *
      * @return ResponseInterface
+     * @throws ReflectionException
      */
     public function response(): ResponseInterface
     {
@@ -101,8 +110,9 @@ class Rudra implements RudraInterface, ContainerInterface
      * Initializes the cookie service
      * -------------------------------------------
      * Инициализирует сервис для работы с cookie
-     * 
+     *
      * @return Cookie
+     * @throws ReflectionException
      */
     public function cookie(): Cookie
     {
@@ -113,8 +123,9 @@ class Rudra implements RudraInterface, ContainerInterface
      * Initializes the service for working with sessions
      * -------------------------------------------------
      * Инициализирует сервис для работы с сессиями
-     * 
+     *
      * @return Session
+     * @throws ReflectionException
      */
     public function session(): Session
     {
@@ -125,14 +136,15 @@ class Rudra implements RudraInterface, ContainerInterface
      * Creates an object without adding to the container
      * -------------------------------------------------
      * Создает объект без добавления в контейнер
-     * 
-     * @param  string     $object
+     *
+     * @param  string $object
      * @param  array|null $params
      * @return object
+     * @throws ReflectionException
      */
     public function new(string $object, ?array $params = null): object
     {
-        $reflection = new \ReflectionClass($object);
+        $reflection = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor && $constructor->getNumberOfParameters()) {
@@ -164,18 +176,19 @@ class Rudra implements RudraInterface, ContainerInterface
      * Gets a service by key, or an array of services if no key is specified
      * ---------------------------------------------------------------------
      * Получает сервис по ключу или массив сервисов, если ключ не указан
-     * 
+     *
      * @param  string|null $key
-     * @return void
+     * @return mixed
+     * @throws ReflectionException
      */
-    public function get(string $key = null)
+    public function get(string $key = null): mixed
     {
         if (isset($key) && !$this->has($key)) {
             if (!$this->services()->has($key)) {
                 if (class_exists($key)) {
                     $this->services()->set([$key => $key]);
                 } else {
-                    throw new \InvalidArgumentException("Service '$key' is not installed");
+                    throw new InvalidArgumentException("Service '$key' is not installed");
                 }
             }
 
@@ -186,16 +199,17 @@ class Rudra implements RudraInterface, ContainerInterface
             return $this->services;
         }
 
-        return ($this->services[$key] instanceof \Closure) ? $this->services[$key]() : $this->services[$key];
+        return ($this->services[$key] instanceof Closure) ? $this->services[$key]() : $this->services[$key];
     }
 
     /**
      * Adds a service to an application
      * --------------------------------
      * Добавляет сервис в приложение
-     * 
+     *
      * @param  array $data
      * @return void
+     * @throws ReflectionException
      */
     public function set(array $data): void
     {
@@ -232,9 +246,10 @@ class Rudra implements RudraInterface, ContainerInterface
      * --------------
      * Устанавливает объект
      *
-     * @param  string        $key
+     * @param  string $key
      * @param  string|object $object
      * @return void
+     * @throws ReflectionException
      */
     private function setObject(string $key, string|object $object): void
     {
@@ -260,14 +275,15 @@ class Rudra implements RudraInterface, ContainerInterface
      * --------------------------------------------
      * Создает объект при помощи инверсии контроля
      *
-     * @param  string     $key
-     * @param  string     $object
-     * @param  array|null $params
+     * @param string $key
+     * @param string $object
+     * @param array|null $params
      * @return void
+     * @throws ReflectionException
      */
     private function iOc(string $key, string $object, ?array $params = null): void
     {
-        $reflection  = new \ReflectionClass($object);
+        $reflection  = new ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor && $constructor->getNumberOfParameters()) {
@@ -284,11 +300,11 @@ class Rudra implements RudraInterface, ContainerInterface
      * ------------------------------------------
      * Получает параметры при помощи инверсии контроля
      *
-     * @param  \ReflectionMethod $constructor
-     * @param  array             $params
+     * @param  ReflectionMethod $constructor
+     * @param  array|null $params
      * @return array
      */
-    private function getParamsIoC(\ReflectionMethod $constructor, ?array $params): array
+    private function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
         $i = 0;
         $paramsIoC = [];
@@ -300,18 +316,10 @@ class Rudra implements RudraInterface, ContainerInterface
              | so that the container automatically created the necessary object and substituted as an argument,
              | we need to bind the interface with the implementation.
              */
-            if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-                if (null !== $value->getType()->getName() && $this->binding()->has($value->getType()->getName())) {
-                    $className = $this->binding()->get($value->getType()->getName());
-                    $paramsIoC[] = (is_object($className)) ? $className : new $className;
-                    continue;
-                }
-            } else {
-                if (isset($value->getClass()->name) && $this->binding()->has($value->getClass()->name)) {
-                    $className = $this->binding()->get($value->getClass()->name);
-                    $paramsIoC[] = (is_object($className)) ? $className : new $className;
-                    continue;
-                }
+            if (null !== $value->getType()->getName() && $this->binding()->has($value->getType()->getName())) {
+                $className = $this->binding()->get($value->getType()->getName());
+                $paramsIoC[] = (is_object($className)) ? $className : new $className;
+                continue;
             }
 
             /*
