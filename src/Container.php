@@ -33,9 +33,9 @@ class Container implements ContainerInterface
      * Получает элемент по ключу или весь массив данных
      * 
      * @param  string|null $key
-     * @return void
+     * @return mixed
      */
-    public function get(string $key = null)
+    public function get(string $key = null): mixed
     {
         if (empty($key)) {
             return $this->data;

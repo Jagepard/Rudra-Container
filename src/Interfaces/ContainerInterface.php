@@ -15,9 +15,9 @@ interface ContainerInterface
      * Получает элемент контейнера
      * 
      * @param  string|null $key
-     * @return void
+     * @return mixed
      */
-    public function get(string $key = null);
+    public function get(string $key = null): mixed;
 
     /**
      * Adds data to the container

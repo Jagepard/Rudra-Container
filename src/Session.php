@@ -18,9 +18,10 @@ class Session implements ContainerInterface
      * --------------------------------------------------
      * Получает элемент по ключу или весь массив данных
      *
-     * @param  string|null $key
+     * @param string|null $key
+     * @return mixed
      */
-    public function get(string $key = null)
+    public function get(string $key = null): mixed
     {
         if (empty($key)) {
             return $_SESSION;
@@ -37,8 +38,9 @@ class Session implements ContainerInterface
      * Sets session data
      * -----------------
      * Устанавливает данные сессии
-     * 
-     * @param  array $data
+     *
+     * @param array $data
+     * @return void
      */
     public function set(array $data): void
     {
@@ -57,9 +59,9 @@ class Session implements ContainerInterface
      * Checks for the existence of data by key
      * ---------------------------------------
      * Проверяет наличие данных по ключу
-     * 
-     * @param  string  $key
-     * @return boolean
+     *
+     * @param string $key
+     * @return bool
      */
     public function has(string $key): bool
     {
@@ -79,6 +81,11 @@ class Session implements ContainerInterface
         unset($_SESSION[$key]);
     }
 
+    /**
+     * @param string $type
+     * @param array $data
+     * @return void
+     */
     public function setFlash(string $type, array $data): void
     {
         foreach ($data as $key => $value) {

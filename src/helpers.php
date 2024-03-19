@@ -7,9 +7,9 @@ if (!function_exists('data')) {
      * Accesses the data container
      * ---------------------------
      * Получает доступ к контейнеру данных
-     * 
-     * @param  $data
-     * @return string
+     *
+     * @param null $data
+     * @return mixed|void
      */
     function data($data = null)
     {
@@ -28,11 +28,11 @@ if (!function_exists('data')) {
 
 if (!function_exists('config')) {
     /**
-     * @param  string $key
-     * @param  string $subKey
-     * @return void
+     * @param string|null $key
+     * @param string|null $subKey
+     * @return mixed
      */
-    function config(string $key, string $subKey)
+    function config(?string $key, ?string $subKey): mixed
     {
         if (isset($key)) {
             if (isset($subKey)) {

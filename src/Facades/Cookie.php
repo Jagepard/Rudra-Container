@@ -12,10 +12,10 @@ namespace Rudra\Container\Facades;
 use Rudra\Container\Traits\FacadeTrait;
 
 /**
- * @method static get(string $key = null)
  * @method static bool has(string $key)
- * @method static void unset(string $key)
  * @method static void set(array $data)
+ * @method static void unset(string $key)
+ * @method static mixed get(string $key = null)
  *
  * @see \Rudra\Container\Cookie
  */

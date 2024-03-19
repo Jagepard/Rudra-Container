@@ -9,18 +9,16 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\Files;
-use Rudra\Container\Traits\FacadeTrait;
-use Rudra\Container\Interfaces\ContainerInterface;
+use Rudra\Container\{Files, Traits\FacadeTrait, Interfaces\ContainerInterface};
 
 /**
+ * @method static Files files()
  * @method static ContainerInterface get()
  * @method static ContainerInterface post()
  * @method static ContainerInterface put()
  * @method static ContainerInterface patch()
  * @method static ContainerInterface delete()
  * @method static ContainerInterface server()
- * @method static Files files()
  *
  * @see \Rudra\Container\Request
  */

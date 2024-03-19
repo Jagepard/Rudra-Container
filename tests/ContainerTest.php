@@ -11,17 +11,14 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
-use Rudra\Container\{Container,
-    Facades\Request,
-    Facades\Response,
-    Facades\Rudra,
-    Facades\Session,
-    Facades\Cookie,
-    Interfaces\RudraInterface};
-use Rudra\Container\Tests\Stub\{
-    ClassWithDependency, ClassWithoutParameters, ClassWithoutConstructor, ClassWithDefaultParameters
-};
-use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
+use Rudra\Container\Container;
+use Rudra\Container\Facades\{Cookie, Request, Response, Rudra, Session};
+use Rudra\Container\Interfaces\RudraInterface;
+use Rudra\Container\Tests\Stub\{ClassWithDefaultParameters,
+    ClassWithDependency,
+    ClassWithoutConstructor,
+    ClassWithoutParameters};
+use PHPUnit\Framework\{TestCase as PHPUnit_Framework_TestCase};
 
 class ContainerTest extends PHPUnit_Framework_TestCase
 {
@@ -32,10 +29,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->rudra = Rudra::run();
         Rudra::binding([RudraInterface::class => Rudra::run()]);
         Rudra::services([
-                    "CWC" => ClassWithoutConstructor::class,
-                    "CWP" => ClassWithoutParameters::class,
+                    "CWC"  => ClassWithoutConstructor::class,
+                    "CWP"  => ClassWithoutParameters::class,
                     "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
-                    "CWD" => ClassWithDependency::class
+                    "CWD"  => ClassWithDependency::class
                 ]
         );
     }
@@ -48,7 +45,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testGetEmpty(): void
     {
-        $this->assertTrue(count(Rudra::get()) === 0);
+        $this->assertEmpty(Rudra::get());
     }
 
     public function testGetInvalidArgumentException(): void
@@ -63,7 +60,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("CWP"));
         $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("CWDP"));
         $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("CWD"));
-        $this->assertTrue(count(Rudra::get()) > 0);
+        $this->assertNotEmpty(Rudra::get());
     }
 
     public function testSetRudraContainersTrait()
@@ -191,9 +188,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey("key", Request::server()->get());
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testJsonResponse(): void
     {
         ob_start();
@@ -233,9 +227,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         Session::set([]);
     }
 
-    /**
-     * @runInSeparateProcess
-     */
     public function testCookieData(): void
     {
         Cookie::set(["key", "value"]);
