@@ -32,6 +32,7 @@ use Rudra\Container\{
  * @method static ContainerInterface config(array $config = [])
  * @method static ContainerInterface binding(array $contracts = [])
  * @method static ContainerInterface services(array $services = [])
+ * @method static autowire($object, string $method, ?array $params = null)
  *
  * @see \Rudra\Container\Rudra
  */
