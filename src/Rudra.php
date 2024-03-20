@@ -32,7 +32,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * Creates a container to associate interfaces with implementations
      * ----------------------------------------------------------------
      * Создает контейнер для связи интерфейсов с реализациями
-     * 
+     *
      * @param  array              $contracts
      * @return ContainerInterface
      */
@@ -45,7 +45,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * Creates a container with a list of services
      * -------------------------------------------
      * Создает контейнер со списком серверов
-     * 
+     *
      * @param  array              $services
      * @return ContainerInterface
      */
@@ -53,12 +53,12 @@ class Rudra implements RudraInterface, ContainerInterface
     {
         return $this->containerize("services", Container::class, $services);
     }
-    
+
     /**
      * Creates a configuration container
      * ---------------------------------
      * Создает контейнер конфигураций
-     * 
+     *
      * @param  array              $config
      * @return ContainerInterface
      */
@@ -71,7 +71,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * Creates a common data container
      * ---------------------------------
      * Создает общий контейнер данных
-     * 
+     *
      * @param  array              $data
      * @return ContainerInterface
      */
@@ -160,7 +160,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * Creates the main application singleton
      * --------------------------------------
      * Создает основной синглтон приложения
-     * 
+     *
      * @return RudraInterface
      */
     public static function run(): RudraInterface
@@ -232,7 +232,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * Checks for the existence of a service
      * -------------------------------------
      * Проверяет наличие сервиса
-     * 
+     *
      * @param  string  $key
      * @return boolean
      */
@@ -296,6 +296,28 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
+     * Calls a method using inversion of control
+     * -------------------------------------------
+     * Вызывает метод при помощи инверсии контроля
+     *
+     * @param $object
+     * @param string $method
+     * @param array|null $params
+     * @return mixed|void
+     * @throws ReflectionException
+     */
+    public function autowire($object, string $method, ?array $params = null)
+    {
+        $reflectionMethod = new ReflectionMethod($object, $method);
+
+        if ($reflectionMethod->getNumberOfParameters()) {
+            $paramsIoC = $this->getParamsIoC($reflectionMethod, $params);
+
+            return $reflectionMethod->invokeArgs($object, $paramsIoC);
+        }
+    }
+
+    /**
      * Gets parameters using inversion of control
      * ------------------------------------------
      * Получает параметры при помощи инверсии контроля
@@ -316,8 +338,14 @@ class Rudra implements RudraInterface, ContainerInterface
              | so that the container automatically created the necessary object and substituted as an argument,
              | we need to bind the interface with the implementation.
              */
-            if (null !== $value->getType()->getName() && $this->binding()->has($value->getType()->getName())) {
+            if (null !== $value->getType()?->getName() && $this->binding()->has($value->getType()->getName())) {
                 $className = $this->binding()->get($value->getType()->getName());
+
+                if (is_string($className) && str_contains($className, 'Factory')) {
+                    $paramsIoC[] = (new $className)->create();
+                    continue;
+                }
+
                 $paramsIoC[] = (is_object($className)) ? $className : new $className;
                 continue;
             }
