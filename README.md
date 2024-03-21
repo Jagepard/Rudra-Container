@@ -20,6 +20,7 @@ use Rudra\Container\Rudra;
 ```php
 Rudra::run();
 ``` 
+
 ***    
 ###### Add objects:
 Without arguments - add to the container the class *Annotations* with the call key *annotation*
