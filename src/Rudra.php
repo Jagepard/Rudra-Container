@@ -9,12 +9,11 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
+use BadMethodCallException;
 use Closure;
 use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
-    Interfaces\RequestInterface,
-    Interfaces\ResponseInterface,
     Interfaces\ContainerInterface
 };
 use ReflectionClass;
@@ -22,23 +21,50 @@ use ReflectionMethod;
 use ReflectionException;
 use InvalidArgumentException;
 
+/**
+ * @method waiting()
+ * @method binding()
+ * @method services()
+ */
 class Rudra implements RudraInterface, ContainerInterface
 {
     use InstantiationsTrait;
 
     public static ?RudraInterface $rudra = null;
 
+    protected array $allowedContainers = [
+        'waiting', 'binding', 'services', 'shared', 'config'
+    ];
+
+    protected array $allowedInstances = [
+        'request'  => Request::class,
+        'response' => Response::class,
+        'cookie'   => Cookie::class,
+        'session'  => Session::class
+    ];
+
     /**
-     * Creates a container to associate interfaces with implementations
-     * ----------------------------------------------------------------
-     * Создает контейнер для связи интерфейсов с реализациями
+     * Initializes a service or creates a container
+     * --------------------------------------------
+     * Инициализирует сервис или создает контейнер
      *
-     * @param  array              $contracts
-     * @return ContainerInterface
+     * @param string $method
+     * @param array $parameters
+     * @return mixed
+     * @throws ReflectionException
      */
-    public function binding(array $contracts = []): ContainerInterface
+    public function __call(string $method, array $parameters = [])
     {
-        return $this->containerize("binding", Container::class, $contracts);
+        if (in_array($method, $this->allowedContainers)) {
+            $data = (count($parameters)) ? $parameters[0] : $parameters;
+            return $this->containerize($method, Container::class, $data);
+        }
+
+        if (array_key_exists($method, $this->allowedInstances)) {
+            return $this->init($this->allowedInstances[$method]);
+        }
+
+        throw new BadMethodCallException("The Rudra\Container\Rudra::$method being called does not exist");
     }
 
     /**
@@ -53,102 +79,6 @@ class Rudra implements RudraInterface, ContainerInterface
     public function bind(string $contract, $realisation): void
     {
         $this->binding()->set([$contract => $realisation]);
-    }
-
-    /**
-     * Creates a container with a list of waiting
-     * ------------------------------------------
-     * Создает контейнер со списком ожидающих
-     *
-     * @param  array              $waiting
-     * @return ContainerInterface
-     */
-    public function waiting(array $waiting = []): ContainerInterface
-    {
-        return $this->containerize("waiting", Container::class, $waiting);
-    }
-
-    public function services(array $services = []): ContainerInterface
-    {
-        return $this->containerize("services", Container::class, $services);
-    }
-
-    /**
-     * Creates a configuration container
-     * ---------------------------------
-     * Создает контейнер конфигураций
-     *
-     * @param  array              $config
-     * @return ContainerInterface
-     */
-    public function config(array $config = []): ContainerInterface
-    {
-        return $this->containerize("config", Container::class, $config);
-    }
-
-    /**
-     * Creates a common data container
-     * ---------------------------------
-     * Создает общий контейнер данных
-     *
-     * @param  array              $data
-     * @return ContainerInterface
-     */
-    public function shared(array $data = []): ContainerInterface
-    {
-        return $this->containerize("shared", Container::class, $data);
-    }
-
-    /**
-     * Initializes the service for the HTTP / 1.1 Common Method Kit
-     * -----------------------------------------------
-     * Инициализирует сервис для HTTP/1.1 Common Method Kit
-     *
-     * @return RequestInterface
-     * @throws ReflectionException
-     */
-    public function request(): RequestInterface
-    {
-        return $this->init(Request::class);
-    }
-
-    /**
-     * Initializes the service for different types of responses
-     * ------------------------------------------------
-     * Инициализирует сервис для разных типов ответов
-     *
-     * @return ResponseInterface
-     * @throws ReflectionException
-     */
-    public function response(): ResponseInterface
-    {
-        return $this->init(Response::class);
-    }
-
-    /**
-     * Initializes the cookie service
-     * -------------------------------------------
-     * Инициализирует сервис для работы с cookie
-     *
-     * @return Cookie
-     * @throws ReflectionException
-     */
-    public function cookie(): Cookie
-    {
-        return $this->init(Cookie::class);
-    }
-
-    /**
-     * Initializes the service for working with sessions
-     * -------------------------------------------------
-     * Инициализирует сервис для работы с сессиями
-     *
-     * @return Session
-     * @throws ReflectionException
-     */
-    public function session(): Session
-    {
-        return $this->init(Session::class);
     }
 
     /**
