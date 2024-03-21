@@ -13,13 +13,12 @@ use Rudra\Container\Interfaces\ContainerInterface;
 trait InstantiationsTrait
 {
     private array $containers = [];
-    private array $services   = [];
 
     /**
      * Creates a container instance
      * ----------------------------
      * Создает экземпляр контейнера
-     * 
+     *
      * @param  string $name
      * @param  string $instance
      * @param  array $data
@@ -48,7 +47,7 @@ trait InstantiationsTrait
     private function init(string $name, string $instance = null, array $data = []): mixed
     {
         $instance ??= $name;
-        if (!array_key_exists($name, $this->services)) {
+        if (!$this->has($name)) {
             $this->set([$name, [$instance, $data]]);
         }
 

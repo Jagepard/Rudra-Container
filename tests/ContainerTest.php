@@ -28,12 +28,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $this->rudra = Rudra::run();
         Rudra::binding([RudraInterface::class => Rudra::run()]);
-        Rudra::services([
-                    "CWC"  => ClassWithoutConstructor::class,
-                    "CWP"  => ClassWithoutParameters::class,
-                    "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
-                    "CWD"  => ClassWithDependency::class
-                ]
+        Rudra::waiting([
+                "CWC"  => ClassWithoutConstructor::class,
+                "CWP"  => ClassWithoutParameters::class,
+                "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
+                "CWD"  => ClassWithDependency::class
+            ]
         );
     }
 
@@ -45,7 +45,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testGetEmpty(): void
     {
-        $this->assertEmpty(Rudra::get());
+        $this->assertEmpty(Rudra::get()->get());
     }
 
     public function testGetInvalidArgumentException(): void
@@ -77,7 +77,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testGetArrayHasKey(): void
     {
         Rudra::set([ContainerTest::class, $this]);
-        $this->assertArrayHasKey(ContainerTest::class, Rudra::get());
+        $this->assertArrayHasKey(ContainerTest::class, Rudra::get()->get());
     }
 
     public function testIoCClassWithoutConstructor(): void

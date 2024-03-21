@@ -24,11 +24,7 @@ trait FacadeTrait
     {
         $className = str_replace("Facade", "", static::class);
         if (!class_exists($className)) $className = str_replace("\s", "", $className);
-
-        if (!Rudra::has($className)) {
-            Rudra::set([$className, [$className]]);
-            Rudra::services()->set([$className => $className]);
-        }
+        if (!Rudra::has($className)) Rudra::set([$className, [$className]]);
 
         return Rudra::get($className)->$method(...$parameters);
     }
