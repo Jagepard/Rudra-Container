@@ -42,13 +42,32 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * Creates a container with a list of services
-     * -------------------------------------------
-     * Создает контейнер со списком серверов
+     * Associates an interface with an implementation
+     * ----------------------------------------------
+     * Связвает интерфейс с реализацией
      *
-     * @param  array              $services
+     * @param string $contract
+     * @param $realisation
+     * @return void
+     */
+    public function bind(string $contract, $realisation): void
+    {
+        $this->binding()->set([$contract => $realisation]);
+    }
+
+    /**
+     * Creates a container with a list of waiting
+     * ------------------------------------------
+     * Создает контейнер со списком ожидающих
+     *
+     * @param  array              $waiting
      * @return ContainerInterface
      */
+    public function waiting(array $waiting = []): ContainerInterface
+    {
+        return $this->containerize("waiting", Container::class, $waiting);
+    }
+
     public function services(array $services = []): ContainerInterface
     {
         return $this->containerize("services", Container::class, $services);
@@ -75,9 +94,9 @@ class Rudra implements RudraInterface, ContainerInterface
      * @param  array              $data
      * @return ContainerInterface
      */
-    public function data(array $data = []): ContainerInterface
+    public function shared(array $data = []): ContainerInterface
     {
-        return $this->containerize("data", Container::class, $data);
+        return $this->containerize("shared", Container::class, $data);
     }
 
     /**
@@ -184,22 +203,24 @@ class Rudra implements RudraInterface, ContainerInterface
     public function get(string $key = null): mixed
     {
         if (isset($key) && !$this->has($key)) {
-            if (!$this->services()->has($key)) {
+            if (!$this->waiting()->has($key)) {
                 if (class_exists($key)) {
-                    $this->services()->set([$key => $key]);
+                    $this->waiting()->set([$key => $key]);
                 } else {
                     throw new InvalidArgumentException("Service '$key' is not installed");
                 }
             }
 
-            $this->set([$key, $this->services()->get($key)]);
+            $this->set([$key, $this->waiting()->get($key)]);
         }
 
         if (empty($key)) {
-            return $this->services;
+            return $this->services();
         }
 
-        return ($this->services[$key] instanceof Closure) ? $this->services[$key]() : $this->services[$key];
+        $service = $this->services()->get($key);
+
+        return ($service instanceof Closure) ? $service() : $service;
     }
 
     /**
@@ -238,7 +259,7 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public function has(string $key): bool
     {
-        return array_key_exists($key, $this->services);
+        return $this->services()->has($key);
     }
 
     /**
@@ -253,21 +274,7 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function setObject(string $key, string|object $object): void
     {
-        (is_object($object)) ? $this->mergeData($key, $object) : $this->iOc($key, $object);
-    }
-
-    /**
-     * Combines data
-     * -------------
-     * Объединяет данные
-     *
-     * @param  string $key
-     * @param  object $object
-     * @return void
-     */
-    private function mergeData(string $key, object $object): void
-    {
-        $this->services = array_merge([$key => $object], $this->services);
+        (is_object($object)) ? $this->services()->set([$key => $object]) : $this->iOc($key, $object);
     }
 
     /**
@@ -288,11 +295,12 @@ class Rudra implements RudraInterface, ContainerInterface
 
         if ($constructor && $constructor->getNumberOfParameters()) {
             $paramsIoC = $this->getParamsIoC($constructor, $params);
-            $this->mergeData($key, $reflection->newInstanceArgs($paramsIoC));
+
+            $this->services()->set([$key => $reflection->newInstanceArgs($paramsIoC)]);
             return;
         }
 
-        $this->mergeData($key, new $object());
+        $this->services()->set([$key => new $object()]);
     }
 
     /**

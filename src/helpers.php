@@ -14,15 +14,15 @@ if (!function_exists('data')) {
     function data($data = null)
     {
         if (is_array($data)) {
-            Rudra::data()->set($data);
+            Rudra::shared()->set($data);
             return;
         }
 
         if (empty($data)) {
-            return Rudra::data()->get();
+            return Rudra::shared()->get();
         }
 
-        return Rudra::data()->get($data);
+        return Rudra::shared()->get($data);
     }
 }
 

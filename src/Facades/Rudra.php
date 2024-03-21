@@ -28,7 +28,7 @@ use Rudra\Container\{
  * @method static ResponseInterface response()
  * @method static mixed get(string $key = null)
  * @method static object new($object, $params = null)
- * @method static ContainerInterface data($data = null)
+ * @method static ContainerInterface shared($data = null)
  * @method static ContainerInterface config(array $config = [])
  * @method static ContainerInterface binding(array $contracts = [])
  * @method static ContainerInterface services(array $services = [])
