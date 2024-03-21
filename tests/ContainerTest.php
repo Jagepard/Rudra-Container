@@ -188,6 +188,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertArrayHasKey("key", Request::server()->get());
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testJsonResponse(): void
     {
         ob_start();
@@ -227,6 +230,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         Session::set([]);
     }
 
+    /**
+     * @runInSeparateProcess
+     */
     public function testCookieData(): void
     {
         Cookie::set(["key", "value"]);
