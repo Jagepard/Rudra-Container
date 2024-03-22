@@ -32,7 +32,7 @@ if (!function_exists('config')) {
      * @param string|null $subKey
      * @return mixed
      */
-    function config(?string $key, ?string $subKey): mixed
+    function config(?string $key, ?string $subKey = null): mixed
     {
         if (isset($key)) {
             if (isset($subKey)) {
