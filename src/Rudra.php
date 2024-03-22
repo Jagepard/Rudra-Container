@@ -282,17 +282,17 @@ class Rudra implements RudraInterface, ContainerInterface
                 if (is_string($className) && str_contains($className, 'Factory')) {
                     $paramsIoC[] = (new $className)->create();
                     continue;
-                } elseif (null !== $value->getType()?->getName()) {
-                    $className = $value->getType()->getName();
-
-                    if (class_exists($className)) {
-                        $paramsIoC[] = new $className;
-                        continue;
-                    }
                 }
 
                 $paramsIoC[] = (is_object($className)) ? $className : new $className;
                 continue;
+            } elseif (null !== $value->getType()?->getName()) {
+                $className = $value->getType()->getName();
+
+                if (class_exists($className)) {
+                    $paramsIoC[] = new $className;
+                    continue;
+                }
             }
 
             /*
