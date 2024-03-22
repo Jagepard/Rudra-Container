@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use BadMethodCallException;
+
 use Closure;
 use Rudra\Container\{
     Interfaces\RudraInterface,
@@ -19,6 +19,7 @@ use Rudra\Container\{
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionException;
+use BadMethodCallException;
 use InvalidArgumentException;
 
 /**
@@ -238,14 +239,21 @@ class Rudra implements RudraInterface, ContainerInterface
      * -------------------------------------------
      * Вызывает метод при помощи инверсии контроля
      *
-     * @param $object
-     * @param string $method
-     * @param array|null $params
+     * @param  Throwable $e
      * @return mixed|void
      * @throws ReflectionException
      */
-    public function autowire($object, string $method, ?array $params = null)
+    public function autowire(Throwable $e)
     {
+        $trace  = $e->getTrace()[0];
+        $object = new $trace['class'];
+        $method = $trace['function'];
+        $params = null;
+
+        if (array_key_exists('args', $trace)) {
+            $params = $trace['args'];
+        }
+
         $reflectionMethod = new ReflectionMethod($object, $method);
 
         if ($reflectionMethod->getNumberOfParameters()) {
