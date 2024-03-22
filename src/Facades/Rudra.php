@@ -24,6 +24,7 @@ use Rudra\Container\{
  * @method static RudraInterface run()
  * @method static void set(array $data)
  * @method static bool has(string $key)
+ * @method static autowire(Throwable $e)
  * @method static RequestInterface request()
  * @method static ResponseInterface response()
  * @method static mixed get(string $key = null)
@@ -32,7 +33,6 @@ use Rudra\Container\{
  * @method static ContainerInterface config(array $config = [])
  * @method static ContainerInterface waiting(array $waiting = [])
  * @method static ContainerInterface binding(array $contracts = [])
- * @method static autowire($object, string $method, ?array $params = null)
  *
  * @see \Rudra\Container\Rudra
  */
