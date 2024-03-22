@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Facades;
 
-use Throwable;
 use Rudra\Container\{
     Cookie,
     Session,
@@ -25,15 +24,15 @@ use Rudra\Container\{
  * @method static RudraInterface run()
  * @method static void set(array $data)
  * @method static bool has(string $key)
- * @method static autowire(Throwable $e)
  * @method static RequestInterface request()
  * @method static ResponseInterface response()
  * @method static mixed get(string $key = null)
  * @method static object new($object, $params = null)
  * @method static ContainerInterface shared($data = null)
  * @method static ContainerInterface config(array $config = [])
- * @method static ContainerInterface waiting(array $waiting = [])
  * @method static ContainerInterface binding(array $contracts = [])
+ * @method static ContainerInterface services(array $services = [])
+ * @method static autowire($object, string $method, ?array $params = null)
  *
  * @see \Rudra\Container\Rudra
  */

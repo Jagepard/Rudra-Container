@@ -239,21 +239,14 @@ class Rudra implements RudraInterface, ContainerInterface
      * -------------------------------------------
      * Вызывает метод при помощи инверсии контроля
      *
-     * @param Throwable $e
+     * @param $object
+     * @param string $method
+     * @param array|null $params
      * @return mixed|void
      * @throws ReflectionException
      */
-    public function autowire(Throwable $e)
+    public function autowire($object, string $method, ?array $params = null)
     {
-        $trace  = $e->getTrace()[0];
-        $object = new $trace['class'];
-        $method = $trace['function'];
-        $params = null;
-
-        if (array_key_exists('args', $trace)) {
-            $params = $trace['args'];
-        }
-
         $reflectionMethod = new ReflectionMethod($object, $method);
 
         if ($reflectionMethod->getNumberOfParameters()) {
