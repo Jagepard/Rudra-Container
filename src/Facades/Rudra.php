@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Rudra\Container\Facades;
 
+use Throwable;
 use Rudra\Container\{
     Cookie,
     Session,
