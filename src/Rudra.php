@@ -9,8 +9,8 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-
 use Closure;
+use Throwable;
 use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
@@ -239,7 +239,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * -------------------------------------------
      * Вызывает метод при помощи инверсии контроля
      *
-     * @param  Throwable $e
+     * @param Throwable $e
      * @return mixed|void
      * @throws ReflectionException
      */
