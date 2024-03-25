@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Closure;
-use Throwable;
 use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
@@ -66,20 +65,6 @@ class Rudra implements RudraInterface, ContainerInterface
         }
 
         throw new BadMethodCallException("The Rudra\Container\Rudra::$method being called does not exist");
-    }
-
-    /**
-     * Associates an interface with an implementation
-     * ----------------------------------------------
-     * Связвает интерфейс с реализацией
-     *
-     * @param string $contract
-     * @param $realisation
-     * @return void
-     */
-    public function bind(string $contract, $realisation): void
-    {
-        $this->binding()->set([$contract => $realisation]);
     }
 
     /**
@@ -261,9 +246,10 @@ class Rudra implements RudraInterface, ContainerInterface
      * ------------------------------------------
      * Получает параметры при помощи инверсии контроля
      *
-     * @param  ReflectionMethod $constructor
-     * @param  array|null $params
+     * @param ReflectionMethod $constructor
+     * @param array|null $params
      * @return array
+     * @throws ReflectionException
      */
     private function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
@@ -285,7 +271,13 @@ class Rudra implements RudraInterface, ContainerInterface
                     continue;
                 }
 
-                $paramsIoC[] = (is_object($className)) ? $className : new $className;
+                if (is_object($className)) {
+                    $paramsIoC[] = $className;
+                } elseif ($this->waiting()->has($className)) {
+                    $paramsIoC[] = $this->get($className);
+                } else {
+                    $paramsIoC[] = new $className;
+                }
                 continue;
             } elseif (null !== $value->getType()?->getName()) {
                 $className = $value->getType()->getName();
