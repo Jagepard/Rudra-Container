@@ -127,16 +127,20 @@ class Rudra implements RudraInterface, ContainerInterface
                 }
             }
 
-            $this->set([$key, $this->waiting()->get($key)]);
+            $waiting = $this->waiting()->get($key);
+
+            if ($waiting instanceof Closure) {
+                return $waiting();
+            }
+
+            $this->set([$key, $waiting]);
         }
 
         if (empty($key)) {
             return $this->services();
         }
 
-        $service = $this->services()->get($key);
-
-        return ($service instanceof Closure) ? $service() : $service;
+        return $this->services()->get($key);
     }
 
     /**
@@ -276,6 +280,11 @@ class Rudra implements RudraInterface, ContainerInterface
             if (null !== $value->getType()?->getName() && $this->binding()->has($value->getType()->getName())) {
                 $className = $this->binding()->get($value->getType()->getName());
 
+                if ($className instanceof Closure) {
+                    $paramsIoC[] = $className();
+                    continue;
+                }
+
                 if (is_string($className) && str_contains($className, 'Factory')) {
                     $paramsIoC[] = (new $className)->create();
                     continue;
@@ -284,7 +293,8 @@ class Rudra implements RudraInterface, ContainerInterface
                 if (is_object($className)) {
                     $paramsIoC[] = $className;
                 } elseif ($this->waiting()->has($className)) {
-                    $paramsIoC[] = $this->get($className);
+                    $service     = $this->get($className);
+                    $paramsIoC[] = ($service instanceof Closure) ? $service() : $service;
                 } else {
                     $paramsIoC[] = new $className;
                 }
