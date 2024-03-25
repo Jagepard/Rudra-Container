@@ -9,78 +9,104 @@
 ![GitHub](https://img.shields.io/github/license/jagepard/Rudra-Container.svg)
 
 # Rudra-Container | [API](https://github.com/Jagepard/Rudra-Container/blob/master/docs.md "Documentation API")
-#### Installation
+#### Installation | Установка
 ```composer require rudra/container```
-#### Using
+#### Using | Использование
 ```php
 use Rudra\Container\Rudra;
-``` 
->The container is available for calling.
-```php
-Rudra::run();
-``` 
 
-***    
-###### Add objects:
-Without arguments - add to the container the class *Annotations* with the call key *annotation*
-```php
-Rudra::run()->set(['annotation', 'Rudra\Annotation']);
+Rudra::run();
 ```
-With arguments
->If the class expects a Container dependency in the constructor, the container will automatically create the necessary object
-and substitute it as an argument
-*Note:* the Container class must be available at Composer startup
+using Facade | используя фасад:
 ```php
-class Auth
-{
-    public function __construct(RudraInterface $rudra)
-    {
-        $this->rudra = $rudra;
-    }
-}
+use Rudra\Container\Facades\Rudra;
 ```
->Adding an object in this case is similar to the first
+---
+###### Setting | Настройка:
+
+---
+Bind an interface to an implementation or pre-arranged factory <br> 
+Связать интерфейс с реализацией или заранее подготовленной фабрикой:
+---
 ```php
-Rudra::run()->set(['auth', 'Rudra\Auth']);
+Rudra::run()->binding([
+    SomeInterface::class => SomeClass::class
+    ...
+    SomeInterface::class => SomeFactory::class
+    ...
+    SomeInterface::class => 'service-name'
+]);
 ```
->If in the constructor the Auth class expects the implementation of the ContainerInterface interface, then so that the container automatically
-created the necessary object and substituted as an argument, we need to connect the ContainerInterface interface to the implementation.
+using Facade | используя фасад:
 ```php
-use Rudra\Container\Interfaces\RudraInterface;
+Rudra::binding([
+    SomeInterface::class => SomeClass::class
+    ...
+    SomeInterface::class => SomeFactory::class
+    ...
+    SomeInterface::class => 'service-name'
+]);
 ```
+---
+Installs services into a waiting container to be initialized when called:<br>
+Устанавливает сервисы в контейнер ожидающих, для инициализации при вызове:
+---
 ```php
-class Auth
-{
-    public function __construct(RudraInterface $rudra)
-    {
-        $this->rudra = $rudra;
-    }
-}
+Rudra::run()->waiting([
+    'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+])
 ```
->Adding an object in this case is also similar, but in this case, you must associate the interface with the implementation
-. To do this, we use the setBinding method, to which we will pass the interface as the first element, and in
-as a second implementation
+using Facade | используя фасад:
 ```php
-Rudra::binding()->set([RudraInterface::class => rudra()]);
+Rudra::waiting([
+    'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+])
 ```
+---
+Add a bind to previously established ones:<br>
+Добавляем привязку к ранее установленным:
+---
 ```php
-Rudra::run()->set(['auth', 'Rudra\Auth']);
+Rudra::run()->binding()->set([SomeInterface::class => SomeClass::class])
 ```
->If the class constructor contains arguments with default values, then if no arguments are passed, values
-will be added by default by container
+using Facade | используя фасад:
 ```php
-class Auth
-{
-    public function __construct(RudraInterface $rudra, $name, $config = 'something')
-    {
-        $this->rudra = $rudra;
-    }
-}
+Rudra::binding()->set([SomeClass::class, ['param-1', 'param-2']);
 ```
->In this case, you can pass as soon as the argument $name, and $name, $config
+---
+Add the service to the previously installed ones:<br>
+Добавляем сервис к ранее установленным:
+---
 ```php
-Rudra::run()->set(['auth', ['Rudra\Auth', ['value']]);
+Rudra::run()->waiting()->set([
+    'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+])
 ```
+using Facade | используя фасад:
 ```php
-Rudra::run()->set('auth', ['Rudra\Auth', ['value', 'concrete']]);
+Rudra::waiting()->set([
+    'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+])
+```
+---
+Call the created service:<br>
+Вызываем созданный сервис:
+---
+```php
+Rudra::run()->get('service-name')
+```
+using Facade | используя фасад:
+```php
+Rudra::get('service-name')
+```
+---
+If the service does not have parameters, or the parameters are in the binding, then the service will be created automatically when calling<br>
+Если сервис не имеет параметров, либо параметры имеются в привязке, то сервис будет создан автоматически при вызове
+---
+```php
+Rudra::run()->get(Service::class)
+```
+using Facade | используя фасад:
+```php
+Rudra::get(Service::class)
 ```
