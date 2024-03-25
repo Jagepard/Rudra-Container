@@ -28,6 +28,7 @@ use Rudra\Container\Facades\Rudra;
 ---
 Bind an interface to an implementation or pre-arranged factory <br> 
 Связать интерфейс с реализацией или заранее подготовленной фабрикой:
+
 ---
 ```php
 Rudra::run()->binding([
@@ -51,6 +52,7 @@ Rudra::binding([
 ---
 Installs services into a waiting container to be initialized when called:<br>
 Устанавливает сервисы в контейнер ожидающих, для инициализации при вызове:
+
 ---
 ```php
 Rudra::run()->waiting([
@@ -66,6 +68,7 @@ Rudra::waiting([
 ---
 Add a bind to previously established ones:<br>
 Добавляем привязку к ранее установленным:
+
 ---
 ```php
 Rudra::run()->binding()->set([SomeInterface::class => SomeClass::class])
@@ -77,6 +80,7 @@ Rudra::binding()->set([SomeClass::class, ['param-1', 'param-2']);
 ---
 Add the service to the previously installed ones:<br>
 Добавляем сервис к ранее установленным:
+
 ---
 ```php
 Rudra::run()->waiting()->set([
@@ -92,6 +96,7 @@ Rudra::waiting()->set([
 ---
 Call the created service:<br>
 Вызываем созданный сервис:
+
 ---
 ```php
 Rudra::run()->get('service-name')
@@ -103,6 +108,7 @@ Rudra::get('service-name')
 ---
 If the service does not have parameters, or the parameters are in the binding, then the service will be created automatically when calling<br>
 Если сервис не имеет параметров, либо параметры имеются в привязке, то сервис будет создан автоматически при вызове
+
 ---
 ```php
 Rudra::run()->get(Service::class)
