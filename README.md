@@ -57,12 +57,16 @@ Installs services into a waiting container to be initialized when called:<br>
 ```php
 Rudra::run()->waiting([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+    ...
+    'service-name' => SomeFactory::class
 ])
 ```
 using Facade | используя фасад:
 ```php
 Rudra::waiting([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+    ...
+    'service-name' => SomeFactory::class
 ])
 ```
 ---
