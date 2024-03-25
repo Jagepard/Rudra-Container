@@ -158,7 +158,17 @@ class Rudra implements RudraInterface, ContainerInterface
                 return;
             }
 
+            if (str_contains($object[0], 'Factory')) {
+                $this->setObject($key, (new $object[0])->create());
+                return;
+            }
+
             $this->setObject($key, $object[0]);
+            return;
+        }
+
+        if (str_contains($object, 'Factory')) {
+            $this->setObject($key, (new $object)->create());
             return;
         }
 
