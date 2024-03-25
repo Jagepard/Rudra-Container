@@ -88,12 +88,16 @@ Add the service to the previously installed ones:<br>
 ```php
 Rudra::run()->waiting()->set([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+    ...
+    'service-name' => SomeFactory::class
 ])
 ```
 using Facade | используя фасад:
 ```php
 Rudra::waiting()->set([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
+    ...
+    'service-name' => SomeFactory::class
 ])
 ```
 ---
