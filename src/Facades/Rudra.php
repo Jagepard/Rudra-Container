@@ -30,8 +30,8 @@ use Rudra\Container\{
  * @method static object new($object, $params = null)
  * @method static ContainerInterface shared($data = null)
  * @method static ContainerInterface config(array $config = [])
+ * @method static ContainerInterface waiting(array $services = [])
  * @method static ContainerInterface binding(array $contracts = [])
- * @method static ContainerInterface services(array $services = [])
  * @method static autowire($object, string $method, ?array $params = null)
  *
  * @see \Rudra\Container\Rudra
