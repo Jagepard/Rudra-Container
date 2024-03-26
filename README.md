@@ -36,6 +36,14 @@ Rudra::run()->binding([
     SomeInterface::class => SomeFactory::class
     ...
     SomeInterface::class => 'service-name'
+    ...
+    SomeInterface::class => function (){
+        return new SomeClass();
+    }
+    ...
+    SomeInterface::class => function (){
+        return (new SomeFactory)->create();
+    }    
 ]);
 ```
 using Facade | используя фасад:
@@ -46,6 +54,14 @@ Rudra::binding([
     SomeInterface::class => SomeFactory::class
     ...
     SomeInterface::class => 'service-name'
+        ...
+    SomeInterface::class => function (){
+        return new SomeClass();
+    }
+    ...
+    SomeInterface::class => function (){
+        return (new SomeFactory)->create();
+    }
 ]);
 ```
 ---
@@ -58,6 +74,15 @@ Rudra::run()->waiting([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
     ...
     'service-name' => SomeFactory::class
+    ...
+    'service-name' => function (){
+        return new SomeClass();
+    }
+    ...
+     'service-name' => function (){
+        return (new SomeFactory)->create();
+    }
+}
 ])
 ```
 using Facade | используя фасад:
@@ -66,6 +91,15 @@ Rudra::waiting([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
     ...
     'service-name' => SomeFactory::class
+    ...
+    'service-name' => function (){
+        return new SomeClass();
+    }
+    ...
+     'service-name' => function (){
+        return (new SomeFactory)->create();
+    }
+}
 ])
 ```
 ---
