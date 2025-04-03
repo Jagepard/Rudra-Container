@@ -84,7 +84,7 @@ class Cookie implements ContainerInterface
         if (!is_array($data[1])) {
             setcookie($data[0], $data[1]);
         } else {
-            setcookie($data[0], $data[1][0], $data[1][1]);
+            setcookie($data[0], $data[1][0], $data[1][1], '/');
         }
     }
 }
