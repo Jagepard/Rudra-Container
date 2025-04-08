@@ -24,7 +24,7 @@ class Session implements ContainerInterface
     public function get(string $key = null): mixed
     {
         if (empty($key)) {
-            return $_SESSION;
+            throw new \InvalidArgumentException("Key cannot be empty");
         }
 
         if (!array_key_exists($key, $_SESSION)) {
@@ -49,7 +49,7 @@ class Session implements ContainerInterface
         }
 
         if (array_key_exists($data[0], $_SESSION) && is_array($_SESSION[$data[0]])) {
-            array_merge($_SESSION[$data[0]], $data[1]);
+            $_SESSION[$data[0]] = array_merge($_SESSION[$data[0]], $data[1]);
         } else {
             $_SESSION[$data[0]] = $data[1];
         }
