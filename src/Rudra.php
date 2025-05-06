@@ -281,60 +281,38 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
-        $i = 0;
+        $params = (is_array($params) && isset($params[0])) ? $params : [$params];
         $paramsIoC = [];
-        $params = (is_array($params) && array_key_exists(0, $params)) ? $params : [$params];
-
-        foreach ($constructor->getParameters() as $value) {
-            /*
-             | If in the constructor expects the implementation of interface,
-             | so that the container automatically created the necessary object and substituted as an argument,
-             | we need to bind the interface with the implementation.
-             */
-            if (null !== $value->getType()?->getName() && $this->binding()->has($value->getType()->getName())) {
-                $className = $this->binding()->get($value->getType()->getName());
-
-                if ($className instanceof Closure) {
-                    $paramsIoC[] = $className();
-                    continue;
-                }
-
-                if (is_string($className) && str_contains($className, 'Factory')) {
-                    $paramsIoC[] = (new $className)->create();
-                    continue;
-                }
-
-                if (is_object($className)) {
-                    $paramsIoC[] = $className;
-                } elseif ($this->waiting()->has($className)) {
-                    $service     = $this->get($className);
-                    $paramsIoC[] = ($service instanceof Closure) ? $service() : $service;
-                } else {
-                    $paramsIoC[] = new $className;
-                }
-                continue;
-            } elseif (null !== $value->getType()?->getName()) {
-                $className = $value->getType()->getName();
-
-                if (class_exists($className)) {
-                    $paramsIoC[] = new $className;
-                    continue;
-                }
-            }
-
-            /*
-             | If the class constructor contains arguments with default values,
-             | then if no arguments are passed,
-             | values will be added by default by container
-             */
-            if ($value->isDefaultValueAvailable() && !isset($params[$i])) {
-                $paramsIoC[] = $value->getDefaultValue();
+        $i = 0;
+    
+        foreach ($constructor->getParameters() as $param) {
+            $type = $param->getType()?->getName();
+            
+            if ($type && $this->binding()->has($type)) {
+                $className = $this->binding()->get($type);
+                $paramsIoC[] = match(true) {
+                    $className instanceof Closure => $className(),
+                    is_string($className) && str_contains($className, 'Factory') => (new $className)->create(),
+                    is_object($className) => $className,
+                    $this->waiting()->has($className) => ($s = $this->get($className)) instanceof Closure ? $s() : $s,
+                    default => new $className
+                };
                 continue;
             }
-
+            
+            if ($type && class_exists($type)) {
+                $paramsIoC[] = new $type;
+                continue;
+            }
+    
+            if ($param->isDefaultValueAvailable() && !isset($params[$i])) {
+                $paramsIoC[] = $param->getDefaultValue();
+                continue;
+            }
+    
             $paramsIoC[] = $params[$i++];
         }
-
+    
         return $paramsIoC;
     }
 }
