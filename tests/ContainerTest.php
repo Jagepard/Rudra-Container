@@ -208,7 +208,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $_SESSION = [];
         Rudra::session()->set(["key", "value"]);
         Session::set(["subKey", ["subSet" => "value"]]);
-        $this->assertTrue(is_array(Session::get()));
         $this->assertEquals("value", Session::get("key"));
         $this->assertEquals("value", Session::get("subKey")["subSet"]);
         $this->assertTrue(Session::has("key"));

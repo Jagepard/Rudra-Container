@@ -162,7 +162,7 @@ class Rudra implements RudraInterface, ContainerInterface
                 return;
             }
 
-            if (str_contains($object[0], 'Factory')) {
+            if (is_string($object[0]) && str_contains($object[0], 'Factory')) {
                 $this->setObject($key, (new $object[0])->create());
                 return;
             }
@@ -171,7 +171,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return;
         }
 
-        if (str_contains($object, 'Factory')) {
+        if (is_string($object) && str_contains($object, 'Factory')) {
             $this->setObject($key, (new $object)->create());
             return;
         }
