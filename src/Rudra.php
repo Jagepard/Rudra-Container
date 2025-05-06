@@ -155,28 +155,42 @@ class Rudra implements RudraInterface, ContainerInterface
     public function set(array $data): void
     {
         list($key, $object) = $data;
-
+    
+        if (!is_string($key)) {
+            throw new InvalidArgumentException("Key must be a string");
+        }
+    
         if (is_array($object)) {
-            if (array_key_exists(1, $object) && !is_object($object[0])) {
-                $this->iOc($key, $object[0], $object[1]);
-                return;
-            }
-
-            if (is_string($object[0]) && str_contains($object[0], 'Factory')) {
-                $this->setObject($key, (new $object[0])->create());
-                return;
-            }
-
-            $this->setObject($key, $object[0]);
+            $this->handleArrayObject($key, $object);
             return;
         }
-
+    
         if (is_string($object) && str_contains($object, 'Factory')) {
             $this->setObject($key, (new $object)->create());
             return;
         }
-
+    
         $this->setObject($key, $object);
+    }
+
+    /**
+     * @param  string $key
+     * @param  array  $object
+     * @return void
+     */
+    private function handleArrayObject(string $key, array $object): void
+    {
+        if (array_key_exists(1, $object) && !is_object($object[0])) {
+            $this->iOc($key, $object[0], $object[1]);
+            return;
+        }
+
+        if (is_string($object[0]) && str_contains($object[0], 'Factory')) {
+            $this->setObject($key, (new $object[0])->create());
+            return;
+        }
+
+        $this->setObject($key, $object[0]);
     }
 
     /**
