@@ -19,8 +19,7 @@ use Rudra\Container\Tests\Stub\{ClassWithDefaultParameters,
     ClassWithoutConstructor,
     ClassWithoutParameters};
 
-    use Psr\Container\NotFoundExceptionInterface;
-
+use Psr\Container\NotFoundExceptionInterface;
 use PHPUnit\Framework\{TestCase as PHPUnit_Framework_TestCase};
 
 class ContainerTest extends PHPUnit_Framework_TestCase
@@ -48,7 +47,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testGetInvalidArgumentException(): void
     {
-        $this->expectException(NotFoundExceptionInterface::class);
+        $this->expectException(\InvalidArgumentException::class);
         Rudra::get("wrongKey");
     }
 

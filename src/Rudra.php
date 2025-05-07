@@ -14,15 +14,17 @@ use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
 };
+use Psr\Container\{
+    ContainerInterface, 
+    NotFoundExceptionInterface, 
+    ContainerExceptionInterface,
+}; 
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
 
-use Psr\Container\ContainerInterface; 
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Container\ContainerExceptionInterface;
 
 /**
  * @method waiting()

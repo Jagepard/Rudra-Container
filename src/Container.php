@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Psr\Container\ContainerInterface; 
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\{
+    ContainerInterface, 
+    NotFoundExceptionInterface, 
+    ContainerExceptionInterface
+}; 
 
 /**
  * Service container implementing the PSR-11 standard.

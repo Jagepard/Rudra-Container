@@ -9,9 +9,11 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Psr\Container\ContainerInterface; 
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\{
+    ContainerInterface, 
+    NotFoundExceptionInterface, 
+    ContainerExceptionInterface
+}; 
 
 class Cookie implements ContainerInterface
 {
@@ -42,7 +44,7 @@ class Cookie implements ContainerInterface
      */
     public function has(string $id): bool
     {
-        return array_key_exists($id, $_COOKIE);
+        return !empty($id) && array_key_exists($id, $_COOKIE);
     }
 
     /**
