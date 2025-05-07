@@ -13,7 +13,7 @@ use Rudra\Container\Files;
 use Rudra\Container\Container;
 use Rudra\Container\Traits\InstantiationsTrait;
 use Rudra\Container\Interfaces\RequestInterface;
-use Rudra\Container\Interfaces\ContainerInterface;
+use Psr\Container\ContainerInterface; 
 
 class Request implements RequestInterface
 {

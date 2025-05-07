@@ -13,13 +13,16 @@ use Closure;
 use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
-    Interfaces\ContainerInterface
 };
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
+
+use Psr\Container\ContainerInterface; 
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
  * @method waiting()
@@ -55,16 +58,15 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public function __call(string $method, array $parameters = [])
     {
-        if (in_array($method, $this->allowedContainers)) {
-            $data = (count($parameters)) ? $parameters[0] : $parameters;
-            return $this->containerize($method, Container::class, $data);
-        }
-
-        if (array_key_exists($method, $this->allowedInstances)) {
-            return $this->init($this->allowedInstances[$method]);
-        }
-
-        throw new BadMethodCallException("The Rudra\Container\Rudra::$method being called does not exist");
+        return match (true) {
+            in_array($method, $this->allowedContainers) => $this->containerize(
+                $method, 
+                Container::class, 
+                $parameters ? $parameters[0] : $parameters
+            ),
+            array_key_exists($method, $this->allowedInstances) => $this->init($this->allowedInstances[$method]),
+            default => throw new BadMethodCallException("Rudra\Container\Rudra::$method method does not exist")
+        };
     }
 
     /**
@@ -80,15 +82,9 @@ class Rudra implements RudraInterface, ContainerInterface
     public function new(string $object, ?array $params = null): object
     {
         $reflection = new ReflectionClass($object);
-        $constructor = $reflection->getConstructor();
-
-        if ($constructor && $constructor->getNumberOfParameters()) {
-            $paramsIoC = $this->getParamsIoC($constructor, $params);
-
-            return $reflection->newInstanceArgs($paramsIoC);
-        }
-
-        return new $object();
+        return ($constructor = $reflection->getConstructor()) && $constructor->getNumberOfParameters()
+            ? $reflection->newInstanceArgs($this->getParamsIoC($constructor, $params))
+            : new $object();
     }
 
     /**
@@ -100,47 +96,33 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public static function run(): RudraInterface
     {
-        if (!static::$rudra instanceof static) {
-            static::$rudra = new static();
-        }
-
-        return static::$rudra;
+        return static::$rudra instanceof static 
+            ? static::$rudra 
+            : static::$rudra = new static();
     }
 
     /**
-     * Gets a service by key, or an array of services if no key is specified
+     * Gets a service by id, or an array of services if no id is specified
      * ---------------------------------------------------------------------
-     * Получает сервис по ключу или массив сервисов, если ключ не указан
+     * Получает сервис по id или массив сервисов, если id не указан
      *
-     * @param  string|null $key
+     * @param  string|null $id
      * @return mixed
      * @throws ReflectionException
      */
-    public function get(string $key = null): mixed
+    public function get(string $id): mixed
     {
-        if (isset($key) && !$this->has($key)) {
-            if (!$this->waiting()->has($key)) {
-                if (class_exists($key)) {
-                    $this->waiting()->set([$key => $key]);
-                } else {
-                    throw new InvalidArgumentException("Service '$key' is not installed");
-                }
-            }
-
-            $waiting = $this->waiting()->get($key);
-
-            if ($waiting instanceof Closure) {
-                return $waiting();
-            }
-
-            $this->set([$key, $waiting]);
+        if ($id && !$this->has($id)) {
+            !$this->waiting()->has($id) && (class_exists($id) 
+                ? $this->waiting()->set([$id => $id]) 
+                : throw throw new class("Service '$id' is not installed") extends \Exception implements NotFoundExceptionInterface {});
+            
+            ($waiting = $this->waiting()->get($id)) instanceof Closure 
+                ? $waiting() 
+                : $this->set([$id, $waiting]);
         }
-
-        if (empty($key)) {
-            return $this->services();
-        }
-
-        return $this->services()->get($key);
+    
+        return $this->services()->get($id);
     }
 
     /**
@@ -154,25 +136,17 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public function set(array $data): void
     {
-        list($key, $object) = $data;
+        [$key, $object] = $data;
+        !is_string($key) && throw new InvalidArgumentException("Key must be string");
     
-        if (!is_string($key)) {
-            throw new InvalidArgumentException("Key must be a string");
-        }
-    
-        if (is_array($object)) {
-            $this->handleArrayObject($key, $object);
-            return;
-        }
-    
-        if (is_string($object) && str_contains($object, 'Factory')) {
-            $this->setObject($key, (new $object)->create());
-            return;
-        }
-    
-        $this->setObject($key, $object);
+        match(true) {
+            is_array($object) => $this->handleArrayObject($key, $object),
+            is_string($object) && str_contains($object, 'Factory') => 
+                $this->setObject($key, (new $object)->create()),
+            default => $this->setObject($key, $object)
+        };
     }
-
+    
     /**
      * @param  string $key
      * @param  array  $object
@@ -180,17 +154,12 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function handleArrayObject(string $key, array $object): void
     {
-        if (array_key_exists(1, $object) && !is_object($object[0])) {
-            $this->iOc($key, $object[0], $object[1]);
-            return;
-        }
-
-        if (is_string($object[0]) && str_contains($object[0], 'Factory')) {
-            $this->setObject($key, (new $object[0])->create());
-            return;
-        }
-
-        $this->setObject($key, $object[0]);
+        match(true) {
+            isset($object[1]) && !is_object($object[0]) => $this->iOc($key, ...$object),
+            is_string($object[0]) && str_contains($object[0], 'Factory') => 
+                $this->setObject($key, (new $object[0])->create()),
+            default => $this->setObject($key, $object[0])
+        };
     }
 
     /**
@@ -234,17 +203,11 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function iOc(string $key, string $object, ?array $params = null): void
     {
-        $reflection  = new ReflectionClass($object);
-        $constructor = $reflection->getConstructor();
-
-        if ($constructor && $constructor->getNumberOfParameters()) {
-            $paramsIoC = $this->getParamsIoC($constructor, $params);
-
-            $this->services()->set([$key => $reflection->newInstanceArgs($paramsIoC)]);
-            return;
-        }
-
-        $this->services()->set([$key => new $object()]);
+        $reflection = new ReflectionClass($object);
+        $this->services()->set([$key => ($c = $reflection->getConstructor()) && $c->getNumberOfParameters()
+            ? $reflection->newInstanceArgs($this->getParamsIoC($c, $params))
+            : new $object()
+        ]);
     }
 
     /**
@@ -260,13 +223,10 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public function autowire($object, string $method, ?array $params = null)
     {
-        $reflectionMethod = new ReflectionMethod($object, $method);
-
-        if ($reflectionMethod->getNumberOfParameters()) {
-            $paramsIoC = $this->getParamsIoC($reflectionMethod, $params);
-
-            return $reflectionMethod->invokeArgs($object, $paramsIoC);
-        }
+        $rm = new ReflectionMethod($object, $method);
+        return $rm->getNumberOfParameters() 
+            ? $rm->invokeArgs($object, $this->getParamsIoC($rm, $params)) 
+            : null;
     }
 
     /**
@@ -281,60 +241,32 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
+        $params = (array)$params === $params ? $params : [$params];
         $i = 0;
-        $paramsIoC = [];
-        $params = (is_array($params) && array_key_exists(0, $params)) ? $params : [$params];
-
-        foreach ($constructor->getParameters() as $value) {
-            /*
-             | If in the constructor expects the implementation of interface,
-             | so that the container automatically created the necessary object and substituted as an argument,
-             | we need to bind the interface with the implementation.
-             */
-            if (null !== $value->getType()?->getName() && $this->binding()->has($value->getType()->getName())) {
-                $className = $this->binding()->get($value->getType()->getName());
-
-                if ($className instanceof Closure) {
-                    $paramsIoC[] = $className();
-                    continue;
-                }
-
-                if (is_string($className) && str_contains($className, 'Factory')) {
-                    $paramsIoC[] = (new $className)->create();
-                    continue;
-                }
-
-                if (is_object($className)) {
-                    $paramsIoC[] = $className;
-                } elseif ($this->waiting()->has($className)) {
-                    $service     = $this->get($className);
-                    $paramsIoC[] = ($service instanceof Closure) ? $service() : $service;
-                } else {
-                    $paramsIoC[] = new $className;
-                }
-                continue;
-            } elseif (null !== $value->getType()?->getName()) {
-                $className = $value->getType()->getName();
-
-                if (class_exists($className)) {
-                    $paramsIoC[] = new $className;
-                    continue;
-                }
-            }
-
-            /*
-             | If the class constructor contains arguments with default values,
-             | then if no arguments are passed,
-             | values will be added by default by container
-             */
-            if ($value->isDefaultValueAvailable() && !isset($params[$i])) {
-                $paramsIoC[] = $value->getDefaultValue();
+        $result = [];
+    
+        foreach ($constructor->getParameters() as $param) {
+            $type = $param->getType()?->getName();
+    
+            if ($type && $this->binding()->has($type)) {
+                $class = $this->binding()->get($type);
+                $result[] = match(true) {
+                    $class instanceof Closure => $class(),
+                    is_string($class) && str_contains($class, 'Factory') => (new $class)->create(),
+                    is_object($class) => $class,
+                    $this->waiting()->has($class) => ($service = $this->get($class)) instanceof Closure ? $service() : $service,
+                    default => new $class
+                };
                 continue;
             }
-
-            $paramsIoC[] = $params[$i++];
+    
+            $result[] = match(true) {
+                $type && class_exists($type) => new $type,
+                $param->isDefaultValueAvailable() && !isset($params[$i]) => $param->getDefaultValue(),
+                default => $params[$i++]
+            };
         }
-
-        return $paramsIoC;
+    
+        return $result;
     }
 }

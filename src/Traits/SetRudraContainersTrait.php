@@ -13,20 +13,8 @@ use Rudra\Container\Interfaces\RudraInterface;
 
 trait SetRudraContainersTrait
 {
-    private RudraInterface $rudra;
-
-    /**
-     * Takes RudraInterface as an argument
-     * -----------------------------------
-     * Принимает в качестве аргумента RudraInterface
-     *
-     * @param  RudraInterface $rudra
-     */
-    public function __construct(RudraInterface $rudra)
-    {
-        $this->rudra = $rudra;
-    }
-
+    public function __construct(private RudraInterface $rudra) {}
+    
     /**
      * Gets access to the application
      * ------------------------------

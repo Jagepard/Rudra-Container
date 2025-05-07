@@ -9,49 +9,62 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\ContainerInterface;
+use Psr\Container\ContainerInterface; 
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
+/**
+ * Service container implementing the PSR-11 standard.
+ * ---------------------------------------------------
+ * Контейнер сервисов, реализующий стандарт PSR-11.
+ */
 class Container implements ContainerInterface
 {
-    protected array $data = [];
-
     /**
-     * Sets data
-     * ---------
-     * Устанавливает данные
-     * 
-     * @param  array $data
+     * Constructor of the class.
+     * Initializes the container with initial data.
+     * --------------------------------------------
+     * Конструктор класса.
+     * Инициализирует контейнер начальными данными.
+     *
+     * @param array $data
      */
-    public function __construct(array $data)
-    {
-        $this->data = $data;
-    }
+    public function __construct(protected array $data = []) {}
 
     /**
-     * Gets an element by key or the entire array of data
-     * --------------------------------------------------
-     * Получает элемент по ключу или весь массив данных
-     * 
-     * @param  string|null $key
+     * Retrieves an element from the container by its identifier.
+     * ----------------------------------------------------------
+     * Получает элемент из контейнера по его идентификатору.
+     *
+     * @param string $id
      * @return mixed
+     * @throws NotFoundExceptionInterface
      */
-    public function get(string $key = null): mixed
+    public function get(string $id): mixed
     {
-        if (empty($key)) {
-            return $this->data;
+        if (!$this->has($id)) {
+            throw new class("'$id' is not found") extends \Exception implements NotFoundExceptionInterface {};
         }
 
-        if (!array_key_exists($key, $this->data)) {
-            throw new \InvalidArgumentException("'$key' is not isset");
-        }
-
-        return $this->data[$key];
+        return $this->data[$id];
     }
 
     /**
-     * Sets data
-     * ---------
-     * Устанавливает данные
+     * Returns all data stored in the container.
+     * -----------------------------------------------
+     * Возвращает все данные, хранящиеся в контейнере.
+     *
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * Adds or updates data in the container.
+     * --------------------------------------------
+     * Добавляет или обновляет данные в контейнере.
      * 
      * @param  array $data
      */
@@ -61,15 +74,15 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Checks for the existence of data by key
-     * ---------------------------------------
-     * Проверяет наличие данных по ключу
+     * Checks for the existence of an element in the container by its key.
+     * -------------------------------------------------------------------
+     * Проверяет наличие элемента в контейнере по ключу.
      * 
-     * @param  string  $key
+     * @param  string  $id
      * @return boolean
      */
-    public function has(string $key): bool
+    public function has(string $id): bool
     {
-        return array_key_exists($key, $this->data);
+        return array_key_exists($id, $this->data);
     }
 }

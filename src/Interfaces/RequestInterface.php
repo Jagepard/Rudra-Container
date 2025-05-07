@@ -8,6 +8,7 @@
 namespace Rudra\Container\Interfaces;
 
 use Rudra\Container\Files;
+use Psr\Container\ContainerInterface; 
 
 interface RequestInterface
 {

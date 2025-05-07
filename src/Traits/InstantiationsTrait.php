@@ -8,7 +8,7 @@
 namespace Rudra\Container\Traits;
 
 use ReflectionException;
-use Rudra\Container\Interfaces\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 trait InstantiationsTrait
 {
@@ -26,11 +26,7 @@ trait InstantiationsTrait
      */
     private function containerize(string $name, string $instance, array $data = []): ContainerInterface
     {
-        if (!array_key_exists($name, $this->containers)) {
-            $this->containers[$name] = new $instance($data);
-        }
-
-        return $this->containers[$name];
+        return $this->containers[$name] ??= new $instance($data);
     }
 
     /**
@@ -47,10 +43,7 @@ trait InstantiationsTrait
     private function init(string $name, string $instance = null, array $data = []): mixed
     {
         $instance ??= $name;
-        if (!$this->has($name)) {
-            $this->set([$name, [$instance, $data]]);
-        }
-
+        !$this->has($name) && $this->set([$name, [$instance, $data]]);
         return $this->get($instance);
     }
 }
