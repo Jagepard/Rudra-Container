@@ -11,14 +11,13 @@ if (!function_exists('data')) {
      * @param null $data
      * @return mixed|void
      */
-    function data(string|array|null $data = null): mixed
+    function data($data = null)
     {
-        if (is_array($data)) {
-            Rudra::shared()->set($data);
-            return;
-        }
-    
-        return $data === null ? Rudra::shared()->all() : Rudra::shared()->get($data);
+        return is_array($data) 
+            ? Rudra::shared()->set($data) 
+            : (empty($data) 
+                ? Rudra::shared()->all() 
+                : Rudra::shared()->get($data));
     }
 }
 
