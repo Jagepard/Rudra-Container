@@ -9,10 +9,12 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Files;
-use Rudra\Container\Container;
-use Rudra\Container\Traits\InstantiationsTrait;
-use Rudra\Container\Interfaces\RequestInterface;
+use Rudra\Container\{
+    Files,
+    Container,
+    Traits\InstantiationsTrait,
+    Interfaces\RequestInterface,
+};
 use Psr\Container\ContainerInterface; 
 
 class Request implements RequestInterface
