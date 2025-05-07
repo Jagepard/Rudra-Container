@@ -110,19 +110,31 @@ class Rudra implements RudraInterface, ContainerInterface
      * @return mixed
      * @throws ReflectionException
      */
-    public function get(string $id): mixed
+    public function get(string $key = null): mixed
     {
-        if ($id && !$this->has($id)) {
-            !$this->waiting()->has($id) && (class_exists($id) 
-                ? $this->waiting()->set([$id => $id]) 
-                : throw throw new class("Service '$id' is not installed") extends \Exception implements NotFoundExceptionInterface {});
-            
-            ($waiting = $this->waiting()->get($id)) instanceof Closure 
-                ? $waiting() 
-                : $this->set([$id, $waiting]);
+        if (isset($key) && !$this->has($key)) {
+            if (!$this->waiting()->has($key)) {
+                if (class_exists($key)) {
+                    $this->waiting()->set([$key => $key]);
+                } else {
+                    throw new InvalidArgumentException("Service '$key' is not installed");
+                }
+            }
+
+            $waiting = $this->waiting()->get($key);
+
+            if ($waiting instanceof Closure) {
+                return $waiting();
+            }
+
+            $this->set([$key, $waiting]);
         }
-    
-        return $this->services()->get($id);
+
+        if (empty($key)) {
+            return $this->services();
+        }
+
+        return $this->services()->get($key);
     }
 
     /**
