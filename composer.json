@@ -24,7 +24,8 @@
     },
     "require"           : {
         "php" : ">=8.0",
-        "rudra/docs": "dev-master"
+        "rudra/docs": "dev-master",
+        "psr/container": "^2.0@dev"
     },
     "autoload"          : {
         "psr-4" : {

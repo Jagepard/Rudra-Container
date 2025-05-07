@@ -18,6 +18,9 @@ use Rudra\Container\Tests\Stub\{ClassWithDefaultParameters,
     ClassWithDependency,
     ClassWithoutConstructor,
     ClassWithoutParameters};
+
+    use Psr\Container\NotFoundExceptionInterface;
+
 use PHPUnit\Framework\{TestCase as PHPUnit_Framework_TestCase};
 
 class ContainerTest extends PHPUnit_Framework_TestCase
@@ -43,14 +46,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(Container::class, $this->rudra->binding());
     }
 
-    public function testGetEmpty(): void
-    {
-        $this->assertEmpty(Rudra::get()->get());
-    }
-
     public function testGetInvalidArgumentException(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(NotFoundExceptionInterface::class);
         Rudra::get("wrongKey");
     }
 
@@ -60,7 +58,6 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("CWP"));
         $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("CWDP"));
         $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("CWD"));
-        $this->assertNotEmpty(Rudra::get());
     }
 
     public function testSetRudraContainersTrait()
@@ -77,7 +74,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testGetArrayHasKey(): void
     {
         Rudra::set([ContainerTest::class, $this]);
-        $this->assertArrayHasKey(ContainerTest::class, Rudra::get()->get());
+        $this->assertTrue(Rudra::has(ContainerTest::class));
     }
 
     public function testIoCClassWithoutConstructor(): void
@@ -140,7 +137,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         Rudra::request()->get()->set(["key" => "value"]);
         $this->assertEquals("value", Request::get()->get("key"));
-        $this->assertContains("value", Request::get()->get());
+        $this->assertContains("value", Request::get()->all());
         $this->assertTrue(Request::get()->has("key"));
         $this->assertFalse(Request::get()->has("false"));
     }
@@ -149,7 +146,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         Request::post()->set(["key" => "value"]);
         $this->assertEquals("value", Request::post()->get("key"));
-        $this->assertContains("value", Request::post()->get());
+        $this->assertContains("value", Request::post()->all());
         $this->assertTrue(Request::post()->has("key"));
         $this->assertFalse(Request::post()->has("false"));
     }
@@ -158,7 +155,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         Request::put()->set(["key" => "value"]);
         $this->assertEquals("value", Request::put()->get("key"));
-        $this->assertContains("value", Request::put()->get());
+        $this->assertContains("value", Request::put()->all());
         $this->assertTrue(Request::put()->has("key"));
         $this->assertFalse(Request::put()->has("false"));
     }
@@ -167,7 +164,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         Request::patch()->set(["key" => "value"]);
         $this->assertEquals("value", Request::patch()->get("key"));
-        $this->assertContains("value", Request::patch()->get());
+        $this->assertContains("value", Request::patch()->all());
         $this->assertTrue(Request::patch()->has("key"));
         $this->assertFalse(Request::patch()->has("false"));
     }
@@ -176,7 +173,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         Request::delete()->set(["key" => "value"]);
         $this->assertEquals("value", Request::delete()->get("key"));
-        $this->assertContains("value", Request::delete()->get());
+        $this->assertContains("value", Request::delete()->all());
         $this->assertTrue(Request::delete()->has("key"));
         $this->assertFalse(Request::delete()->has("false"));
     }
@@ -185,7 +182,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         Request::server()->set(["key" => "value"]);
         $this->assertEquals("value", Request::server()->get("key"));
-        $this->assertArrayHasKey("key", Request::server()->get());
+        $this->assertArrayHasKey("key", Request::server()->all());
     }
 
     /**
@@ -219,7 +216,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     public function testSessionDataGetWrongKey(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $_SESSION = [];
+
+        $this->expectException(NotFoundExceptionInterface::class);
         Session::get("wrongKey");
     }
 
@@ -235,11 +234,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testCookieData(): void
     {
         Cookie::set(["key", "value"]);
-        $this->assertTrue(is_array(Cookie::get()));
-
+        
         // $this->assertEquals("value", Cookie::get("key"));
         // $this->assertTrue(Cookie::has("key"));
-        // $this->assertFalse(Cookie::has("false"));
+        $this->assertFalse(Cookie::has("false"));
     }
 
     public function testCookieDataGetWrongKey(): void

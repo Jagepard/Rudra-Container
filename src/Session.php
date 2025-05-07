@@ -9,29 +9,34 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\ContainerInterface;
+use Psr\Container\ContainerInterface; 
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 class Session implements ContainerInterface
 {
     /**
-     * Gets an element by key or the entire array of data
-     * --------------------------------------------------
-     * Получает элемент по ключу или весь массив данных
+     * Finds an entry of the container by its identifier and returns it
+     * -----------------------------------------------------------
+     * Находит запись в контейнере по идентификатору и возвращает её
      *
-     * @param string|null $key
-     * @return mixed
+     * @param string $id
+     * @return mixed 
+     * 
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function get(string $key = null): mixed
+    public function get(string $id): mixed
     {
-        if (empty($key)) {
-            throw new \InvalidArgumentException("Key cannot be empty");
+        if (empty($id)) {
+            throw new class("Identifier cannot be empty") extends \InvalidArgumentException implements ContainerExceptionInterface {};
         }
 
-        if (!array_key_exists($key, $_SESSION)) {
-            throw new \InvalidArgumentException("No data corresponding to the $key");
+        if (!array_key_exists($id, $_SESSION)) {
+            throw new class("No entry found for '$id'") extends \InvalidArgumentException implements NotFoundExceptionInterface {};
         }
 
-        return $_SESSION[$key];
+        return $_SESSION[$id];
     }
 
     /**
@@ -63,9 +68,9 @@ class Session implements ContainerInterface
      * @param string $key
      * @return bool
      */
-    public function has(string $key): bool
+    public function has(string $id): bool
     {
-        return isset($_SESSION[$key]);
+        return !empty($id) && array_key_exists($id, $_SESSION);
     }
 
     /**

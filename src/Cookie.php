@@ -9,29 +9,27 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Rudra\Container\Interfaces\ContainerInterface;
+use Psr\Container\ContainerInterface; 
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 class Cookie implements ContainerInterface
 {
     /**
-     * Gets an element by key or the entire array of data
-     * --------------------------------------------------
-     * Получает элемент по ключу или весь массив данных
+     * Gets an element by id
+     * -------------------------
+     * Получает элемент по id
      *
-     * @param  string|null $key
+     * @param  string|null $id
      * @return mixed
      */
-    public function get(string $key = null): mixed
+    public function get(string $id): mixed
     {
-        if (empty($key)) {
-            return $_COOKIE;
+        if (!array_key_exists($id, $_COOKIE)) {
+            throw new \InvalidArgumentException("No data corresponding to the $id");
         }
 
-        if (!array_key_exists($key, $_COOKIE)) {
-            throw new \InvalidArgumentException("No data corresponding to the $key");
-        }
-
-        return $_COOKIE[$key];
+        return $_COOKIE[$id];
     }
 
     /**
@@ -42,9 +40,9 @@ class Cookie implements ContainerInterface
      * @param  string  $key
      * @return boolean
      */
-    public function has(string $key): bool
+    public function has(string $id): bool
     {
-        return isset($_COOKIE[$key]);
+        return array_key_exists($id, $_COOKIE);
     }
 
     /**
