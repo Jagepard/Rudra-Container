@@ -13,6 +13,7 @@ use Closure;
 use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
+    Interfaces\FactoryInterface,
 };
 use Psr\Container\{
     ContainerInterface, 
@@ -24,7 +25,6 @@ use ReflectionMethod;
 use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
-
 
 /**
  * @method waiting()
@@ -112,33 +112,29 @@ class Rudra implements RudraInterface, ContainerInterface
      * @return mixed
      * @throws ReflectionException
      */
-    public function get(string $key = null): mixed
+    public function get(string $id): mixed
     {
-        if (isset($key) && !$this->has($key)) {
-            if (!$this->waiting()->has($key)) {
-                if (class_exists($key)) {
-                    $this->waiting()->set([$key => $key]);
+        if (!$this->has($id)) {
+            if (!$this->waiting()->has($id)) {
+                if (class_exists($id)) {
+                    $this->waiting()->set([$id => $id]);
                 } else {
-                    throw new InvalidArgumentException("Service '$key' is not installed");
+                    throw new class("Service '$id' is not installed") extends NotFoundExceptionInterface {};
                 }
             }
 
-            $waiting = $this->waiting()->get($key);
+            $waiting = $this->waiting()->get($id);
 
             if ($waiting instanceof Closure) {
                 return $waiting();
             }
 
-            $this->set([$key, $waiting]);
+            $this->set([$id, $waiting]);
         }
 
-        if (empty($key)) {
-            return $this->services();
-        }
-
-        return $this->services()->get($key);
+        return $this->services()->get($id);
     }
-
+    
     /**
      * Adds a service to an application
      * --------------------------------
@@ -150,29 +146,29 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public function set(array $data): void
     {
-        [$key, $object] = $data;
-        !is_string($key) && throw new InvalidArgumentException("Key must be string");
-    
-        match(true) {
-            is_array($object) => $this->handleArrayObject($key, $object),
-            is_string($object) && str_contains($object, 'Factory') => 
-                $this->setObject($key, (new $object)->create()),
-            default => $this->setObject($key, $object)
-        };
+        [$k, $obj] = $data;
+        !is_string($k) && throw new InvalidArgumentException("Key must be string");
+
+        $this->setObjByType($k, $obj);
     }
-    
+
     /**
-     * @param  string $key
-     * @param  array  $object
+     * @param string $k
+     * @param mixed  $obj
      * @return void
      */
-    private function handleArrayObject(string $key, array $object): void
+    private function setObjByType(string $k, mixed $obj): void
     {
-        match(true) {
-            isset($object[1]) && !is_object($object[0]) => $this->iOc($key, ...$object),
-            is_string($object[0]) && str_contains($object[0], 'Factory') => 
-                $this->setObject($key, (new $object[0])->create()),
-            default => $this->setObject($key, $object[0])
+        $extObj = is_array($obj) ? $obj[0] : $obj;
+        $isArr  = is_array($obj);
+
+        match (true) {
+            $isArr && isset($obj[1]) && !is_object($extObj) => $this->iOc($k, ...$obj),
+            is_string($extObj) && class_exists($extObj) && in_array(FactoryInterface::class, class_implements($extObj)) =>
+                $this->setObject($k, (new $extObj())->create()),
+            $extObj instanceof FactoryInterface => $this->setObject($k, $extObj->create()),
+            $extObj instanceof Closure => $this->setObject($k, $extObj()),
+            default => $this->setObject($k, $extObj)
         };
     }
 
@@ -184,9 +180,9 @@ class Rudra implements RudraInterface, ContainerInterface
      * @param  string  $key
      * @return boolean
      */
-    public function has(string $key): bool
+    public function has(string $id): bool
     {
-        return $this->services()->has($key);
+        return $this->services()->has($id);
     }
 
     /**
