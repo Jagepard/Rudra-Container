@@ -9,6 +9,13 @@
 
  interface FactoryInterface
  {
+    /**
+     * Creates an object
+     * -----------------
+     * Создает объект
+     *
+     * @return object
+     */
     public function create(): object;
  }
  

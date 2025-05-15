@@ -3,14 +3,13 @@
 declare(strict_types=1);
 
 /**
- * @author    : Jagepard <jagepard@yandex.ru">
- * @license   https://mit-license.org/ MIT
+ * @author  : Jagepard <jagepard@yandex.ru">
+ * @license https://mit-license.org/ MIT
  */
 
 namespace Rudra\Container;
 
 use Rudra\Container\{
-    Files,
     Container,
     Traits\InstantiationsTrait,
     Interfaces\RequestInterface,
@@ -98,10 +97,10 @@ class Request implements RequestInterface
      * --------------------------------------------------
      * Создает контейнер для переменных файлов, загруженных по HTTP
      *
-     * @return Files
+     * @return ContainerInterface
      */
-    public function files(): Files
+    public function files(): ContainerInterface
     {
-        return $this->containerize("files", Files::class, $_FILES);
+        return $this->containerize("files", Container::class, $_FILES);
     }
 }
