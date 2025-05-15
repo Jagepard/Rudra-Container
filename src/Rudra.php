@@ -48,6 +48,15 @@ class Rudra implements RudraInterface, ContainerInterface
         'session'  => Session::class
     ];
 
+    protected array $allowedContainersMap;
+
+    protected array $reflectionCache = [];
+
+    public function __construct()
+    {
+        $this->allowedContainersMap = array_flip($this->allowedContainers);
+    }
+
     /**
      * Initializes a service or creates a container
      * --------------------------------------------
@@ -60,15 +69,16 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public function __call(string $method, array $parameters = [])
     {
-        return match (true) {
-            in_array($method, $this->allowedContainers) => $this->containerize(
-                $method, 
-                Container::class, 
-                $parameters ? $parameters[0] : $parameters
-            ),
-            array_key_exists($method, $this->allowedInstances) => $this->init($this->allowedInstances[$method]),
-            default => throw new BadMethodCallException("Rudra\Container\Rudra::$method method does not exist")
-        };
+        if (isset($this->allowedContainersMap[$method])) {
+            $data = $parameters[0] ?? [];
+            return $this->containerize($method, Container::class, $data);
+        }
+    
+        if (isset($this->allowedInstances[$method])) {
+            return $this->init($this->allowedInstances[$method]);
+        }
+    
+        throw new BadMethodCallException("...");
     }
 
     /**
@@ -83,9 +93,19 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     public function new(string $object, ?array $params = null): object
     {
-        $reflection = new ReflectionClass($object);
-        return ($constructor = $reflection->getConstructor()) && $constructor->getNumberOfParameters()
-            ? $reflection->newInstanceArgs($this->getParamsIoC($constructor, $params))
+        if (!isset($this->reflectionCache[$object])) {
+            $reflection = new ReflectionClass($object);
+            $constructor = $reflection->getConstructor();
+            $this->reflectionCache[$object] = [
+                'reflection' => $reflection,
+                'has_constructor_params' => $constructor && $constructor->getNumberOfParameters(),
+            ];
+        }
+    
+        $cached = $this->reflectionCache[$object];
+    
+        return $cached['has_constructor_params']
+            ? $cached['reflection']->newInstanceArgs($this->getParamsIoC($cached['reflection']->getConstructor(), $params))
             : new $object();
     }
 
@@ -140,36 +160,85 @@ class Rudra implements RudraInterface, ContainerInterface
      * --------------------------------
      * Добавляет сервис в приложение
      *
-     * @param  array $data
+     * @param array $data
      * @return void
      * @throws ReflectionException
      */
     public function set(array $data): void
     {
-        [$k, $obj] = $data;
-        !is_string($k) && throw new InvalidArgumentException("Key must be string");
+        [$key, $object] = $data;
 
-        $this->setObjByType($k, $obj);
+        if (!is_string($key)) {
+            throw new InvalidArgumentException("Key must be a string");
+        }
+
+        if (is_array($object)) {
+            $this->handleArrayObject($key, $object);
+            return;
+        }
+
+        // Closure — самый частый случай?
+        if ($object instanceof Closure) {
+            $this->setObject($key, $object());
+            return;
+        }
+
+        // Поддержка FactoryInterface через is_subclass_of
+        if (is_string($object) && class_exists($object, false)) {
+            if (is_subclass_of($object, FactoryInterface::class, false)) {
+                $this->setObject($key, (new $object())->create());
+                return;
+            }
+        }
+
+        // Legacy: строка с 'Factory'
+        if (is_string($object) && str_contains($object, 'Factory')) {
+            $this->setObject($key, (new $object)->create());
+            return;
+        }
+
+        // Дефолт
+        $this->setObject($key, $object);
     }
 
     /**
-     * @param string $k
-     * @param mixed  $obj
+     * @param string $key
+     * @param array  $object
      * @return void
      */
-    private function setObjByType(string $k, mixed $obj): void
+    private function handleArrayObject(string $key, array $object): void
     {
-        $extObj = is_array($obj) ? $obj[0] : $obj;
-        $isArr  = is_array($obj);
+        $first = $object[0];
 
-        match (true) {
-            $isArr && isset($obj[1]) && !is_object($extObj) => $this->iOc($k, ...$obj),
-            is_string($extObj) && class_exists($extObj) && in_array(FactoryInterface::class, class_implements($extObj)) =>
-                $this->setObject($k, (new $extObj())->create()),
-            $extObj instanceof FactoryInterface => $this->setObject($k, $extObj->create()),
-            $extObj instanceof Closure => $this->setObject($k, $extObj()),
-            default => $this->setObject($k, $extObj)
-        };
+        // iOc — если есть второй параметр и первый не объект
+        if (count($object) > 1 && !is_object($first)) {
+            $args = array_slice($object, 1);
+            $this->iOc($key, $first, ...$args);
+            return;
+        }
+
+        // Closure
+        if ($first instanceof Closure) {
+            $this->setObject($key, $first());
+            return;
+        }
+
+        // Поддержка FactoryInterface
+        if (is_string($first) && class_exists($first, false)) {
+            if (is_subclass_of($first, FactoryInterface::class, false)) {
+                $this->setObject($key, (new $first())->create());
+                return;
+            }
+        }
+
+        // Legacy: строка с 'Factory'
+        if (is_string($first) && str_contains($first, 'Factory')) {
+            $this->setObject($key, (new $first)->create());
+            return;
+        }
+
+        // Дефолт
+        $this->setObject($key, $first);
     }
 
     /**
@@ -251,32 +320,55 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
-        $params = (array)$params === $params ? $params : [$params];
         $i = 0;
-        $result = [];
+        $paramsIoC = [];
+        $params = (is_array($params) && array_key_exists(0, $params)) ? $params : [$params];
     
-        foreach ($constructor->getParameters() as $param) {
-            $type = $param->getType()?->getName();
+        foreach ($constructor->getParameters() as $value) {
+            $type = $value->getType()?->getName();
     
             if ($type && $this->binding()->has($type)) {
-                $class = $this->binding()->get($type);
-                $result[] = match(true) {
-                    $class instanceof Closure => $class(),
-                    is_string($class) && str_contains($class, 'Factory') => (new $class)->create(),
-                    is_object($class) => $class,
-                    $this->waiting()->has($class) => ($service = $this->get($class)) instanceof Closure ? $service() : $service,
-                    default => new $class
-                };
+                $className = $this->binding()->get($type);
+    
+                if ($className instanceof Closure) {
+                    $paramsIoC[] = $className();
+                } elseif (is_string($className) && str_contains($className, 'Factory')) {
+                    $paramsIoC[] = (new $className)->create();
+                } elseif (is_object($className)) {
+                    // Проверка на FactoryInterface
+                    if ($className instanceof FactoryInterface) {
+                        $paramsIoC[] = $className->create();
+                    } else {
+                        $paramsIoC[] = $className;
+                    }
+                } elseif ($this->waiting()->has($className)) {
+                    $service = $this->get($className);
+                    $paramsIoC[] = ($service instanceof Closure) ? $service() : $service;
+                } else {
+                    $paramsIoC[] = new $className;
+                }
+    
                 continue;
             }
     
-            $result[] = match(true) {
-                $type && class_exists($type) => new $type,
-                $param->isDefaultValueAvailable() && !isset($params[$i]) => $param->getDefaultValue(),
-                default => $params[$i++]
-            };
+            if ($type && class_exists($type)) {
+                // Проверка на FactoryInterface
+                if (is_subclass_of($type, FactoryInterface::class)) {
+                    $paramsIoC[] = (new $type())->create();
+                } else {
+                    $paramsIoC[] = new $type;
+                }
+                continue;
+            }
+    
+            if ($value->isDefaultValueAvailable() && !isset($params[$i])) {
+                $paramsIoC[] = $value->getDefaultValue();
+                continue;
+            }
+    
+            $paramsIoC[] = $params[$i++];
         }
     
-        return $result;
+        return $paramsIoC;
     }
 }

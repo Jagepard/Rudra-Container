@@ -71,7 +71,7 @@ interface RequestInterface
      * --------------------------------------------------
      * Создает контейнер для переменных файлов, загруженных по HTTP
      *
-     * @return Files
+     * @return ContainerInterface
      */
-    public function files(): Files;
+    public function files(): ContainerInterface;
 }

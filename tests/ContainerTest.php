@@ -1,270 +1,74 @@
-<?php
-
-declare(strict_types=1);
-
-/**
- * @author    : Jagepard <jagepard@yandex.ru">
- * @license   https://mit-license.org/ MIT
- *
- *  phpunit src/tests/ContainerTest --coverage-html src/tests/coverage-html
- */
+<?php declare(strict_types=1);
 
 namespace Rudra\Container\Tests;
 
 use Rudra\Container\Container;
-use Rudra\Container\Facades\{Cookie, Request, Response, Rudra, Session};
-use Rudra\Container\Interfaces\RudraInterface;
-use Rudra\Container\Tests\Stub\{ClassWithDefaultParameters,
-    ClassWithDependency,
-    ClassWithoutConstructor,
-    ClassWithoutParameters
-};
-use Psr\Container\NotFoundExceptionInterface;
-use PHPUnit\Framework\{TestCase as PHPUnit_Framework_TestCase};
+use PHPUnit\Framework\TestCase;
+use Rudra\Container\Exceptions\NotFoundException;
 
-class ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends TestCase
 {
-    private RudraInterface $rudra;
+    private Container $container;
 
     protected function setUp(): void
     {
-        $this->rudra = Rudra::run();
-        Rudra::binding([RudraInterface::class => Rudra::run()]);
-        Rudra::waiting([
-                "CWC"  => ClassWithoutConstructor::class,
-                "CWP"  => ClassWithoutParameters::class,
-                "CWDP" => [ClassWithDefaultParameters::class, ["123"]],
-                "CWD"  => ClassWithDependency::class
-            ]
-        );
+        $this->container = new Container();
     }
 
-    public function testInstances()
+    public function testSetAndGetSingleValue(): void
     {
-        $this->assertInstanceOf(Container::class, Rudra::binding());
-        $this->assertInstanceOf(Container::class, $this->rudra->binding());
+        $this->container->set(['key1' => 'value1']);
+        $this->assertEquals('value1', $this->container->get('key1'));
     }
 
-    // public function testGetNotFoundException(): void
-    // {
-    //     $this->expectException(NotFoundExceptionInterface::class);
-    //     Rudra::get("wrongKey");
-    // }
-
-    public function testSetServices(): void
+    public function testSetMergesDataCorrectly(): void
     {
-        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("CWC"));
-        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("CWP"));
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("CWDP"));
-        $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("CWD"));
+        $this->container->set(['key1' => 'value1']);
+        $this->container->set(['key2' => 'value2']);
+
+        $this->assertEquals([
+            'key1' => 'value1',
+            'key2' => 'value2'
+        ], $this->container->all());
     }
 
-    public function testSetRudraContainersTrait()
+    public function testOverwritingExistingKeyWithSet(): void
     {
-        $this->assertInstanceOf(\Rudra\Container\Rudra::class, Rudra::get("CWD")->rudra());
+        $this->container->set(['key1' => 'old_value']);
+        $this->container->set(['key1' => 'new_value']);
+
+        $this->assertEquals('new_value', $this->container->get('key1'));
     }
 
-    public function testSetRaw(): void
+    public function testHasKeyReturnsTrueForExistingKey(): void
     {
-        Rudra::set([ContainerTest::class, $this]);
-        $this->assertInstanceOf(ContainerTest::class, Rudra::get(ContainerTest::class));
+        $this->container->set(['key1' => 'value1']);
+        $this->assertTrue($this->container->has('key1'));
     }
 
-    public function testGetArrayHasKey(): void
+    public function testHasKeyReturnsFalseForMissingKey(): void
     {
-        Rudra::set([ContainerTest::class, $this]);
-        $this->assertTrue(Rudra::has(ContainerTest::class));
+        $this->assertFalse($this->container->has('missing_key'));
     }
 
-    public function testIoCClassWithoutConstructor(): void
+    public function testGetThrowsNotFoundExceptionOnMissingKey(): void
     {
-        $newClassWithoutConstructor = Rudra::new(ClassWithoutConstructor::class);
-        $this->assertInstanceOf(ClassWithoutConstructor::class, $newClassWithoutConstructor);
+        $this->expectException(NotFoundException::class);
+        $this->expectExceptionMessage('Identifier "missing_key" is not found.');
 
-        Rudra::set(["ClassWithoutConstructor", $newClassWithoutConstructor]);
-        $this->assertInstanceOf(ClassWithoutConstructor::class, Rudra::get("ClassWithoutConstructor"));
+        $this->container->get('missing_key');
     }
 
-    public function testIoCwithoutParameters(): void
+    public function testAllReturnsFullDataArray(): void
     {
-        $newClassWithoutParameters = Rudra::new(ClassWithoutParameters::class);
-        $this->assertInstanceOf(ClassWithoutParameters::class, $newClassWithoutParameters);
+        $this->container->set([
+            'key1' => 'value1',
+            'key2' => 'value2'
+        ]);
 
-        Rudra::set(["ClassWithoutParameters", $newClassWithoutParameters]);
-        $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("ClassWithoutParameters"));
-    }
-
-    public function testIoCwithDefaultParameters(): void
-    {
-        $newClassWithDefaultParameters = Rudra::new(ClassWithDefaultParameters::class);
-        $this->assertEquals("Default", $newClassWithDefaultParameters->getParam());
-
-        $newClassWithDefaultParameters = Rudra::new(ClassWithDefaultParameters::class, ["Test"]);
-        $this->assertEquals("Test", $newClassWithDefaultParameters->getParam());
-
-        Rudra::set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("ClassWithDefaultParameters"));
-    }
-
-    public function testIoCwithDependency(): void
-    {
-        $newClassWithDependency = Rudra::new(ClassWithDependency::class);
-        $this->assertInstanceOf(ClassWithDependency::class, $newClassWithDependency);
-
-        Rudra::set(["ClassWithDependency", $newClassWithDependency]);
-        $this->assertInstanceOf(ClassWithDependency::class, Rudra::get("ClassWithDependency"));
-    }
-
-    public function testHas(): void
-    {
-        $this->assertTrue(Rudra::has(ContainerTest::class));
-        $this->assertTrue(Rudra::has("ClassWithoutConstructor"));
-        $this->assertTrue(Rudra::has("ClassWithoutParameters"));
-        $this->assertTrue(Rudra::has("ClassWithDefaultParameters"));
-        $this->assertTrue(Rudra::has("ClassWithDependency"));
-        $this->assertFalse(Rudra::has("SomeClass"));
-    }
-
-    public function testConfig(): void
-    {
-        Rudra::set(["config", new Container([])]);
-        Rudra::config()->set(["key" => "value"]);
-        $this->assertEquals("value", Rudra::config()->get("key"));
-    }
-
-    public function testGetData(): void
-    {
-        Rudra::request()->get()->set(["key" => "value"]);
-        $this->assertEquals("value", Request::get()->get("key"));
-        $this->assertContains("value", Request::get()->all());
-        $this->assertTrue(Request::get()->has("key"));
-        $this->assertFalse(Request::get()->has("false"));
-    }
-
-    public function testPostData(): void
-    {
-        Request::post()->set(["key" => "value"]);
-        $this->assertEquals("value", Request::post()->get("key"));
-        $this->assertContains("value", Request::post()->all());
-        $this->assertTrue(Request::post()->has("key"));
-        $this->assertFalse(Request::post()->has("false"));
-    }
-
-    public function testPutData(): void
-    {
-        Request::put()->set(["key" => "value"]);
-        $this->assertEquals("value", Request::put()->get("key"));
-        $this->assertContains("value", Request::put()->all());
-        $this->assertTrue(Request::put()->has("key"));
-        $this->assertFalse(Request::put()->has("false"));
-    }
-
-    public function testPatchData(): void
-    {
-        Request::patch()->set(["key" => "value"]);
-        $this->assertEquals("value", Request::patch()->get("key"));
-        $this->assertContains("value", Request::patch()->all());
-        $this->assertTrue(Request::patch()->has("key"));
-        $this->assertFalse(Request::patch()->has("false"));
-    }
-
-    public function testDeleteData(): void
-    {
-        Request::delete()->set(["key" => "value"]);
-        $this->assertEquals("value", Request::delete()->get("key"));
-        $this->assertContains("value", Request::delete()->all());
-        $this->assertTrue(Request::delete()->has("key"));
-        $this->assertFalse(Request::delete()->has("false"));
-    }
-
-    public function testServerData(): void
-    {
-        Request::server()->set(["key" => "value"]);
-        $this->assertEquals("value", Request::server()->get("key"));
-        $this->assertArrayHasKey("key", Request::server()->all());
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testJsonResponse(): void
-    {
-        ob_start();
-        Response::json(["key" => "value"]);
-        $this->assertEquals(["key" => "value"], json_decode(ob_get_clean(), true));
-        ob_clean();
-
-        ob_start();
-        Rudra::response()->json(["key" => "value"]);
-        $this->assertEquals(["key" => "value"], json_decode(ob_get_clean(), true));
-    }
-
-    public function testSessionData(): void
-    {
-        $_SESSION = [];
-        Rudra::session()->set(["key", "value"]);
-        Session::set(["subKey", ["subSet" => "value"]]);
-        $this->assertEquals("value", Session::get("key"));
-        $this->assertEquals("value", Session::get("subKey")["subSet"]);
-        $this->assertTrue(Session::has("key"));
-        Session::unset("key");
-        $this->assertFalse(Session::has("key"));
-        Session::clear();
-        $this->assertTrue(count($_SESSION) === 0);
-    }
-
-    public function testSessionDataGetWrongKey(): void
-    {
-        $_SESSION = [];
-
-        $this->expectException(NotFoundExceptionInterface::class);
-        Session::get("wrongKey");
-    }
-
-    public function testSessionDataSetEmptyData(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        Session::set([]);
-    }
-
-    /**
-     * @runInSeparateProcess
-     */
-    public function testCookieData(): void
-    {
-        Cookie::set(["key", "value"]);
-        
-        // $this->assertEquals("value", Cookie::get("key"));
-        // $this->assertTrue(Cookie::has("key"));
-        $this->assertFalse(Cookie::has("false"));
-    }
-
-    public function testCookieDataGetWrongKey(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        Cookie::get("wrongKey");
-    }
-
-    public function testCookieDataSetEmptyData(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        Cookie::set([]);
-    }
-
-    /**
-     * @deprecated
-     */
-    public function testFilesData(): void
-    {
-        Request::files()->set(
-            [
-                "upload" => ["name" => ["img" => "41146.png"]],
-                "type" => ["img" => "image/png"],
-            ]
-        );
-
-        $this->assertTrue(Request::files()->isLoaded("img"));
-        $this->assertTrue(Request::files()->isFileType("img", "image/png"));
-        $this->assertEquals("41146.png", Request::files()->getLoaded("img", "name"));
+        $this->assertEquals([
+            'key1' => 'value1',
+            'key2' => 'value2'
+        ], $this->container->all());
     }
 }

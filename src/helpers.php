@@ -1,44 +1,36 @@
 <?php
 
+/**
+ * @author  : Jagepard <jagepard@yandex.ru">
+ * @license https://mit-license.org/ MIT
+ */
+
 use Rudra\Container\Facades\Rudra;
 
 if (!function_exists('data')) {
-    /**
-     * Accesses the data container
-     * ---------------------------
-     * Получает доступ к контейнеру данных
-     *
-     * @param null $data
-     * @return mixed|void
-     */
-    function data($data = null)
+    function data(mixed $data = null): mixed
     {
-        return is_array($data) 
-            ? Rudra::shared()->set($data) 
-            : (empty($data) 
-                ? Rudra::shared()->all() 
+        return is_array($data)
+            ? Rudra::shared()->set($data)
+            : ($data === null
+                ? Rudra::shared()->all()
                 : Rudra::shared()->get($data));
     }
 }
 
 if (!function_exists('config')) {
-    /**
-     * @param string|null $key
-     * @param string|null $subKey
-     * @return mixed
-     */
     function config(?string $key, ?string $subKey = null): mixed
     {
-        if (isset($key)) {
-            if (isset($subKey)) {
-                if (isset(Rudra::config()->get($key)[$subKey])) {
-                    return Rudra::config()->get($key)[$subKey];
-                }
-            }
-
-            return Rudra::config()->get($key);
+        if ($key === null) {
+            return Rudra::config()->all();
         }
-
-        return false;
+    
+        $data = Rudra::config()->get($key);
+    
+        if ($subKey === null) {
+            return $data;
+        }
+    
+        return is_array($data) && isset($data[$subKey]) ? $data[$subKey] : false;
     }
 }

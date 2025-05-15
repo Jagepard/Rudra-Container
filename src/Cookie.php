@@ -3,88 +3,53 @@
 declare(strict_types=1);
 
 /**
- * @author    : Jagepard <jagepard@yandex.ru">
- * @license   https://mit-license.org/ MIT
+ * @author  : Jagepard <jagepard@yandex.ru">
+ * @license https://mit-license.org/ MIT
  */
 
 namespace Rudra\Container;
 
-use Psr\Container\{
-    ContainerInterface, 
-    NotFoundExceptionInterface, 
-    ContainerExceptionInterface
-}; 
+use Psr\Container\ContainerInterface;
+use Rudra\Container\Exceptions\NotFoundException;
 
 class Cookie implements ContainerInterface
 {
-    /**
-     * Gets an element by id
-     * -------------------------
-     * Получает элемент по id
-     *
-     * @param  string|null $id
-     * @return mixed
-     */
     public function get(string $id): mixed
     {
-        if (!array_key_exists($id, $_COOKIE)) {
-            throw new \InvalidArgumentException("No data corresponding to the $id");
-        }
-
-        return $_COOKIE[$id];
+        return array_key_exists($id, $_COOKIE)
+            ? $_COOKIE[$id]
+            : throw new NotFoundException("Cookie with id \"$id\" not found.");
     }
 
-    /**
-     * Checks for the existence of data by key
-     * ---------------------------------------
-     * Проверяет наличие данных по ключу
-     *
-     * @param  string  $key
-     * @return boolean
-     */
     public function has(string $id): bool
     {
-        return !empty($id) && array_key_exists($id, $_COOKIE);
+        return array_key_exists($id, $_COOKIE);
     }
 
-    /**
-     * Unset a given variable
-     * ----------------------
-     * Удаляет переменную
-     * 
-     * @param  string $key
-     * @return void
-     * 
-     * @codeCoverageIgnore
-     */
-    public function unset(string $key): void
+    public function unset(string $id): void
     {
-        if (!array_key_exists($key, $_COOKIE)) {
-            throw new \InvalidArgumentException("No data corresponding to the $key");
-        }
-
-        unset($_COOKIE[$key]);
-        setcookie($key, '', -1, '/');
+        array_key_exists($id, $_COOKIE)
+            ? $this->deleteCookie($id)
+            : throw new NotFoundException("Cookie with id \"$id\" not found.");
     }
-
-    /**
-     * Sets data
-     * ---------
-     * Устанавливает данные
-     *
-     * @param  array $data
-     * @return void
-     */
+    
+    private function deleteCookie(string $id): void
+    {
+        unset($_COOKIE[$id]);
+        setcookie($id, '', -1, '/');
+    }
+    
     public function set(array $data): void
     {
-        if (count($data) !== 2) {
-            throw new \InvalidArgumentException("The array contains the wrong number of elements");
-        }
-
-        if (!is_array($data[1])) {
-            setcookie($data[0], $data[1]);
-        } else {
-            setcookie($data[0], $data[1][0], $data[1][1], '/');
-        }
+        count($data) === 2
+            ? $this->processCookieData($data)
+            : throw new \InvalidArgumentException("The array contains the wrong number of elements");
+    }
+    
+    private function processCookieData(array $data): void
+    {
+        is_array($data[1])
+            ? setcookie($data[0], $data[1][0], $data[1][1], '/')
+            : setcookie($data[0], $data[1]);
     }
 }
