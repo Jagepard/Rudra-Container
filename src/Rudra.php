@@ -25,6 +25,7 @@ use ReflectionMethod;
 use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
+use Rudra\Container\Exceptions\NotFoundException;
 
 /**
  * @method waiting()
@@ -103,7 +104,7 @@ class Rudra implements RudraInterface, ContainerInterface
         }
     
         $cached = $this->reflectionCache[$object];
-    
+
         return $cached['has_constructor_params']
             ? $cached['reflection']->newInstanceArgs($this->getParamsIoC($cached['reflection']->getConstructor(), $params))
             : new $object();
@@ -139,7 +140,7 @@ class Rudra implements RudraInterface, ContainerInterface
                 if (class_exists($id)) {
                     $this->waiting()->set([$id => $id]);
                 } else {
-                    throw new class("Service '$id' is not installed") extends NotFoundExceptionInterface {};
+                    throw new NotFoundException("Service '$id' is not installed");
                 }
             }
 
@@ -326,14 +327,22 @@ class Rudra implements RudraInterface, ContainerInterface
     
         foreach ($constructor->getParameters() as $value) {
             $type = $value->getType()?->getName();
-    
+
             if ($type && $this->binding()->has($type)) {
                 $className = $this->binding()->get($type);
-    
+
                 if ($className instanceof Closure) {
                     $paramsIoC[] = $className();
-                } elseif (is_string($className) && str_contains($className, 'Factory')) {
-                    $paramsIoC[] = (new $className)->create();
+                } elseif (is_string($className) && class_exists($className)) {
+                    // Поддержка FactoryInterface
+                    if (is_subclass_of($className, FactoryInterface::class)) {
+                        $paramsIoC[] = (new $className())->create();
+                    // Legacy: строка с 'Factory'
+                    } elseif (str_contains($className, 'Factory')) {
+                        $paramsIoC[] = (new $className)->create();
+                    } else {
+                        $paramsIoC[] = new $className;
+                    }
                 } elseif (is_object($className)) {
                     // Проверка на FactoryInterface
                     if ($className instanceof FactoryInterface) {
@@ -343,18 +352,27 @@ class Rudra implements RudraInterface, ContainerInterface
                     }
                 } elseif ($this->waiting()->has($className)) {
                     $service = $this->get($className);
-                    $paramsIoC[] = ($service instanceof Closure) ? $service() : $service;
+                    if ($service instanceof Closure) {
+                        $paramsIoC[] = $service();
+                    } elseif ($service instanceof FactoryInterface) {
+                        $paramsIoC[] = $service->create();
+                    } else {
+                        $paramsIoC[] = $service;
+                    }
                 } else {
                     $paramsIoC[] = new $className;
                 }
-    
+
                 continue;
             }
     
             if ($type && class_exists($type)) {
-                // Проверка на FactoryInterface
+                // Поддержка FactoryInterface через is_subclass_of
                 if (is_subclass_of($type, FactoryInterface::class)) {
                     $paramsIoC[] = (new $type())->create();
+                // Legacy: строка с 'Factory'
+                } elseif (str_contains($type, 'Factory')) {
+                    $paramsIoC[] = (new $type)->create();
                 } else {
                     $paramsIoC[] = new $type;
                 }
