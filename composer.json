@@ -37,7 +37,8 @@
     },
     "autoload-dev" : {
         "psr-4": {
-            "Rudra\\Container\\Tests\\" : "tests/"
+            "Rudra\\Container\\Tests\\" : "tests/",
+            "Rudra\\Container\\Tests\\Stub\\": "tests/Stub/"
         }
     },
     "minimum-stability" : "dev",
