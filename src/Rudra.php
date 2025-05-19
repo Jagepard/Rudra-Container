@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @author    : Jagepard <jagepard@yandex.ru">
- * @license   https://mit-license.org/ MIT
+ * @author  : Jagepard <jagepard@yandex.ru">
+ * @license https://mit-license.org/ MIT
  */
 
 namespace Rudra\Container;
@@ -14,6 +14,7 @@ use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
     Interfaces\FactoryInterface,
+    Exceptions\NotFoundException,
 };
 use Psr\Container\{
     ContainerInterface, 
@@ -26,7 +27,6 @@ use RuntimeException;
 use ReflectionException;
 use BadMethodCallException;
 use InvalidArgumentException;
-use Rudra\Container\Exceptions\NotFoundException;
 
 /**
  * @method waiting()
@@ -39,8 +39,12 @@ class Rudra implements RudraInterface, ContainerInterface
 
     public static ?RudraInterface $rudra = null;
 
-    protected array $allowedContainers = [
-        'waiting', 'binding', 'services', 'shared', 'config'
+    protected array $allowedContainersMap = [
+        'waiting'  => true,
+        'binding'  => true,
+        'services' => true,
+        'shared'   => true,
+        'config'   => true
     ];
 
     protected array $allowedInstances = [
@@ -49,16 +53,6 @@ class Rudra implements RudraInterface, ContainerInterface
         'cookie'   => Cookie::class,
         'session'  => Session::class
     ];
-
-    protected array $allowedContainersMap;
-    protected array $reflectionCache  = [];
-    protected array $constructorCache = [];
-    protected array $resolvedClasses  = [];
-
-    public function __construct()
-    {
-        $this->allowedContainersMap = array_flip($this->allowedContainers);
-    }
 
     /**
      * Initializes a service or creates a container
@@ -96,24 +90,15 @@ class Rudra implements RudraInterface, ContainerInterface
             throw new RuntimeException("Class {$object} does not exist");
         }
 
-        if (!isset($this->reflectionCache[$object])) {
-            $reflection = new ReflectionClass($object);
-            $constructor = $reflection->getConstructor();
-            $this->reflectionCache[$object] = [
-                'reflection' => $reflection,
-                'has_constructor_params' => $constructor && $constructor->getNumberOfParameters() > 0,
-            ];
+        $reflection  = new ReflectionClass($object);
+        $constructor = $reflection->getConstructor();
+
+        if ($constructor && $constructor->getNumberOfParameters() > 0) {
+            $args = $this->getParamsIoC($constructor, $params);
+            return $reflection->newInstanceArgs($args);
         }
 
-        $cached = $this->reflectionCache[$object];
-
-        if (!$cached['has_constructor_params']) {
-            return $cached['reflection']->newInstanceWithoutConstructor();
-        }
-
-        $args = $this->getParamsIoC($cached['reflection']->getConstructor(), $params);
-
-        return $cached['reflection']->newInstanceArgs($args);
+        return $reflection->newInstanceWithoutConstructor();
     }
 
     /**
@@ -212,18 +197,18 @@ class Rudra implements RudraInterface, ContainerInterface
             return $value();
         }
 
-        if (is_string($value)) {
-            if (class_exists($value, false)) {
-                if (is_subclass_of($value, FactoryInterface::class, false)) {
-                    return (new $value())->create();
-                }
-                if (str_contains($value, 'Factory')) {
-                    return (new $value)->create();
-                }
-            }
+        if ($this->isFactoryImplementation($value)) {
+            return (new $value())->create();
         }
 
         return $value;
+    }
+
+    private function isFactoryImplementation($value): bool
+    {
+        return is_string($value)
+            && class_exists($value, false)
+            && is_subclass_of($value, FactoryInterface::class, false);
     }
 
     /**
@@ -304,22 +289,11 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
-        $class  = $constructor->getDeclaringClass()->getName();
-        $method = $constructor->getName();
-
-        $cacheKey = "$class::$method";
-
-        if (!isset($this->constructorCache[$cacheKey])) {
-            $this->constructorCache[$cacheKey] = iterator_to_array($constructor->getParameters());
-        }
-
-        $parameters = $this->constructorCache[$cacheKey];
-        $params     = is_array($params) ? array_values($params) : [$params];
-
-        $i = 0;
+        $i         = 0;
+        $params    = is_array($params) ? array_values($params) : [$params];
         $paramsIoC = [];
 
-        foreach ($parameters as $value) {
+        foreach ($constructor->getParameters() as $value) {
             $type = $value->getType()?->getName();
 
             if ($type && $this->binding()->has($type)) {
@@ -381,10 +355,6 @@ class Rudra implements RudraInterface, ContainerInterface
             return (new $className())->create();
         }
 
-        if (str_contains($className, 'Factory')) {
-            return (new $className)->create();
-        }
-
         return new $className;
     }
 
@@ -395,10 +365,6 @@ class Rudra implements RudraInterface, ContainerInterface
     private function resolveObject($object)
     {
         if ($object instanceof FactoryInterface) {
-            return $object->create();
-        }
-
-        if (str_contains(get_class($object), 'Factory')) {
             return $object->create();
         }
 
