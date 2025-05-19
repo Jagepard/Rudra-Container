@@ -320,10 +320,10 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @param  $className
-     * @return void
+     * @param  object  $object
+     * @return object
      */
-    private function resolveDependency($className)
+    private function resolveDependency($className): object
     {
         if ($className instanceof Closure) {
             return $className();
@@ -346,10 +346,10 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @param  string $className
-     * @return void
+     * @param  object  $object
+     * @return object
      */
-    private function resolveClass(string $className)
+    private function resolveClass(string $className): object
     {
         if (is_subclass_of($className, FactoryInterface::class)) {
             return (new $className())->create();
@@ -359,10 +359,10 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * @param  $object
-     * @return void
+     * @param  object  $object
+     * @return object
      */
-    private function resolveObject($object)
+    private function resolveObject(object $object): object
     {
         if ($object instanceof FactoryInterface) {
             return $object->create();
