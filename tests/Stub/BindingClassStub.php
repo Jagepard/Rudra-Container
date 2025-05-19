@@ -4,14 +4,14 @@ namespace Rudra\Container\Tests\Stub;
 
 use Rudra\Container\Tests\Stub\Interfaces\BindInterface;
 
-class BindingClassTest
+class BindingClassStub
 {
     protected BindInterface $bind;
     protected string $param;
 
     public function __construct(BindInterface $bind, string $param = "Default")
     {
-        $this->bind = $bind;
+        $this->bind  = $bind;
         $this->param = $param;
     }
 
