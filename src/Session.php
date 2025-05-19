@@ -3,74 +3,41 @@
 declare(strict_types=1);
 
 /**
- * @author    : Jagepard <jagepard@yandex.ru">
- * @license   https://mit-license.org/ MIT
+ * @author  : Jagepard <jagepard@yandex.ru">
+ * @license https://mit-license.org/ MIT
  */
 
 namespace Rudra\Container;
 
-use Psr\Container\ContainerInterface; 
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Rudra\Container\Exceptions\NotFoundException;
 
 class Session implements ContainerInterface
 {
-    /**
-     * Finds an entry of the container by its identifier and returns it
-     * -----------------------------------------------------------
-     * Находит запись в контейнере по идентификатору и возвращает её
-     *
-     * @param string $id
-     * @return mixed 
-     * 
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     */
     public function get(string $id): mixed
     {
-        if (empty($id)) {
-            throw new class("Identifier cannot be empty") extends \InvalidArgumentException implements ContainerExceptionInterface {};
-        }
-
-        if (!array_key_exists($id, $_SESSION)) {
-            throw new class("No entry found for '$id'") extends \InvalidArgumentException implements NotFoundExceptionInterface {};
-        }
-
-        return $_SESSION[$id];
+        return array_key_exists($id, $_SESSION)
+            ? $_SESSION[$id]
+            : throw new NotFoundException("Session entry not found for id: \"$id\"");
     }
 
-    /**
-     * Sets session data
-     * -----------------
-     * Устанавливает данные сессии
-     *
-     * @param array $data
-     * @return void
-     */
     public function set(array $data): void
     {
-        if (count($data) !== 2) {
-            throw new \InvalidArgumentException("The array contains the wrong number of elements");
-        }
-
-        if (array_key_exists($data[0], $_SESSION) && is_array($_SESSION[$data[0]])) {
-            $_SESSION[$data[0]] = array_merge($_SESSION[$data[0]], $data[1]);
-        } else {
-            $_SESSION[$data[0]] = $data[1];
-        }
+        count($data) === 2
+            ? $this->processSessionData($data)
+            : throw new \InvalidArgumentException("The array contains the wrong number of elements");
     }
 
-    /**
-     * Checks for the existence of data by key
-     * ---------------------------------------
-     * Проверяет наличие данных по ключу
-     *
-     * @param string $key
-     * @return bool
-     */
+    private function processSessionData(array $data): void
+    {
+        is_array($_SESSION[$data[0]] ?? null)
+            ? $_SESSION[$data[0]] = array_merge($_SESSION[$data[0]], $data[1])
+            : $_SESSION[$data[0]] = $data[1];
+    }
+
     public function has(string $id): bool
     {
-        return !empty($id) && array_key_exists($id, $_SESSION);
+        return array_key_exists($id, $_SESSION);
     }
 
     /**

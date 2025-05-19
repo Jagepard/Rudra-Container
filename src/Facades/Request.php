@@ -3,22 +3,22 @@
 declare(strict_types=1);
 
 /**
- * @author    : Jagepard <jagepard@yandex.ru">
- * @license   https://mit-license.org/ MIT
+ * @author  : Jagepard <jagepard@yandex.ru">
+ * @license https://mit-license.org/ MIT
  */
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\{Files, Traits\FacadeTrait, Interfaces\ContainerInterface};
+use Rudra\Container\{Traits\FacadeTrait, Interfaces\ContainerInterface};
 
 /**
- * @method static Files files()
  * @method static ContainerInterface get()
  * @method static ContainerInterface post()
  * @method static ContainerInterface put()
  * @method static ContainerInterface patch()
  * @method static ContainerInterface delete()
  * @method static ContainerInterface server()
+ * @method static ContainerInterface files()
  *
  * @see \Rudra\Container\Request
  */

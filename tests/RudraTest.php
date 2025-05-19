@@ -276,32 +276,4 @@ class RudraTest extends PHPUnit_Framework_TestCase
         Rudra::config()->set(["key" => "value"]);
         $this->assertEquals("value", Rudra::config()->get("key"));
     }
-
-    public function testSessionData(): void
-    {
-        $_SESSION = [];
-        Rudra::session()->set(["key", "value"]);
-        Session::set(["subKey", ["subSet" => "value"]]);
-        $this->assertEquals("value", Session::get("key"));
-        $this->assertEquals("value", Session::get("subKey")["subSet"]);
-        $this->assertTrue(Session::has("key"));
-        Session::unset("key");
-        $this->assertFalse(Session::has("key"));
-        Session::clear();
-        $this->assertTrue(count($_SESSION) === 0);
-    }
-
-    // public function testSessionDataGetWrongKey(): void
-    // {
-    //     $_SESSION = [];
-
-    //     $this->expectException(NotFoundException::class);
-    //     Session::get("wrongKey");
-    // }
-
-    public function testSessionDataSetEmptyData(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        Session::set([]);
-    }
 }

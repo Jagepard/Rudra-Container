@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 /**
- * @author    : Jagepard <jagepard@yandex.ru">
- * @license   https://mit-license.org/ MIT
+ * @author  : Jagepard <jagepard@yandex.ru">
+ * @license https://mit-license.org/ MIT
  */
 
 namespace Rudra\Container\Facades;
@@ -32,7 +32,7 @@ use Rudra\Container\{
  * @method static ContainerInterface config(array $config = [])
  * @method static ContainerInterface waiting(array $services = [])
  * @method static ContainerInterface binding(array $contracts = [])
- * @method static autowire($object, string $method, ?array $params = null)
+ * @method static mixed autowire($object, string $method, ?array $params = null)
  *
  * @see \Rudra\Container\Rudra
  */
