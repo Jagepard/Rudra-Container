@@ -117,6 +117,19 @@ class RudraTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf(BindInterface::class, Rudra::get(BindingClassTest::class)->getBind());
     }
 
+    public function testBindingFactoryStringClass()
+    {
+        Rudra::binding()->set([BindInterface::class => new BindingFactoryString]);
+
+        $bc = Rudra::new(BindingClassTest::class);
+        $this->assertEquals("Default", $bc->getParam());
+        $this->assertInstanceOf(BindInterface::class, $bc->getBind());
+
+        Rudra::set([BindingClassTest::class, BindingClassTest::class]);
+        $this->assertEquals("Default", Rudra::get(BindingClassTest::class)->getParam());
+        $this->assertInstanceOf(BindInterface::class, Rudra::get(BindingClassTest::class)->getBind());
+    }
+
     public function testBindingClass()
     {
         Rudra::binding()->set([BindInterface::class => new BindingClass]);
@@ -204,6 +217,20 @@ class RudraTest extends PHPUnit_Framework_TestCase
     {
         Rudra::binding()->set([BindInterface::class => BindInterface::class]);
         Rudra::waiting()->set([BindInterface::class => new BindingFactory]);
+
+        $bc = Rudra::new(BindingClassTest::class);
+        $this->assertEquals("Default", $bc->getParam());
+        $this->assertInstanceOf(BindInterface::class, $bc->getBind());
+
+        Rudra::set([BindingClassTest::class, BindingClassTest::class]);
+        $this->assertEquals("Default", Rudra::get(BindingClassTest::class)->getParam());
+        $this->assertInstanceOf(BindInterface::class, Rudra::get(BindingClassTest::class)->getBind());
+    }
+
+    public function testWaitingFactoryStringClass()
+    {
+        Rudra::binding()->set([BindInterface::class => BindInterface::class]);
+        Rudra::waiting()->set([BindInterface::class => new BindingFactoryString]);
 
         $bc = Rudra::new(BindingClassTest::class);
         $this->assertEquals("Default", $bc->getParam());
