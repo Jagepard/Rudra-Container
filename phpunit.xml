@@ -22,4 +22,8 @@
       <file>./tests/bootstrap.php</file>
     </exclude>
   </source>
+  <php>
+    <ini name="display_errors" value="1"/>
+    <ini name="error_reporting" value="-1"/>
+  </php>
 </phpunit>
