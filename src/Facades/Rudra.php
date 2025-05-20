@@ -33,6 +33,7 @@ use Rudra\Container\{
  * @method static ContainerInterface waiting(array $services = [])
  * @method static ContainerInterface binding(array $contracts = [])
  * @method static mixed autowire($object, string $method, ?array $params = null)
+ * @method static array getParamsIoC(ReflectionMethod $constructor, ?array $params)
  *
  * @see \Rudra\Container\Rudra
  */

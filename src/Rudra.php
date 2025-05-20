@@ -287,7 +287,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * @return array
      * @throws ReflectionException
      */
-    private function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
+    public function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
         $i         = 0;
         $params    = is_array($params) ? array_values($params) : [$params];
