@@ -28,13 +28,13 @@ if (!function_exists('config')) {
         if ($key === null) {
             return Rudra::config()->all();
         }
-    
+
         $data = Rudra::config()->get($key);
-    
+
         if ($subKey === null) {
             return $data;
         }
-    
+
         return is_array($data) && isset($data[$subKey]) ? $data[$subKey] : false;
     }
 }

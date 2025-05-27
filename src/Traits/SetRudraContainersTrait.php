@@ -14,14 +14,7 @@ use Rudra\Container\Interfaces\RudraInterface;
 trait SetRudraContainersTrait
 {
     public function __construct(private RudraInterface $rudra) {}
-    
-    /**
-     * Gets access to the application
-     * ------------------------------
-     * Получает доступ к приложению
-     *
-     * @return RudraInterface
-     */
+
     public function rudra(): RudraInterface
     {
         return $this->rudra;
