@@ -12,11 +12,6 @@ namespace Rudra\Container;
 use Psr\Container\ContainerInterface;
 use Rudra\Container\Exceptions\NotFoundException;
 
-/**
- * Service container implementing the PSR-11 standard.
- * ---------------------------------------------------
- * Контейнер сервисов, реализующий стандарт PSR-11.
- */
 class Container implements ContainerInterface
 {
     public function __construct(protected array $data = []) {}

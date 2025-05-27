@@ -18,7 +18,7 @@ class Cookie implements ContainerInterface
     {
         return array_key_exists($id, $_COOKIE)
             ? $_COOKIE[$id]
-            : throw new NotFoundException("Cookie with id \"$id\" not found.");
+            : throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
     }
 
     public function has(string $id): bool
@@ -30,22 +30,22 @@ class Cookie implements ContainerInterface
     {
         array_key_exists($id, $_COOKIE)
             ? $this->deleteCookie($id)
-            : throw new NotFoundException("Cookie with id \"$id\" not found.");
+            : throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
     }
-    
+
     private function deleteCookie(string $id): void
     {
         unset($_COOKIE[$id]);
         setcookie($id, '', -1, '/');
     }
-    
+
     public function set(array $data): void
     {
         count($data) === 2
             ? $this->processCookieData($data)
-            : throw new \InvalidArgumentException("The array contains the wrong number of elements");
+            : throw new \InvalidArgumentException("Массив содержит неверное количество элементов.");
     }
-    
+
     private function processCookieData(array $data): void
     {
         is_array($data[1])

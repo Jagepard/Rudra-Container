@@ -29,9 +29,9 @@ use BadMethodCallException;
 use InvalidArgumentException;
 
 /**
- * @method waiting()
- * @method binding()
- * @method services()
+ * @method waiting() Возвращает контейнер для временных данных (waiting).
+ * @method binding() Возвращает контейнер для связываний (binding).
+ * @method services() Возвращает контейнер для сервисов (services).
  */
 class Rudra implements RudraInterface, ContainerInterface
 {
@@ -54,16 +54,6 @@ class Rudra implements RudraInterface, ContainerInterface
         'session'  => Session::class
     ];
 
-    /**
-     * Initializes a service or creates a container
-     * --------------------------------------------
-     * Инициализирует сервис или создает контейнер
-     *
-     * @param string $method
-     * @param array $parameters
-     * @return mixed
-     * @throws ReflectionException
-     */
     public function __call(string $method, array $parameters = [])
     {
         if (isset($this->allowedContainersMap[$method])) {
@@ -75,15 +65,9 @@ class Rudra implements RudraInterface, ContainerInterface
             return $this->init($this->allowedInstances[$method]);
         }
     
-        throw new BadMethodCallException("...");
+        throw new BadMethodCallException("{$method}' is not allowed.");
     }
 
-    /**
-     * @param  string $object
-     * @param  array|null $params
-     * @return object
-     * @throws ReflectionException
-     */
     public function new(string $object, ?array $params = null): object
     {
         if (!class_exists($object)) {
@@ -101,9 +85,6 @@ class Rudra implements RudraInterface, ContainerInterface
         return $reflection->newInstanceWithoutConstructor();
     }
 
-    /**
-     * @return RudraInterface
-     */
     public static function run(): RudraInterface
     {
         if (!isset(static::$rudra)) {
@@ -113,11 +94,6 @@ class Rudra implements RudraInterface, ContainerInterface
         return static::$rudra;
     }
 
-    /**
-     * @param  string|null $id
-     * @return mixed
-     * @throws ReflectionException
-     */
     public function get(string $id): mixed
     {
         if ($this->has($id)) {
@@ -143,16 +119,7 @@ class Rudra implements RudraInterface, ContainerInterface
 
         return $this->services()->get($id);
     }
-    
-    /**
-     * Adds a service to an application
-     * --------------------------------
-     * Добавляет сервис в приложение
-     *
-     * @param array $data
-     * @return void
-     * @throws ReflectionException
-     */
+
     public function set(array $data): void
     {
         [$key, $object] = $data;
@@ -169,11 +136,6 @@ class Rudra implements RudraInterface, ContainerInterface
         $this->setObject($key, $this->resolveSetValue($object));
     }
 
-    /**
-     * @param  string $key
-     * @param  array  $object
-     * @return void
-     */
     private function handleArrayObject(string $key, array $object): void
     {
         $first = $object[0];
@@ -187,10 +149,6 @@ class Rudra implements RudraInterface, ContainerInterface
         $this->setObject($key, $this->resolveSetValue($first));
     }
     
-    /**
-     * @param  $value
-     * @return mixed
-     */
     private function resolveSetValue($value): mixed
     {
         if ($value instanceof Closure) {
@@ -211,21 +169,11 @@ class Rudra implements RudraInterface, ContainerInterface
             && is_subclass_of($value, FactoryInterface::class, false);
     }
 
-    /**
-     * @param  string  $key
-     * @return boolean
-     */
     public function has(string $id): bool
     {
         return $this->services()->has($id);
     }
 
-    /**
-     * @param  string $key
-     * @param  string|object $object
-     * @return void
-     * @throws ReflectionException
-     */
     private function setObject(string $key, string|object $object): void
     {
         if (is_object($object)) {
@@ -235,13 +183,6 @@ class Rudra implements RudraInterface, ContainerInterface
         }
     }
     
-    /**
-     * @param string $key
-     * @param string $object
-     * @param array|null $params
-     * @return void
-     * @throws ReflectionException
-     */
     private function iOc(string $key, string $object, ?array $params = null): void
     {
         $reflection  = new ReflectionClass($object);
@@ -257,17 +198,6 @@ class Rudra implements RudraInterface, ContainerInterface
         $this->services()->set([$key => $instance]);
     }
 
-    /**
-     * Calls a method using inversion of control
-     * -------------------------------------------
-     * Вызывает метод при помощи инверсии контроля
-     *
-     * @param $object
-     * @param string $method
-     * @param array|null $params
-     * @return mixed|void
-     * @throws ReflectionException
-     */
     public function autowire($object, string $method, ?array $params = null): mixed
     {
         $reflectionMethod = new ReflectionMethod($object, $method);
@@ -281,12 +211,6 @@ class Rudra implements RudraInterface, ContainerInterface
         return $reflectionMethod->invokeArgs($object, $arguments);
     }
 
-    /**
-     * @param ReflectionMethod $constructor
-     * @param array|null $params
-     * @return array
-     * @throws ReflectionException
-     */
     public function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
     {
         $i         = 0;
@@ -319,10 +243,6 @@ class Rudra implements RudraInterface, ContainerInterface
         return $paramsIoC;
     }
 
-    /**
-     * @param  object  $object
-     * @return object
-     */
     private function resolveDependency($className): object
     {
         if ($className instanceof Closure) {
@@ -345,10 +265,6 @@ class Rudra implements RudraInterface, ContainerInterface
         return new $className;
     }
 
-    /**
-     * @param  object  $object
-     * @return object
-     */
     private function resolveClass(string $className): object
     {
         if (is_subclass_of($className, FactoryInterface::class)) {
@@ -358,10 +274,6 @@ class Rudra implements RudraInterface, ContainerInterface
         return new $className;
     }
 
-    /**
-     * @param  object  $object
-     * @return object
-     */
     private function resolveObject(object $object): object
     {
         if ($object instanceof FactoryInterface) {
