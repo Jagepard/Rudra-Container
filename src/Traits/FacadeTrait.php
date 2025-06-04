@@ -16,8 +16,14 @@ trait FacadeTrait
     public static function __callStatic(string $method, array $parameters = []): mixed
     {
         $className = str_replace("Facade", "", static::class);
-        if (!class_exists($className)) $className = str_replace("\s", "", $className);
-        if (!Rudra::has($className)) Rudra::set([$className, [$className]]);
+
+        if (!class_exists($className)) { 
+            $className = str_replace("\s", "", $className);
+        }
+
+        if (!Rudra::has($className)) {
+            Rudra::set([$className, [$className]]);
+        }
 
         return Rudra::get($className)->$method(...$parameters);
     }
