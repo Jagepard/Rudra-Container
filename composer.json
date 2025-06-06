@@ -1,49 +1,58 @@
 {
-    "name"              : "rudra/container",
-    "description"       : "Rudra framework",
-    "type"              : "library",
-    "keywords"          : [
+    "name": "rudra/container",
+    "description": "Rudra framework",
+    "type": "library",
+    "keywords": [
         "rudra",
         "container",
         "dependency-injection-container",
         "ioc-container",
         "dependency-injection"
     ],
-    "license"           : "MIT",
-    "authors"           : [
+    "license": "MIT",
+    "authors": [
         {
-            "name"     : "Jagepard",
-            "email"    : "jagepard@yandex.ru",
-            "homepage" : "https://jagepard.ru",
-            "role"     : "Developer"
+            "name": "Jagepard",
+            "email": "jagepard@yandex.ru",
+            "homepage": "https://jagepard.ru",
+            "role": "Developer"
         }
     ],
-    "support"           : {
-        "email" : "jagepard@yandex.ru",
-        "skype" : "jagepard.ru"
+    "support": {
+        "email": "jagepard@yandex.ru",
+        "issues": "https://github.com/Jagepard/Rudra-Container/issues",    
+        "source": "https://github.com/Jagepard/Rudra-Container"    
     },
-    "require"           : {
-        "php" : ">=8.0",
-        "rudra/docs": "dev-master",
-        "psr/container": "^2.0@dev"
+    "require": {
+        "php" : ">=8.3",
+        "psr/container": "^2.0@dev",
+        "rudra/exception": "self.version"
     },
-    "autoload"          : {
-        "psr-4" : {
+    "replace": {
+        "rudra/container": "self.version"
+    },
+    "autoload": {
+        "psr-4": {
             "Rudra\\Container\\" : "src/"
         },
         "files": [
             "src/helpers.php"
         ]
     },
-    "autoload-dev" : {
+    "autoload-dev": {
         "psr-4": {
-            "Rudra\\Container\\Tests\\" : "tests/",
+            "Rudra\\Container\\Tests\\": "tests/",
             "Rudra\\Container\\Tests\\Stub\\": "tests/Stub/"
         }
     },
-    "minimum-stability" : "dev",
-    "config"            : {
-        "optimize-autoloader" : true,
-        "prefer-stable"       : true
+    "minimum-stability": "dev",
+    "config": {
+        "optimize-autoloader": true,
+        "prefer-stable": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }

@@ -65,7 +65,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return $this->init($this->allowedInstances[$method]);
         }
     
-        throw new BadMethodCallException("{$method}' is not allowed.");
+        throw new LogicException("{$method}' is not allowed.");
     }
 
     public function new(string $object, ?array $params = null): object
