@@ -28,9 +28,6 @@
         "psr/container": "^2.0@dev",
         "rudra/exception": "self.version"
     },
-    "replace": {
-        "rudra/container": "self.version"
-    },
     "autoload": {
         "psr-4": {
             "Rudra\\Container\\" : "src/"
