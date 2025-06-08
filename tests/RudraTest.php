@@ -23,7 +23,7 @@ use Rudra\Container\Tests\Stub\{
     ClassWithoutConstructor,
     ClassWithDefaultParameters,
 };
-use Rudra\Container\Exceptions\NotFoundException;
+use Rudra\Exceptions\NotFoundException;
 use Rudra\Container\Tests\Stub\Factories\BindingFactory;
 use Rudra\Container\Tests\Stub\Interfaces\BindInterface;
 use PHPUnit\Framework\{TestCase as PHPUnit_Framework_TestCase};
