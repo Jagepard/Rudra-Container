@@ -4,7 +4,7 @@ namespace Rudra\Container\Tests;
 
 use Rudra\Container\Container;
 use PHPUnit\Framework\TestCase;
-use Rudra\Container\Exceptions\NotFoundException;
+use Rudra\Exceptions\NotFoundException;
 
 class ContainerTest extends TestCase
 {

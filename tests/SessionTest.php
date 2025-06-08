@@ -3,7 +3,7 @@
 namespace Rudra\Container\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Rudra\Container\Exceptions\NotFoundException;
+use Rudra\Exceptions\NotFoundException;
 use Rudra\Container\Facades\{Cookie, Request, Response, Rudra, Session};
 
 class SessionTest extends TestCase

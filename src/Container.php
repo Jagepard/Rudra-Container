@@ -10,7 +10,7 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Psr\Container\ContainerInterface;
-use Rudra\Container\Exceptions\NotFoundException;
+use Rudra\Exceptions\NotFoundException;
 
 class Container implements ContainerInterface
 {

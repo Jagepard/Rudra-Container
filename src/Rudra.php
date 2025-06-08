@@ -10,23 +10,18 @@ declare(strict_types=1);
 namespace Rudra\Container;
 
 use Closure;
+use ReflectionClass;
+use ReflectionMethod;
+use Rudra\Exceptions\{
+    LogicException, 
+    NotFoundException
+};
 use Rudra\Container\{
     Interfaces\RudraInterface,
     Traits\InstantiationsTrait,
     Interfaces\FactoryInterface,
-    Exceptions\NotFoundException,
 };
-use Psr\Container\{
-    ContainerInterface, 
-    NotFoundExceptionInterface, 
-    ContainerExceptionInterface,
-}; 
-use ReflectionClass;
-use ReflectionMethod;
-use RuntimeException;
-use ReflectionException;
-use BadMethodCallException;
-use InvalidArgumentException;
+use Psr\Container\ContainerInterface; 
 
 /**
  * @method waiting() Возвращает контейнер для временных данных (waiting).
@@ -71,7 +66,7 @@ class Rudra implements RudraInterface, ContainerInterface
     public function new(string $object, ?array $params = null): object
     {
         if (!class_exists($object)) {
-            throw new RuntimeException("Class {$object} does not exist");
+            throw new LogicException("Class {$object} does not exist");
         }
 
         $reflection  = new ReflectionClass($object);
@@ -125,7 +120,7 @@ class Rudra implements RudraInterface, ContainerInterface
         [$key, $object] = $data;
 
         if (!is_string($key)) {
-            throw new InvalidArgumentException("Key must be a string");
+            throw new LogicException("Key must be a string");
         }
 
         if (is_array($object)) {
