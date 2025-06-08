@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Jagepard/Rudra-Container.svg?branch=master)](https://travis-ci.org/Jagepard/Rudra-Container)
-[![Maintainability](https://qlty.sh/badges/4cd3ef6e-deea-4223-884b-6ec616594d59/maintainability.svg)](https://qlty.sh/gh/Jagepard/projects/Rudra-Controller)
+[![Maintainability](https://qlty.sh/badges/6ab84b91-8f18-409f-b350-b8f8a37e278c/maintainability.svg)](https://qlty.sh/gh/Jagepard/projects/Rudra-Container)
 [![CodeFactor](https://www.codefactor.io/repository/github/jagepard/rudra-container/badge)](https://www.codefactor.io/repository/github/jagepard/rudra-container)
 [![Coverage Status](https://coveralls.io/repos/github/Jagepard/Rudra-Container/badge.svg?branch=master)](https://coveralls.io/github/Jagepard/Rudra-Container?branch=master)
 -----
