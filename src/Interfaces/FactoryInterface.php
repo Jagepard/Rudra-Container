@@ -11,5 +11,8 @@ namespace Rudra\Container\Interfaces;
 
 interface FactoryInterface
 {
+    /**
+     * @return object
+     */
     public function create(): object;
 }

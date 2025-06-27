@@ -13,8 +13,14 @@ use Rudra\Container\Interfaces\RudraInterface;
 
 trait SetRudraContainersTrait
 {
+    /**
+     * @param RudraInterface $rudra
+     */
     public function __construct(private RudraInterface $rudra) {}
 
+    /**
+     * @return RudraInterface
+     */
     public function rudra(): RudraInterface
     {
         return $this->rudra;

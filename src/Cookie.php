@@ -14,6 +14,10 @@ use Rudra\Exceptions\NotFoundException;
 
 class Cookie implements ContainerInterface
 {
+    /**
+     * @param  string $id
+     * @return mixed
+     */
     public function get(string $id): mixed
     {
         return array_key_exists($id, $_COOKIE)
@@ -21,11 +25,19 @@ class Cookie implements ContainerInterface
             : throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
     }
 
+    /**
+     * @param  string  $id
+     * @return boolean
+     */
     public function has(string $id): bool
     {
         return array_key_exists($id, $_COOKIE);
     }
 
+    /**
+     * @param  string $id
+     * @return void
+     */
     public function unset(string $id): void
     {
         array_key_exists($id, $_COOKIE)
@@ -33,12 +45,20 @@ class Cookie implements ContainerInterface
             : throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
     }
 
+    /**
+     * @param  string $id
+     * @return void
+     */
     private function deleteCookie(string $id): void
     {
         unset($_COOKIE[$id]);
         setcookie($id, '', -1, '/');
     }
 
+    /**
+     * @param  array $data
+     * @return void
+     */
     public function set(array $data): void
     {
         count($data) === 2
@@ -46,6 +66,10 @@ class Cookie implements ContainerInterface
             : throw new \InvalidArgumentException("Массив содержит неверное количество элементов.");
     }
 
+    /**
+     * @param  array $data
+     * @return void
+     */
     private function processCookieData(array $data): void
     {
         is_array($data[1])
