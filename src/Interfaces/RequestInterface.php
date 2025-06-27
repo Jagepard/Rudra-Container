@@ -14,11 +14,38 @@ use Psr\Container\ContainerInterface;
 
 interface RequestInterface
 {
+    /**
+     * @return ContainerInterface
+     */
     public function get(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
     public function post(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
     public function put(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
     public function patch(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
     public function delete(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
     public function server(): ContainerInterface;
+
+    /**
+     * @return ContainerInterface
+     */
     public function files(): ContainerInterface;
 }
