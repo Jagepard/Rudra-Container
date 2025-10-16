@@ -47,12 +47,12 @@ final class CookieTest extends TestCase
         $this->assertSame('test_value', $this->cookie->get('test_key'));
     }
 
-    public function testUnsetRemovesCookie(): void
+    public function testRemoveRemovesCookie(): void // Переименован
     {
         setcookie('test_key', 'test_value');
         $_COOKIE['test_key'] = 'test_value';
 
-        $this->cookie->unset('test_key');
+        $this->cookie->remove('test_key'); // ✅
 
         $this->assertFalse(isset($_COOKIE['test_key']));
         $this->assertFalse($this->cookie->has('test_key'));
@@ -60,7 +60,7 @@ final class CookieTest extends TestCase
 
     public function testSetAddsCookieWithStringValue(): void
     {
-        $this->cookie->set(['test_key', 'test_value']);
+        $this->cookie->set('test_key', 'test_value'); // ✅
     
         // Ручное обновление $_COOKIE для проверки
         $_COOKIE['test_key'] = 'test_value';
@@ -71,7 +71,8 @@ final class CookieTest extends TestCase
 
     public function testSetAddsCookieWithOptions(): void
     {
-        $this->cookie->set(['test_key', ['test_value', time() + 3600, '/']]);
+        $expire = time() + 3600;
+        $this->cookie->set('test_key', 'test_value', $expire, '/'); // ✅
     
         // Обновляем $_COOKIE вручную для проверки
         $_COOKIE['test_key'] = 'test_value';
@@ -79,11 +80,4 @@ final class CookieTest extends TestCase
         $this->assertSame('test_value', $_COOKIE['test_key']);
         $this->assertTrue($this->cookie->has('test_key'));
     }
-
-    public function testSetThrowsExceptionWithInvalidArraySize(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->cookie->set(['key', 'value', 'extra']);
-    }
 }
-
