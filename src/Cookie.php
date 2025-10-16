@@ -9,25 +9,30 @@ declare(strict_types=1);
 
 namespace Rudra\Container;
 
-use Psr\Container\ContainerInterface;
 use Rudra\Exceptions\NotFoundException;
 
-class Cookie implements ContainerInterface
+class Cookie
 {
     /**
-     * @param  string $id
+     * Возвращает значение куки по ключу.
+     *
+     * @param string $id
      * @return mixed
+     * @throws NotFoundException
      */
     public function get(string $id): mixed
     {
-        return array_key_exists($id, $_COOKIE)
-            ? $_COOKIE[$id]
-            : throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
+        if (!array_key_exists($id, $_COOKIE)) {
+            throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
+        }
+        return $_COOKIE[$id];
     }
 
     /**
-     * @param  string  $id
-     * @return boolean
+     * Проверяет, существует ли куки.
+     *
+     * @param string $id
+     * @return bool
      */
     public function has(string $id): bool
     {
@@ -35,45 +40,65 @@ class Cookie implements ContainerInterface
     }
 
     /**
-     * @param  string $id
+     * Удаляет куки.
+     *
+     * @param string $id
      * @return void
+     * @throws NotFoundException
      */
-    public function unset(string $id): void
+    public function remove(string $id): void // Переименовано с unset
     {
-        array_key_exists($id, $_COOKIE)
-            ? $this->deleteCookie($id)
-            : throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
+        if (!array_key_exists($id, $_COOKIE)) {
+            throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
+        }
+        $this->deleteCookie($id);
     }
 
     /**
-     * @param  string $id
+     * Удаляет куки из суперглобального массива и отправляет заголовок для удаления в браузере.
+     *
+     * @param string $id
      * @return void
      */
     private function deleteCookie(string $id): void
     {
         unset($_COOKIE[$id]);
-        setcookie($id, '', -1, '/');
+        setcookie($id, '', time() - 3600, '/'); // Установить время в прошлое
     }
 
     /**
-     * @param  array $data
+     * Устанавливает куки.
+     *
+     * @param string $key Имя куки.
+     * @param string $value Значение куки.
+     * @param int $expire Время жизни (timestamp). По умолчанию 0 (до закрытия браузера).
+     * @param string $path Путь на сервере. По умолчанию '/'.
+     * @param string|null $domain Домен. По умолчанию null (текущий хост).
+     * @param bool $secure Использовать HTTPS. По умолчанию false.
+     * @param bool $httponly Запретить доступ через JS. По умолчанию false.
+     * @param string $samesite Значение SameSite. По умолчанию 'Lax'.
      * @return void
      */
-    public function set(array $data): void
-    {
-        count($data) === 2
-            ? $this->processCookieData($data)
-            : throw new \InvalidArgumentException("Массив содержит неверное количество элементов.");
-    }
+    public function set(
+        string $key,
+        string $value,
+        int $expire = 0,
+        string $path = '/',
+        ?string $domain = null,
+        bool $secure = false,
+        bool $httponly = false,
+        string $samesite = 'Lax'
+    ): void {
+        $_COOKIE[$key] = $value;
 
-    /**
-     * @param  array $data
-     * @return void
-     */
-    private function processCookieData(array $data): void
-    {
-        is_array($data[1])
-            ? setcookie($data[0], $data[1][0], $data[1][1], '/')
-            : setcookie($data[0], $data[1]);
+        // Используем setcookie с полным набором параметров для безопасности
+        setcookie($key, $value, [
+            'expires'  => $expire,
+            'path'     => $path,
+            'domain'   => $domain,
+            'secure'   => $secure,
+            'httponly' => $httponly,
+            'samesite' => $samesite,
+        ]);
     }
 }
