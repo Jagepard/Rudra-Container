@@ -11,7 +11,8 @@ if (!function_exists('data')) {
     function data(mixed $data = null): mixed
     {
         if (is_array($data)) {
-            return Rudra::shared()->set($data);
+            Rudra::shared()->set($data);
+            return Rudra::shared()->all();
         }
 
         if ($data === null) {
