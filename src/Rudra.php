@@ -231,13 +231,15 @@ class Rudra implements RudraInterface, ContainerInterface
     /**
      * Resolves the value to be set in the container based on its type.
      * If the value is a Closure, it executes and returns the result.
-     * If the value implements the Factory interface, it creates and returns an instance using the factory's `create` method.
+     * If the value is a string matching the factory naming convention (ends with "Factory") and the class exists,
+     * it instantiates the class and calls its `create()` method.
      * Otherwise, it returns the value as-is.
      * -------------------------
      * Разрешает значение, которое должно быть установлено в контейнере, на основе его типа.
      * Если значение является замыканием (Closure), оно выполняется, и возвращается результат.
-     * Если значение реализует интерфейс Factory, создаётся и возвращается экземпляр с использованием метода `create` фабрики.
-     * В противном случае возвращается значение без изменений.
+     * Если значение — строка, соответствующая соглашению об именовании фабрик (оканчивается на "Factory"),
+     * и класс существует, создаётся его экземпляр и вызывается метод `create()`.
+     * В противном случае значение возвращается без изменений.
      *
      * @param  mixed $value
      * @return mixed
@@ -248,7 +250,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return $value();
         }
 
-        if ($this->isFactoryImplementation($value)) {
+        if ($this->isFactory($value)) {
             return (new $value())->create();
         }
 
@@ -256,20 +258,20 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * Checks if the given value represents a valid implementation of the FactoryInterface.
-     * The value is considered valid if it is a string, the class exists, and it is a subclass of FactoryInterface.
+     * Checks if the given value represents a factory class according to naming convention.
+     * The value is considered a factory if it is a string, ends with "Factory", and the class exists.
      * -------------------------
-     * Проверяет, представляет ли данное значение допустимую реализацию интерфейса FactoryInterface.
-     * Значение считается допустимым, если оно является строкой, класс существует и является подклассом FactoryInterface.
+     * Проверяет, является ли переданное значение классом-фабрикой согласно соглашению об именовании.
+     * Значение считается фабрикой, если оно является строкой, оканчивается на "Factory", и соответствующий класс существует.
      *
      * @param  mixed $value
-     * @return boolean
+     * @return bool
      */
-    private function isFactoryImplementation(mixed $value): bool
+    private function isFactory(mixed $value): bool
     {
         return is_string($value)
-            && class_exists($value, false)
-            && is_subclass_of($value, FactoryInterface::class, false);
+            && str_ends_with($value, 'Factory')
+            && class_exists($value); // с автозагрузкой!
     }
 
     /**

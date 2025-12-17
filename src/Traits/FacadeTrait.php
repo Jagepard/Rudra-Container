@@ -38,10 +38,6 @@ trait FacadeTrait
             $className = str_replace("\s", "", $className);
         }
 
-        if (!Rudra::has($className)) {
-            Rudra::set([$className, [$className]]);
-        }
-
         return Rudra::get($className)->$method(...$parameters);
     }
 }
