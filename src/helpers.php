@@ -6,6 +6,7 @@
  */
 
 use Rudra\Container\Facades\Rudra;
+use Rudra\Container\Facades\Response;
 
 if (!function_exists('data')) {
     function data(mixed $data = null): mixed
@@ -39,3 +40,11 @@ if (!function_exists('config')) {
         return is_array($data) && isset($data[$subKey]) ? $data[$subKey] : false;
     }
 }
+
+if (!function_exists('json')) {
+    function json(array $data): void
+    {
+        Response::json($data);
+    }
+}
+
