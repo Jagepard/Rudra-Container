@@ -250,7 +250,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return $value();
         }
 
-        if ($this->isFactory($value)) {
+        if ($this->isFactoryImplementation($value)) {
             return (new $value())->create();
         }
 
@@ -258,20 +258,20 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * Checks if the given value represents a factory class according to naming convention.
-     * The value is considered a factory if it is a string, ends with "Factory", and the class exists.
+     * Checks if the given value represents a valid implementation of the FactoryInterface.
+     * The value is considered valid if it is a string, the class exists, and it is a subclass of FactoryInterface.
      * -------------------------
-     * Проверяет, является ли переданное значение классом-фабрикой согласно соглашению об именовании.
-     * Значение считается фабрикой, если оно является строкой, оканчивается на "Factory", и соответствующий класс существует.
+     * Проверяет, представляет ли данное значение допустимую реализацию интерфейса FactoryInterface.
+     * Значение считается допустимым, если оно является строкой, класс существует и является подклассом FactoryInterface.
      *
      * @param  mixed $value
-     * @return bool
+     * @return boolean
      */
-    private function isFactory(mixed $value): bool
+    private function isFactoryImplementation(mixed $value): bool
     {
         return is_string($value)
-            && str_ends_with($value, 'Factory')
-            && class_exists($value); // с автозагрузкой!
+            && class_exists($value, false)
+            && is_subclass_of($value, FactoryInterface::class, false);
     }
 
     /**
@@ -464,7 +464,8 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function resolveClass(string $className): object
     {
-        if (is_subclass_of($className, FactoryInterface::class)) {
+        // Включить поддержку интерфейсов: третий аргумент = true
+        if (is_subclass_of($className, FactoryInterface::class, true)) {
             return (new $className())->create();
         }
 
