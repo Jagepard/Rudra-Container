@@ -469,7 +469,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return (new $className())->create();
         }
 
-        return new $className;
+        return $this->new($className);
     }
 
     /**
