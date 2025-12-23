@@ -83,36 +83,6 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
-     * Creates and returns a new instance of the specified class.
-     * If the class has a constructor with parameters, it resolves and injects them using the provided parameters.
-     * If the class does not exist, it throws a LogicException.
-     * -------------------------
-     * Создаёт и возвращает новый экземпляр указанного класса.
-     * Если у класса есть конструктор с параметрами, разрешает их и внедряет, используя предоставленные параметры.
-     * Если класс не существует, выбрасывается исключение LogicException.
-     *
-     * @param  string     $object
-     * @param  array|null $params
-     * @return object
-     */
-    public function new(string $object, ?array $params = null): object
-    {
-        if (!class_exists($object)) {
-            throw new LogicException("Class {$object} does not exist");
-        }
-
-        $reflection  = new ReflectionClass($object);
-        $constructor = $reflection->getConstructor();
-
-        if ($constructor && $constructor->getNumberOfParameters() > 0) {
-            $args = $this->getParamsIoC($constructor, $params);
-            return $reflection->newInstanceArgs($args);
-        }
-
-        return $reflection->newInstanceWithoutConstructor();
-    }
-
-    /**
      * Implements the Singleton pattern to ensure only one instance of the class is created.
      * If the instance does not exist, it creates and stores it. Otherwise, it returns the existing instance.
      * -------------------------
@@ -339,6 +309,36 @@ class Rudra implements RudraInterface, ContainerInterface
     }
 
     /**
+     * Creates and returns a new instance of the specified class.
+     * If the class has a constructor with parameters, it resolves and injects them using the provided parameters.
+     * If the class does not exist, it throws a LogicException.
+     * -------------------------
+     * Создаёт и возвращает новый экземпляр указанного класса.
+     * Если у класса есть конструктор с параметрами, разрешает их и внедряет, используя предоставленные параметры.
+     * Если класс не существует, выбрасывается исключение LogicException.
+     *
+     * @param  string     $object
+     * @param  array|null $params
+     * @return object
+     */
+    public function new(string $object, ?array $params = null): object
+    {
+        if (!class_exists($object)) {
+            throw new LogicException("Class {$object} does not exist");
+        }
+
+        $reflection  = new ReflectionClass($object);
+        $constructor = $reflection->getConstructor();
+
+        if ($constructor && $constructor->getNumberOfParameters() > 0) {
+            $args = $this->getParamsIoC($constructor, $params);
+            return $reflection->newInstanceArgs($args);
+        }
+
+        return $reflection->newInstanceWithoutConstructor();
+    }
+
+    /**
      * Automatically resolves and invokes a method on the given object using dependency injection.
      * It uses reflection to analyze the method's parameters and resolves them using `getParamsIoC`.
      * If the method has no parameters, it is invoked directly. Otherwise, the resolved arguments are passed during invocation.
@@ -447,7 +447,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return $this->resolveDependency($service);
         }
 
-        return new $className;
+        return $this->new($className);
     }
 
     /**
