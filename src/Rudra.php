@@ -413,16 +413,16 @@ class Rudra implements RudraInterface, ContainerInterface
     /**
      * Resolves a dependency based on the provided class name or object.
      * If the dependency is a Closure, it executes and returns the result.
-     * If the dependency is a string representing an existing class, it resolves the class using `resolveClass`.
      * If the dependency is an object, it resolves the object using `resolveObject`.
      * If the dependency exists in the waiting storage, it retrieves and resolves the service recursively.
+     * If the dependency is a string representing an existing class, it resolves the class using `resolveClass`.
      * Otherwise, it creates and returns a new instance of the class.
      * -------------------------
      * Разрешает зависимость на основе предоставленного имени класса или объекта.
      * Если зависимость является замыканием (Closure), оно выполняется, и возвращается результат.
-     * Если зависимость является строкой, представляющей существующий класс, разрешает класс с помощью `resolveClass`.
      * Если зависимость является объектом, разрешает объект с помощью `resolveObject`.
      * Если зависимость существует в хранилище ожидания, извлекает и разрешает сервис рекурсивно.
+     * Если зависимость является строкой, представляющей существующий класс, разрешает класс с помощью `resolveClass`.
      * В противном случае создаётся и возвращается новый экземпляр класса.
      *
      * @param  $className
@@ -434,10 +434,6 @@ class Rudra implements RudraInterface, ContainerInterface
             return $className();
         }
 
-        if (is_string($className) && class_exists($className)) {
-            return $this->resolveClass($className);
-        }
-
         if (is_object($className)) {
             return $this->resolveObject($className);
         }
@@ -445,6 +441,10 @@ class Rudra implements RudraInterface, ContainerInterface
         if ($this->waiting()->has($className)) {
             $service = $this->get($className);
             return $this->resolveDependency($service);
+        }
+
+        if (is_string($className) && class_exists($className)) {
+            return $this->resolveClass($className);
         }
 
         return $this->new($className);
