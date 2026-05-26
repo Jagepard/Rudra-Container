@@ -3,7 +3,7 @@
          colors="true"
          stopOnFailure="false"
          bootstrap="vendor/autoload.php"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.1/phpunit.xsd" 
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.1/phpunit.xsd "
          cacheDirectory=".phpunit.cache">
     <coverage>
         <report>
@@ -13,8 +13,9 @@
         </report>
     </coverage>
     <testsuites>
-        <testsuite name="Rudra-Container">
-            <directory>tests</directory>
+        <testsuite name="Rudra-Router">
+            <directory suffix=".php">tests</directory>
+            <exclude>tests/Stub</exclude>
         </testsuite>
     </testsuites>
     <source>
