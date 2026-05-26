@@ -53,7 +53,7 @@ trait InstantiationsTrait
      * @param  array       $data
      * @return mixed
      */
-    private function init(string $name, string $instance = null, array $data = []): mixed
+    private function init(string $name, ?string $instance = null, array $data = []): mixed
     {
         $instance ??= $name;
         !$this->has($name) && $this->set([$name, [$instance, $data]]);
