@@ -37,8 +37,8 @@ class DataFunctionTest extends TestCase
 
     public function testDoesNotCallAllWhenZeroOrFalseIsPassed()
     {
-        $this->expectException(NotFoundException::class); // или конкретный тип ошибки, если get() не может обработать такие ключи
-        data(0); // не должно вызывать all(), а пытаться вызвать get(0)
+        $this->expectException(NotFoundException::class);
+        data('0');
     }
 
     public function testCallsGetWhenObjectIsUsedAsKey()
