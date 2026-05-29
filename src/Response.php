@@ -19,9 +19,14 @@ class Response implements ResponseInterface
      * @param  array $data
      * @return void
      */
-    public function json(array $data): void
+    #[\Override]
+    public function json(array $data, int $code = 200): void
     {
-        header("Content-Type: application/json");
+        if (!headers_sent()) {
+            http_response_code($code);
+            header("Content-Type: application/json");
+        }
+        
         print $this->getJson($data);
     }
 

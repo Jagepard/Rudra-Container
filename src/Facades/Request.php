@@ -11,7 +11,8 @@
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\{Traits\FacadeTrait, Interfaces\ContainerInterface};
+use Rudra\Container\Traits\FacadeTrait;
+use Rudra\Container\Interfaces\ContainerInterface;
 
 /**
  * @method static ContainerInterface get()
