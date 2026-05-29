@@ -25,6 +25,7 @@ class Container implements ContainerInterface
      * @param  string $id
      * @return mixed
      */
+    #[\Override]
     public function get(string $id): mixed
     {
         return $this->has($id) 
@@ -53,6 +54,7 @@ class Container implements ContainerInterface
      * @param  string  $id
      * @return boolean
      */
+    #[\Override]
     public function has(string $id): bool
     {
         return array_key_exists($id, $this->data);
