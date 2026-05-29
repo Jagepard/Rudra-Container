@@ -15,6 +15,7 @@ namespace Rudra\Container\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Rudra\Container\Facades\Rudra;
+use Rudra\Exceptions\NotFoundException;
 
 class ConfigFunctionTest extends TestCase
 {
@@ -47,14 +48,20 @@ class ConfigFunctionTest extends TestCase
         $this->assertSame($value, config('app', 'name'));
     }
 
-    public function testReturnsFalseWhenSubKeyDoesNotExist()
+    public function testThrowsExceptionWhenSubKeyDoesNotExist(): void
     {
-        $this->assertFalse(config('app', 'non_existing_key'));
+        $this->expectException(NotFoundException::class);
+        $this->expectExceptionMessage('Конфигурационный ключ "app.non_existing_key" не найден.');
+        
+        config('app', 'non_existing_key');
     }
 
-    public function testReturnsFalseWhenValueIsNotArray()
+    public function testThrowsExceptionWhenValueIsNotArray(): void
     {
         // Предположим, что 'version' — это строка, а не массив
-        $this->assertFalse(config('version', 'subkey'));
+        $this->expectException(NotFoundException::class);
+        $this->expectExceptionMessage('Конфигурационный ключ "version.subkey" не найден.');
+        
+        config('version', 'subkey');
     }
 }

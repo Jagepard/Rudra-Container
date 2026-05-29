@@ -11,14 +11,12 @@
 
 namespace Rudra\Container\Facades;
 
-use Rudra\Container\{
-    Cookie,
-    Session,
-    Interfaces\RudraInterface,
-    Interfaces\RequestInterface,
-    Interfaces\ResponseInterface,
-    Interfaces\ContainerInterface
-};
+use Rudra\Container\Cookie;
+use Rudra\Container\Session;
+use Rudra\Container\Interfaces\RudraInterface;
+use Rudra\Container\Interfaces\RequestInterface;
+use Rudra\Container\Interfaces\ResponseInterface;
+use Rudra\Container\Interfaces\ContainerInterface;
 
 /**
  * @method static Cookie cookie()
@@ -35,7 +33,7 @@ use Rudra\Container\{
  * @method static ContainerInterface waiting(array $services = [])
  * @method static ContainerInterface binding(array $contracts = [])
  * @method static mixed autowire($object, string $method, ?array $params = null)
- * @method static array getParamsIoC(ReflectionMethod $constructor, ?array $params)
+ * @method static array getParamsIoC(\ReflectionMethod $constructor, ?array $params)
  *
  * @see \Rudra\Container\Rudra
  */

@@ -11,6 +11,7 @@
 
 namespace Rudra\Container\Traits;
 
+use Rudra\Exceptions\LogicException;
 use Rudra\Container\Interfaces\RudraInterface;
 
 trait SetRudraContainersTrait
@@ -25,6 +26,10 @@ trait SetRudraContainersTrait
      */
     public function rudra(): RudraInterface
     {
+        if (!isset($this->rudra)) {
+            throw new LogicException('Rudra instance not initialized. Did you override __construct()?');
+        }
+
         return $this->rudra;
     }
 }

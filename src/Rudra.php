@@ -11,24 +11,17 @@
 
 namespace Rudra\Container;
 
-use Closure;
-use ReflectionClass;
-use ReflectionMethod;
-use Rudra\Exceptions\{
-    LogicException, 
-    NotFoundException
-};
-use Rudra\Container\{
-    Interfaces\RudraInterface,
-    Traits\InstantiationsTrait,
-    Interfaces\FactoryInterface,
-};
+use Rudra\Exceptions\LogicException;
+use Rudra\Exceptions\NotFoundException;
+use Rudra\Container\Interfaces\RudraInterface;
+use Rudra\Container\Traits\InstantiationsTrait;
+use Rudra\Container\Interfaces\FactoryInterface;
 use Psr\Container\ContainerInterface; 
 
 /**
- * @method waiting() Возвращает контейнер для временных данных (waiting).
- * @method binding() Возвращает контейнер для связываний (binding).
- * @method services() Возвращает контейнер для сервисов (services).
+ * @method waiting() Returns a container for temporary data / Возвращает контейнер для временных данных
+ * @method binding() Returns a container for bindings / Возвращает контейнер для связываний
+ * @method services() Returns a container for services / Возвращает контейнер для сервисов
  */
 class Rudra implements RudraInterface, ContainerInterface
 {
@@ -36,20 +29,25 @@ class Rudra implements RudraInterface, ContainerInterface
 
     public static ?RudraInterface $rudra = null;
 
-    protected array $allowedContainersMap = [
-        'waiting'  => true,
-        'binding'  => true,
-        'services' => true,
-        'shared'   => true,
-        'config'   => true
-    ];
+    protected readonly array $allowedContainersMap;
+    protected readonly array $allowedInstances;
 
-    protected array $allowedInstances = [
-        'request'  => Request::class,
-        'response' => Response::class,
-        'cookie'   => Cookie::class,
-        'session'  => Session::class
-    ];
+    public function __construct()
+    {
+        $this->allowedContainersMap = [
+            'waiting'  => true,
+            'binding'  => true,
+            'services' => true,
+            'shared'   => true,
+            'config'   => true
+        ];
+        $this->allowedInstances = [
+            'request'  => Request::class,
+            'response' => Response::class,
+            'cookie'   => Cookie::class,
+            'session'  => Session::class
+        ];
+    }
 
     /**
      * Handles dynamic method calls for the class.
@@ -68,9 +66,9 @@ class Rudra implements RudraInterface, ContainerInterface
      *
      * @param  string $method
      * @param  array  $parameters
-     * @return void
+     * @return mixed
      */
-    public function __call(string $method, array $parameters = [])
+    public function __call(string $method, array $parameters = []): mixed
     {
         if (isset($this->allowedContainersMap[$method])) {
             $data = $parameters[0] ?? [];
@@ -81,7 +79,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return $this->init($this->allowedInstances[$method]);
         }
     
-        throw new LogicException("{$method}' is not allowed.");
+        throw new LogicException("Method '{$method}' is not allowed.");
     }
 
     /**
@@ -93,6 +91,7 @@ class Rudra implements RudraInterface, ContainerInterface
      *
      * @return RudraInterface
      */
+    #[\Override]
     public static function run(): RudraInterface
     {
         if (!isset(static::$rudra)) {
@@ -116,6 +115,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * @param  string $id
      * @return mixed
      */
+    #[\Override]
     public function get(string $id): mixed
     {
         if ($this->has($id)) {
@@ -133,7 +133,7 @@ class Rudra implements RudraInterface, ContainerInterface
 
         $waiting = $waitingStorage->get($id);
 
-        if ($waiting instanceof Closure) {
+        if ($waiting instanceof \Closure) {
             return $waiting();
         }
 
@@ -218,7 +218,7 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function resolveSetValue(mixed $value): mixed
     {
-        if ($value instanceof Closure) {
+        if ($value instanceof \Closure) {
             return $value();
         }
 
@@ -250,6 +250,7 @@ class Rudra implements RudraInterface, ContainerInterface
      * @param  string  $id
      * @return boolean
      */
+    #[\Override]
     public function has(string $id): bool
     {
         return $this->services()->has($id);
@@ -297,7 +298,7 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function iOc(string $key, string $object, ?array $params = null): void
     {
-        $reflection  = new ReflectionClass($object);
+        $reflection  = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor && $constructor->getNumberOfParameters() > 0) {
@@ -329,7 +330,7 @@ class Rudra implements RudraInterface, ContainerInterface
             throw new LogicException("Class {$object} does not exist");
         }
 
-        $reflection  = new ReflectionClass($object);
+        $reflection  = new \ReflectionClass($object);
         $constructor = $reflection->getConstructor();
 
         if ($constructor && $constructor->getNumberOfParameters() > 0) {
@@ -337,7 +338,7 @@ class Rudra implements RudraInterface, ContainerInterface
             return $reflection->newInstanceArgs($args);
         }
 
-        return $reflection->newInstanceWithoutConstructor();
+        return new $object();
     }
 
     /**
@@ -349,14 +350,14 @@ class Rudra implements RudraInterface, ContainerInterface
      * Использует рефлексию для анализа параметров метода и разрешает их с помощью `getParamsIoC`.
      * Если метод не имеет параметров, он вызывается напрямую. В противном случае разрешённые аргументы передаются при вызове.
      *
-     * @param  $object
-     * @param  string     $method
-     * @param  array|null $params
+     * @param  object|string $object
+     * @param  string        $method
+     * @param  array|null    $params
      * @return mixed
      */
-    public function autowire($object, string $method, ?array $params = null): mixed
+    public function autowire(object|string$object, string $method, ?array $params = null): mixed
     {
-        $reflectionMethod = new ReflectionMethod($object, $method);
+        $reflectionMethod = new \ReflectionMethod($object, $method);
 
         if ($reflectionMethod->getNumberOfParameters() === 0) {
             return $reflectionMethod->invoke($object);
@@ -376,11 +377,11 @@ class Rudra implements RudraInterface, ContainerInterface
      * Обрабатывает каждый параметр конструктора, разрешая зависимости с использованием привязок, имён классов или значений по умолчанию.
      * Если параметр не может быть разрешён, используется предоставленный массив `$params`.
      *
-     * @param  ReflectionMethod $constructor
+     * @param  \ReflectionMethod $constructor
      * @param  array|null       $params
      * @return array
      */
-    public function getParamsIoC(ReflectionMethod $constructor, ?array $params): array
+    public function getParamsIoC(\ReflectionMethod $constructor, ?array $params): array
     {
         $i         = 0;
         $params    = is_array($params) ? array_values($params) : [$params];
@@ -432,7 +433,7 @@ class Rudra implements RudraInterface, ContainerInterface
      */
     private function resolveDependency($className): object
     {
-        if ($className instanceof Closure) {
+        if ($className instanceof \Closure) {
             return $className();
         }
 

@@ -11,6 +11,7 @@
 
 use Rudra\Container\Facades\Rudra;
 use Rudra\Container\Facades\Response;
+use Rudra\Exceptions\NotFoundException;
 
 if (!function_exists('data')) {
     function data(mixed $data = null): mixed
@@ -41,7 +42,9 @@ if (!function_exists('config')) {
             return $data;
         }
 
-        return is_array($data) && isset($data[$subKey]) ? $data[$subKey] : false;
+        return (is_array($data) && array_key_exists($subKey, $data)) 
+            ? $data[$subKey] 
+            : throw new NotFoundException("Конфигурационный ключ \"$key.$subKey\" не найден.");
     }
 }
 

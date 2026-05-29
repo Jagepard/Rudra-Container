@@ -25,6 +25,7 @@ class Request implements RequestInterface
     /**
      * @return ContainerInterface
      */
+    #[\Override]
     public function get(): ContainerInterface
     {
         return $this->containerize("get", Container::class, $_GET);
@@ -33,6 +34,7 @@ class Request implements RequestInterface
     /**
      * @return ContainerInterface
      */
+    #[\Override]
     public function post(): ContainerInterface
     {
         return $this->containerize("post", Container::class, $_POST);
@@ -41,6 +43,7 @@ class Request implements RequestInterface
     /**
      * @return ContainerInterface
      */
+    #[\Override]
     public function put(): ContainerInterface
     {
         return $this->containerize("put", Container::class);
@@ -49,6 +52,7 @@ class Request implements RequestInterface
     /** 
      * @return ContainerInterface
      */
+    #[\Override]
     public function patch(): ContainerInterface
     {
         return $this->containerize("patch", Container::class);
@@ -57,6 +61,7 @@ class Request implements RequestInterface
     /**
      * @return ContainerInterface
      */
+    #[\Override]
     public function delete(): ContainerInterface
     {
         return $this->containerize("delete", Container::class);
@@ -65,6 +70,7 @@ class Request implements RequestInterface
     /**
      * @return ContainerInterface
      */
+    #[\Override]
     public function server(): ContainerInterface
     {
         return $this->containerize("server", Container::class, $_SERVER);
@@ -73,6 +79,7 @@ class Request implements RequestInterface
     /**
      * @return ContainerInterface
      */
+    #[\Override]
     public function files(): ContainerInterface
     {
         return $this->containerize("files", Container::class, $_FILES);
