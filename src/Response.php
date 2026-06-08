@@ -15,10 +15,6 @@ use Rudra\Container\Interfaces\ResponseInterface;
 
 class Response implements ResponseInterface
 {
-    /**
-     * @param  array $data
-     * @return void
-     */
     #[\Override]
     public function json(array $data, int $code = 200): void
     {
@@ -30,10 +26,6 @@ class Response implements ResponseInterface
         print $this->getJson($data);
     }
 
-    /**
-     * @param  array  $data
-     * @return string
-     */
     private function getJson(array $data): string
     {
         return json_encode($data, JSON_UNESCAPED_UNICODE);

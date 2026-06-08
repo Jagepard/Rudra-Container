@@ -16,15 +16,8 @@ use Rudra\Exceptions\NotFoundException;
 
 class Container implements ContainerInterface
 {
-    /**
-     * @param  array $data
-     */
     public function __construct(protected array $data = []) {}
 
-    /**
-     * @param  string $id
-     * @return mixed
-     */
     #[\Override]
     public function get(string $id): mixed
     {
@@ -33,27 +26,16 @@ class Container implements ContainerInterface
             : throw new NotFoundException("Identifier \"$id\" is not found.");
     }
 
-    /**
-     * @return array
-     */
     public function all(): array
     {
         return $this->data;
     }
 
-    /**
-     * @param  array $data
-     * @return void
-     */
     public function set(array $data): void
     {
         $this->data = array_merge($this->data, $data);
     }
 
-    /**
-     * @param  string  $id
-     * @return boolean
-     */
     #[\Override]
     public function has(string $id): bool
     {
