@@ -11,74 +11,51 @@
 
 namespace Rudra\Container;
 
-use Rudra\Container\{
-    Container,
-    Traits\InstantiationsTrait,
-    Interfaces\RequestInterface,
-};
+use Rudra\Container\Container;
+use Rudra\Container\Traits\InstantiationsTrait;
+use Rudra\Container\Interfaces\RequestInterface;
 use Psr\Container\ContainerInterface; 
 
 class Request implements RequestInterface
 {
     use InstantiationsTrait;
 
-    /**
-     * @return ContainerInterface
-     */
     #[\Override]
     public function get(): ContainerInterface
     {
         return $this->containerize("get", Container::class, $_GET);
     }
 
-    /**
-     * @return ContainerInterface
-     */
     #[\Override]
     public function post(): ContainerInterface
     {
         return $this->containerize("post", Container::class, $_POST);
     }
 
-    /**
-     * @return ContainerInterface
-     */
     #[\Override]
     public function put(): ContainerInterface
     {
         return $this->containerize("put", Container::class);
     }
 
-    /** 
-     * @return ContainerInterface
-     */
     #[\Override]
     public function patch(): ContainerInterface
     {
         return $this->containerize("patch", Container::class);
     }
 
-    /**
-     * @return ContainerInterface
-     */
     #[\Override]
     public function delete(): ContainerInterface
     {
         return $this->containerize("delete", Container::class);
     }
 
-    /**
-     * @return ContainerInterface
-     */
     #[\Override]
     public function server(): ContainerInterface
     {
         return $this->containerize("server", Container::class, $_SERVER);
     }
 
-    /**
-     * @return ContainerInterface
-     */
     #[\Override]
     public function files(): ContainerInterface
     {

@@ -13,9 +13,5 @@ namespace Rudra\Container\Interfaces;
 
 interface ResponseInterface
 {
-    /**
-     * @param  array $data
-     * @return void
-     */
     public function json(array $data): void;
 }
