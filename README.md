@@ -5,25 +5,23 @@
 -----
 
 # Rudra-Container | [API](https://github.com/Jagepard/Rudra-Container/blob/master/docs.md "Documentation API")
-#### Installation | Установка
+#### Installation
 ```composer require rudra/container```
-#### Using | Использование
+#### Using
 ```php
 use Rudra\Container\Rudra;
 
 Rudra::run();
 ```
-using Facade | используя фасад:
+using Facade:
 ```php
 use Rudra\Container\Facades\Rudra;
 ```
 ---
-###### Setting | Настройка:
+##### Setting:
 
 ---
-Bind an interface to an implementation or pre-arranged factory <br> 
-Связать интерфейс с реализацией или заранее подготовленной фабрикой:
-
+Bind an interface to an implementation or pre-arranged factory:
 ---
 ```php
 Rudra::run()->binding([
@@ -42,7 +40,7 @@ Rudra::run()->binding([
     }    
 ]);
 ```
-using Facade | используя фасад:
+using Facade:
 ```php
 Rudra::binding([
     SomeInterface::class => SomeClass::class
@@ -61,9 +59,7 @@ Rudra::binding([
 ]);
 ```
 ---
-Installs services into a waiting container to be initialized when called:<br>
-Устанавливает сервисы в контейнер ожидающих, для инициализации при вызове:
-
+Installs services into a waiting container to be initialized when called:
 ---
 ```php
 Rudra::run()->waiting([
@@ -81,7 +77,7 @@ Rudra::run()->waiting([
 }
 ])
 ```
-using Facade | используя фасад:
+using Facade:
 ```php
 Rudra::waiting([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
@@ -99,21 +95,17 @@ Rudra::waiting([
 ])
 ```
 ---
-Add a bind to previously established ones:<br>
-Добавляем привязку к ранее установленным:
-
+Add a bind to previously established ones:
 ---
 ```php
 Rudra::run()->binding()->set([SomeInterface::class => SomeClass::class])
 ```
-using Facade | используя фасад:
+using Facade:
 ```php
 Rudra::binding()->set([SomeClass::class, ['param-1', 'param-2']);
 ```
 ---
-Add the service to the previously installed ones:<br>
-Добавляем сервис к ранее установленным:
-
+Add the service to the previously installed ones:
 ---
 ```php
 Rudra::run()->waiting()->set([
@@ -122,7 +114,7 @@ Rudra::run()->waiting()->set([
     'service-name' => SomeFactory::class
 ])
 ```
-using Facade | используя фасад:
+using Facade:
 ```php
 Rudra::waiting()->set([
     'service-name' => [SomeClass::class, ['param-1', 'param-2']]
@@ -131,26 +123,22 @@ Rudra::waiting()->set([
 ])
 ```
 ---
-Call the created service:<br>
-Вызываем созданный сервис:
-
+Call the created service:
 ---
 ```php
 Rudra::run()->get('service-name')
 ```
-using Facade | используя фасад:
+using Facade:
 ```php
 Rudra::get('service-name')
 ```
 ---
-If the service does not have parameters, or the parameters are in the binding, then the service will be created automatically when calling<br>
-Если сервис не имеет параметров, либо параметры имеются в привязке, то сервис будет создан автоматически при вызове
-
+If the service does not have parameters, or the parameters are in the binding, then the service will be created automatically when calling
 ---
 ```php
 Rudra::run()->get(Service::class)
 ```
-using Facade | используя фасад:
+using Facade:
 ```php
 Rudra::get(Service::class)
 ```
@@ -165,13 +153,3 @@ This project is licensed under the **Mozilla Public License 2.0 (MPL-2.0)** — 
 
 📄 Full license text: [LICENSE](./LICENSE)  
 🌐 Official MPL-2.0 page: https://mozilla.org/MPL/2.0/
-
---------------------------
-Проект распространяется под лицензией **Mozilla Public License 2.0 (MPL-2.0)**. Это означает:
- - Вы можете свободно использовать, изменять и распространять код.
- - При изменении файлов, содержащих исходный код из этого репозитория, вы обязаны оставить их открытыми под той же лицензией.
- - Вы **обязаны сохранять уведомления об авторстве** и ссылку на оригинал.
- - Вы можете встраивать код в проприетарные проекты, если исходные файлы остаются под MPL.
-
-📄  Полный текст лицензии (на английском): [LICENSE](./LICENSE)  
-🌐 Официальная страница: https://mozilla.org/MPL/2.0/
