@@ -14,24 +14,20 @@
 namespace Rudra\Container\Tests;
 
 use Rudra\Container\Container;
-use Rudra\Container\Rudra as R;
-use Rudra\Container\Facades\{Cookie, Request, Response, Rudra, Session};
+use Rudra\Container\Facades\Rudra;
 use Rudra\Container\Interfaces\RudraInterface;
-use Rudra\Container\Tests\Stub\{
-    BindingClass, 
-    BindingClassStub, 
-    ClassWithDependency,
-    ClassWithoutParameters,
-    ClassWithoutConstructor,
-    ClassWithDefaultParameters,
-};
-use Rudra\Exceptions\NotFoundException;
+use Rudra\Container\Rudra as R;
+use Rudra\Container\Tests\Stub\BindingClass;
+use Rudra\Container\Tests\Stub\BindingClassStub;
+use Rudra\Container\Tests\Stub\ClassWithDefaultParameters;
+use Rudra\Container\Tests\Stub\ClassWithDependency;
+use Rudra\Container\Tests\Stub\ClassWithoutConstructor;
+use Rudra\Container\Tests\Stub\ClassWithoutParameters;
 use Rudra\Container\Tests\Stub\Factories\BindingFactory;
 use Rudra\Container\Tests\Stub\Interfaces\BindInterface;
-use PHPUnit\Framework\{TestCase as PHPUnit_Framework_TestCase};
-use Rudra\Container\Tests\Stub\Factories\BindingFactoryString;
+use Rudra\Exceptions\NotFoundException;
 
-class RudraTest extends PHPUnit_Framework_TestCase
+class RudraTest extends \PHPUnit\Framework\TestCase
 {
     private RudraInterface $rudra;
 

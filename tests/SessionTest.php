@@ -8,14 +8,15 @@
  * @author  Korotkov Danila (Jagepard) <jagepard@yandex.ru>
  * @license https://mozilla.org/MPL/2.0/  MPL-2.0
  * 
- * phpunit src/tests/ContainerTest --coverage-html src/tests/coverage-html
+ * phpunit src/tests/SessionTest --coverage-html src/tests/coverage-html
  */
 
 namespace Rudra\Container\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Rudra\Container\Facades\Rudra;
+use Rudra\Container\Facades\Session;
 use Rudra\Exceptions\NotFoundException;
-use Rudra\Container\Facades\{Cookie, Request, Response, Rudra, Session};
 
 class SessionTest extends TestCase
 {
