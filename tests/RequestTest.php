@@ -21,7 +21,7 @@ class RequestTest extends TestCase
 
     protected function setUp(): void
     {
-        // Обнуляем глобальные массивы, чтобы не мешали
+        // Reset global arrays to avoid interference
         $_GET = ['test_get' => 'value'];
         $_POST = ['test_post' => 'value'];
         $_SERVER = ['test_server' => 'value'];
@@ -34,7 +34,7 @@ class RequestTest extends TestCase
     {
         $container = $this->request->get();
         $this->assertInstanceOf(Container::class, $container);
-        $this->assertSame($container, $this->request->get()); // Ленивая инициализация
+        $this->assertSame($container, $this->request->get()); // Lazy initialization
         $this->assertEquals($_GET['test_get'], $container->get('test_get'));
     }
 

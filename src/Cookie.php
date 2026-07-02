@@ -18,7 +18,7 @@ class Cookie
     public function get(string $id): mixed
     {
         if (!array_key_exists($id, $_COOKIE)) {
-            throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
+            throw new NotFoundException("Cookie with identifier \"$id\" not found.");
         }
         return $_COOKIE[$id];
     }
@@ -31,7 +31,7 @@ class Cookie
     public function remove(string $id): void
     {
         if (!array_key_exists($id, $_COOKIE)) {
-            throw new NotFoundException("Куки с идентификатором \"$id\" не найдено.");
+            throw new NotFoundException("Cookie with identifier \"$id\" not found.");
         }
         $this->deleteCookie($id);
     }

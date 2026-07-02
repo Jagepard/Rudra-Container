@@ -49,16 +49,16 @@ class ConfigFunctionTest extends TestCase
     public function testThrowsExceptionWhenSubKeyDoesNotExist(): void
     {
         $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage('Конфигурационный ключ "app.non_existing_key" не найден.');
+        $this->expectExceptionMessage('Configuration key "app.non_existing_key" not found.');
         
         config('app', 'non_existing_key');
     }
 
     public function testThrowsExceptionWhenValueIsNotArray(): void
     {
-        // Предположим, что 'version' — это строка, а не массив
+        // Assume that 'version' is a string, not an array
         $this->expectException(NotFoundException::class);
-        $this->expectExceptionMessage('Конфигурационный ключ "version.subkey" не найден.');
+        $this->expectExceptionMessage('Configuration key "version.subkey" not found.');
         
         config('version', 'subkey');
     }

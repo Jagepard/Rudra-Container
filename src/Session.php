@@ -19,7 +19,7 @@ class Session
     {
         return array_key_exists($id, $_SESSION)
             ? $_SESSION[$id]
-            : throw new NotFoundException("Запись в сессии не найдена для идентификатора: \"$id\"");
+            : throw new NotFoundException("Session record not found for identifier: \"$id\"");
     }
 
     public function set(string $key, mixed $value): void

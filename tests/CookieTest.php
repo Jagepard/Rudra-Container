@@ -71,7 +71,7 @@ final class CookieTest extends TestCase
     {
         $this->cookie->set('test_key', 'test_value'); // ✅
     
-        // Ручное обновление $_COOKIE для проверки
+        // Manual $_COOKIE update for testing
         $_COOKIE['test_key'] = 'test_value';
     
         $this->assertSame('test_value', $this->cookie->get('test_key'));
@@ -83,7 +83,7 @@ final class CookieTest extends TestCase
         $expire = time() + 3600;
         $this->cookie->set('test_key', 'test_value', $expire, '/'); // ✅
     
-        // Обновляем $_COOKIE вручную для проверки
+        // Manual $_COOKIE update for testing
         $_COOKIE['test_key'] = 'test_value';
     
         $this->assertSame('test_value', $_COOKIE['test_key']);
