@@ -22,8 +22,8 @@ final class CookieTest extends TestCase
     protected function setUp(): void
     {
         $this->cookie = new Cookie();
-        // Очистка COOKIE перед каждым тестом
-        foreach ($_COOKIE as $key => $value) {
+        // Clear COOKIE before each test
+        foreach (array_keys($_COOKIE) as $key) {
             unset($_COOKIE[$key]);
             setcookie($key, '', -1, '/');
         }

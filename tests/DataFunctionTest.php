@@ -12,7 +12,6 @@
 namespace Rudra\Container\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Rudra\Container\Facades\Rudra;
 use Rudra\Exceptions\NotFoundException;
 
 class DataFunctionTest extends TestCase

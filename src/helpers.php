@@ -54,4 +54,3 @@ if (!function_exists('json')) {
         Response::json($data);
     }
 }
-

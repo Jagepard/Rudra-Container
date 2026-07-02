@@ -241,20 +241,29 @@ class RudraTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(ClassWithoutParameters::class, Rudra::get("ClassWithoutParameters"));
     }
 
-    public function testIoCwithDefaultParameters(): void
+    public function testIoCCreatesInstanceWithDefaultParameters(): void
     {
-        $newClassWithDefaultParameters = Rudra::new(ClassWithDefaultParameters::class);
-        $this->assertEquals("Default", $newClassWithDefaultParameters->getParam());
+        $instance = Rudra::new(ClassWithDefaultParameters::class);
+        $this->assertEquals("Default", $instance->getParam());
+    }
 
-        $newClassWithDefaultParameters = Rudra::new(ClassWithDefaultParameters::class, ["Test"]);
-        $this->assertEquals("Test", $newClassWithDefaultParameters->getParam());
-        $this->assertInstanceOf(\stdClass::class, $newClassWithDefaultParameters->getStd());
-        $this->assertEquals("Created from waiting", $newClassWithDefaultParameters->getStd()->info);
+    public function testIoCCreatesInstanceWithCustomParameters(): void
+    {
+        $instance = Rudra::new(ClassWithDefaultParameters::class, ["Test"]);
+        $this->assertEquals("Test", $instance->getParam());
+        $this->assertInstanceOf(\stdClass::class, $instance->getStd());
+        $this->assertEquals("Created from waiting", $instance->getStd()->info);
+    }
 
-        Rudra::set(["ClassWithDefaultParameters", $newClassWithDefaultParameters]);
-        $this->assertInstanceOf(ClassWithDefaultParameters::class, Rudra::get("ClassWithDefaultParameters"));
-        $this->assertInstanceOf(\stdClass::class, Rudra::get("ClassWithDefaultParameters")->getStd());
-        $this->assertEquals("Created from waiting", Rudra::get("ClassWithDefaultParameters")->getStd()->info);
+    public function testIoCRegistersAndRetrievesInstance(): void
+    {
+        $instance = Rudra::new(ClassWithDefaultParameters::class, ["Test"]);
+        Rudra::set(["ClassWithDefaultParameters", $instance]);
+
+        $retrieved = Rudra::get("ClassWithDefaultParameters");
+        $this->assertInstanceOf(ClassWithDefaultParameters::class, $retrieved);
+        $this->assertInstanceOf(\stdClass::class, $retrieved->getStd());
+        $this->assertEquals("Created from waiting", $retrieved->getStd()->info);
     }
 
     public function testIoCwithDependency(): void
