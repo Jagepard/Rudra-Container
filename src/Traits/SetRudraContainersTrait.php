@@ -16,11 +16,13 @@ use Rudra\Container\Interfaces\RudraInterface;
 
 trait SetRudraContainersTrait
 {
-    public function __construct(private RudraInterface $rudra) {}
+    public function __construct(private RudraInterface $rudra) 
+    {
+    }
 
     public function rudra(): RudraInterface
     {
-        if (!isset($this->rudra)) {
+        if ($this->rudra === null) {
             throw new LogicException('Rudra instance not initialized. Did you override __construct()?');
         }
 
