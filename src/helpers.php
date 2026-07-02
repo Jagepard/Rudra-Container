@@ -44,7 +44,7 @@ if (!function_exists('config')) {
 
         return (is_array($data) && array_key_exists($subKey, $data)) 
             ? $data[$subKey] 
-            : throw new NotFoundException("Конфигурационный ключ \"$key.$subKey\" не найден.");
+            : throw new NotFoundException("Configuration key \"$key.$subKey\" not found.");
     }
 }
 

@@ -25,7 +25,7 @@ class DataFunctionTest extends TestCase
     public function testReturnsAllDataWhenNullIsPassed()
     {
         data(['key1' => 'value1', 'key2' => 'value2']);
-        $result = data(null); // должен вызвать Rudra::shared()->all()
+        $result = data(null); // should call Rudra::shared()->all()
 
         $this->assertIsArray($result);
         $this->assertArrayHasKey('key1', $result);
@@ -43,7 +43,7 @@ class DataFunctionTest extends TestCase
         $key = new \stdClass();
         $key->id = 1;
 
-        // Предположим, Rudra::shared()->get() поддерживает сериализацию
+        // Assume Rudra::shared()->get() supports serialization
         data(['{"id":1}' => 'object_data']);
 
         $result = data(json_encode($key));

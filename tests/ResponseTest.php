@@ -25,8 +25,8 @@ class ResponseTest extends TestCase
 
     public function testGetJsonEncodesDataCorrectly(): void
     {
-        $data = ['name' => 'Иван', 'age' => 30];
-        $expectedJson = '{"name":"Иван","age":30}';
+        $data = ['name' => 'John', 'age' => 30];
+        $expectedJson = '{"name":"John","age":30}';
 
         $method = new \ReflectionMethod(Response::class, 'getJson');
         $method->setAccessible(true);
@@ -50,7 +50,7 @@ class ResponseTest extends TestCase
         $this->expectOutputString('{"status":"success"}');
         $this->response->json(['status' => 'success']);
 
-        // Проверяем, что заголовок был установлен
+        // Verify that the header was set
         $headers = xdebug_get_headers();
         $this->assertContains('Content-Type: application/json', $headers);
     }
