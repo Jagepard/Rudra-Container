@@ -43,7 +43,7 @@ class ConfigFunctionTest extends TestCase
     public function testReturnsSubKeyWhenPresent()
     {
         $value = Rudra::config()->get('app')['name'] ?? null;
-        $this->assertSame($value, config('app', 'name'));
+        $this->assertSame($value, config('app.name'));
     }
 
     public function testThrowsExceptionWhenSubKeyDoesNotExist(): void
@@ -51,7 +51,7 @@ class ConfigFunctionTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Configuration key "app.non_existing_key" not found.');
         
-        config('app', 'non_existing_key');
+        config('app.non_existing_key');
     }
 
     public function testThrowsExceptionWhenValueIsNotArray(): void
@@ -60,6 +60,6 @@ class ConfigFunctionTest extends TestCase
         $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage('Configuration key "version.subkey" not found.');
         
-        config('version', 'subkey');
+        config('version.subkey');
     }
 }

@@ -14,13 +14,12 @@ use Rudra\Container\Facades\Response;
 use Rudra\Exceptions\NotFoundException;
 
 if (!function_exists('data')) {
-    function data(array|string|null $key = null, mixed $default = null): mixed
+    function data(array|string|null $key = null): mixed
     {
         $shared = Rudra::shared();
 
         if (is_array($key)) {
             $shared->set($key);
-
             return $shared->all();
         }
 
@@ -32,7 +31,7 @@ if (!function_exists('data')) {
 
         foreach (explode('.', $key) as $segment) {
             if (!is_array($data) || !array_key_exists($segment, $data)) {
-                return $default;
+                throw new NotFoundException("Data key \"$key\" not found.");
             }
 
             $data = $data[$segment];
