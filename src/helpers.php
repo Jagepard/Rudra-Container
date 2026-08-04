@@ -30,21 +30,22 @@ if (!function_exists('data')) {
 }
 
 if (!function_exists('config')) {
-    function config(?string $key, ?string $subKey = null): mixed
+    function config(?string $key): mixed
     {
         if ($key === null) {
             return Rudra::config()->all();
         }
 
-        $data = Rudra::config()->get($key);
+        $data = Rudra::config()->all();
 
-        if ($subKey === null) {
-            return $data;
+        foreach (explode('.', $key) as $segment) {
+            if (!is_array($data) || !array_key_exists($segment, $data)) {
+                throw new NotFoundException("Configuration key \"$key\" not found.");
+            }
+            $data = $data[$segment];
         }
 
-        return (is_array($data) && array_key_exists($subKey, $data)) 
-            ? $data[$subKey] 
-            : throw new NotFoundException("Configuration key \"$key.$subKey\" not found.");
+        return $data;
     }
 }
 
