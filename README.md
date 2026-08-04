@@ -1,7 +1,6 @@
-[![Build Status](https://travis-ci.org/Jagepard/Rudra-Container.svg?branch=master)](https://travis-ci.org/Jagepard/Rudra-Container)
+[![PHPUnit](https://github.com/Jagepard/Rudra-Container/actions/workflows/php.yml/badge.svg)](https://github.com/Jagepard/Rudra-Container/actions/workflows/php.yml)
 [![Maintainability](https://qlty.sh/badges/6ab84b91-8f18-409f-b350-b8f8a37e278c/maintainability.svg)](https://qlty.sh/gh/Jagepard/projects/Rudra-Container)
 [![CodeFactor](https://www.codefactor.io/repository/github/jagepard/rudra-container/badge)](https://www.codefactor.io/repository/github/jagepard/rudra-container)
-[![Coverage Status](https://coveralls.io/repos/github/Jagepard/Rudra-Container/badge.svg?branch=master)](https://coveralls.io/github/Jagepard/Rudra-Container?branch=master)
 -----
 
 # Rudra-Container | [API](https://github.com/Jagepard/Rudra-Container/blob/master/docs.md "Documentation API")
