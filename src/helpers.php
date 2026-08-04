@@ -14,37 +14,51 @@ use Rudra\Container\Facades\Response;
 use Rudra\Exceptions\NotFoundException;
 
 if (!function_exists('data')) {
-    function data(mixed $data = null): mixed
+    function data(array|string|null $key = null, mixed $default = null): mixed
     {
-        if (is_array($data)) {
-            Rudra::shared()->set($data);
-            return Rudra::shared()->all();
+        $shared = Rudra::shared();
+
+        if (is_array($key)) {
+            $shared->set($key);
+
+            return $shared->all();
         }
 
-        if ($data === null) {
-            return Rudra::shared()->all();
+        if ($key === null) {
+            return $shared->all();
         }
 
-        return Rudra::shared()->get($data);
+        $data = $shared->all();
+
+        foreach (explode('.', $key) as $segment) {
+            if (!is_array($data) || !array_key_exists($segment, $data)) {
+                return $default;
+            }
+
+            $data = $data[$segment];
+        }
+
+        return $data;
     }
 }
 
 if (!function_exists('config')) {
-    function config(?string $key, ?string $subKey = null): mixed
+    function config(?string $key): mixed
     {
         if ($key === null) {
             return Rudra::config()->all();
         }
 
-        $data = Rudra::config()->get($key);
+        $data = Rudra::config()->all();
 
-        if ($subKey === null) {
-            return $data;
+        foreach (explode('.', $key) as $segment) {
+            if (!is_array($data) || !array_key_exists($segment, $data)) {
+                throw new NotFoundException("Configuration key \"$key\" not found.");
+            }
+            $data = $data[$segment];
         }
 
-        return (is_array($data) && array_key_exists($subKey, $data)) 
-            ? $data[$subKey] 
-            : throw new NotFoundException("Configuration key \"$key.$subKey\" not found.");
+        return $data;
     }
 }
 
