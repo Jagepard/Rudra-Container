@@ -17,17 +17,17 @@ trait FacadeTrait
 {
     /**
      * Handles static method calls for the Facade class
-     * It dynamically resolves the underlying class name by removing "Facade" from the class name
+     * It dynamically resolves the underlying class name by removing 'Facade' from the class name
      * If the resolved class does not exist, it attempts to clean up the class name by removing spaces
      * If the resolved class is not already registered in the container, it registers it
      * Finally, it delegates the static method call to the resolved class instance
      */
     public static function __callStatic(string $method, array $parameters = []): mixed
     {
-        $className = str_replace("Facade", "", static::class);
+        $className = str_replace('Facade', '', static::class);
 
         if (!class_exists($className)) { 
-            $className = str_replace("\s", "", $className);
+            $className = str_replace('\s', '', $className);
         }
 
         return Rudra::get($className)->$method(...$parameters);

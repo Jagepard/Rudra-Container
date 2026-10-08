@@ -129,7 +129,7 @@ class Rudra implements RudraInterface, ContainerInterface
         [$key, $object] = $data;
 
         if (!is_string($key)) {
-            throw new LogicException("Key must be a string");
+            throw new LogicException('Key must be a string');
         }
 
         if (is_array($object)) {
@@ -162,7 +162,7 @@ class Rudra implements RudraInterface, ContainerInterface
     /**
      * Resolves the value to be set in the container based on its type.
      * If the value is a Closure, it executes and returns the result.
-     * If the value is a string matching the factory naming convention (ends with "Factory") and the class exists,
+     * If the value is a string matching the factory naming convention (ends with 'Factory') and the class exists,
      * it instantiates the class and calls its `create()` method.
      * Otherwise, it returns the value as-is.
      */

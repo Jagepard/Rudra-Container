@@ -20,7 +20,7 @@ class Response implements ResponseInterface
     {
         if (!headers_sent()) {
             http_response_code($code);
-            header("Content-Type: application/json");
+            header('Content-Type: application/json');
         }
         
         print $this->getJson($data);
