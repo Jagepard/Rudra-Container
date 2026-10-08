@@ -21,13 +21,13 @@ class SessionTest extends TestCase
     public function testSessionData(): void
     {
         $_SESSION = [];
-        Rudra::session()->set("key", "value");
-        Session::set("subKey", ["subSet" => "value"]);
-        $this->assertEquals("value", Session::get("key"));
-        $this->assertEquals("value", Session::get("subKey")["subSet"]);
-        $this->assertTrue(Session::has("key"));
-        Session::remove("key");
-        $this->assertFalse(Session::has("key"));
+        Rudra::session()->set('key', 'value');
+        Session::set('subKey', ['subSet' => 'value']);
+        $this->assertEquals('value', Session::get('key'));
+        $this->assertEquals('value', Session::get('subKey')['subSet']);
+        $this->assertTrue(Session::has('key'));
+        Session::remove('key');
+        $this->assertFalse(Session::has('key'));
         Session::clear();
         $this->assertTrue(count($_SESSION) === 0);
     }
@@ -37,12 +37,12 @@ class SessionTest extends TestCase
         $_SESSION = [];
 
         $this->expectException(NotFoundException::class);
-        Session::get("wrongKey");
+        Session::get('wrongKey');
     }
 
     public function testSessionDataSetWithInvalidKey(): void
     {
         $this->expectException(\TypeError::class);
-        Session::set([], "value");
+        Session::set([], 'value');
     }
 }

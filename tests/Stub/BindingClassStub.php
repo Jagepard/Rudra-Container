@@ -18,7 +18,7 @@ class BindingClassStub
     protected BindInterface $bind;
     protected string $param;
 
-    public function __construct(BindInterface $bind, string $param = "Default")
+    public function __construct(BindInterface $bind, string $param = 'Default')
     {
         $this->bind  = $bind;
         $this->param = $param;

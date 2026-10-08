@@ -18,7 +18,7 @@ class ClassWithDefaultParameters
     protected string $param;
     protected stdClass $std;
 
-    public function __construct(stdClass $std, string $param = "Default")
+    public function __construct(stdClass $std, string $param = 'Default')
     {
         $this->param = $param;
         $this->std   = $std;
